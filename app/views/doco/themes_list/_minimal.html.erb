@@ -1,0 +1,12 @@
+<% content_for :panel_head do %>
+    Minimal
+<% end %>
+<% content_for :panel_body do %>
+    <h5>Product Page</h5>
+    <%= render_source partial: 'doco/themes/include_booking_form', path: 'templates/product.liquid', line: 119 %>
+
+    <h5>Cart Page</h5>
+    <p>Prevent the quantity being changed on the cart page by updating the code as follows:</p>
+    <%= render_source partial: 'doco/themes/minimal_cart_b1', path: 'templates/cart.liquid', line: '55 - before' %>
+    <%= render_source partial: 'doco/themes/minimal_cart_b2', path: 'templates/cart.liquid', line: '55 - after' %>
+<% end %>

@@ -1,0 +1,31 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  account: test
+  user_id: 1
+  ranking: 0
+
+two:
+  account: aloha
+  user: 2
+  ranking: 0
+
+three:
+  account: aloha
+  user: 4
+  ranking: 0
+
+staff_one:
+  account: test
+  user_id: 5
+  ranking: 2
+
+staff_two:
+  account: test
+  user_id: 6
+  ranking: 2
+
+admin_aloha:
+  account: aloha
+  user_id: 7
+  ranking: 1

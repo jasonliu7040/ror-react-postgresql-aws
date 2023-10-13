@@ -1,0 +1,188 @@
+﻿<order>
+  <source-name>web</source-name>
+  <reference nil="true"></reference>
+  <number type="integer">2</number>
+  <name>#1002</name>
+  <tax-lines type="array">
+    <tax-line>
+      <title>Federal Tax</title>
+      <price type="decimal">0.0</price>
+      <rate type="float">0.042</rate>
+    </tax-line>
+  </tax-lines>
+  <line-items type="array">
+    <line-item>
+      <name>Mauna Kea Golf Club Rentals - TaylorMade Golf Clubs</name>
+      <price type="decimal">0.0</price>
+      <title>Mauna Kea Golf Club Rentals</title>
+      <quantity type="integer">1</quantity>
+      <requires-shipping type="boolean">false</requires-shipping>
+      <product-id type="integer">132582185</product-id>
+      <variant-inventory-management></variant-inventory-management>
+      <product-exists type="boolean">true</product-exists>
+      <id type="integer">382053485</id>
+      <grams type="integer">0</grams>
+      <sku>MK5</sku>
+      <fulfillment-status nil="true"></fulfillment-status>
+      <variant-title>TaylorMade Golf Clubs</variant-title>
+      <vendor>Aloha Golf</vendor>
+      <fulfillment-service>manual</fulfillment-service>
+      <variant-id type="integer">301040555</variant-id>
+      <properties type="array"/>
+    </line-item>
+    <line-item>
+      <name>Mauna Kea Golf Course - Mid Morning (after 11am)</name>
+      <price type="decimal">0.0</price>
+      <title>Mauna Kea Golf Course</title>
+      <quantity type="integer">1</quantity>
+      <requires-shipping type="boolean">false</requires-shipping>
+      <product-id type="integer">114781334</product-id>
+      <variant-inventory-management></variant-inventory-management>
+      <product-exists type="boolean">true</product-exists>
+      <id type="integer">382053489</id>
+      <grams type="integer">0</grams>
+      <sku>MK1</sku>
+      <fulfillment-status nil="true"></fulfillment-status>
+      <variant-title>Mid Morning (after 11am)</variant-title>
+      <vendor>Aloha Golf</vendor>
+      <fulfillment-service>manual</fulfillment-service>
+      <variant-id type="integer">265303928</variant-id>
+      <properties type="array">
+        <property>
+          <name>booking-product-2</name>
+          <value>Kapalua Plantation Golf Club|114781334:265303928</value>
+        </property>
+        <property>
+          <name>booking-party</name>
+          <value>1</value>
+        </property>
+        <property>
+          <name>booking-name</name>
+          <value>Scott Jacobs</value>
+        </property>
+        <property>
+          <name>booking-hotel</name>
+          <value></value>
+        </property>
+        <property>
+          <name>booking-time</name>
+          <value>11:12</value>
+        </property>
+        <property>
+          <name>booking-start</name>
+          <value>12/29/2013</value>
+        </property>
+      </properties>
+    </line-item>
+  </line-items>
+  <total-discounts type="decimal">0.0</total-discounts>
+  <created-at type="datetime">2013-12-29T18:55:33Z</created-at>
+  <browser-ip>75.157.31.70</browser-ip>
+  <total-price-usd type="decimal">228.20</total-price-usd>
+  <confirmed type="boolean">true</confirmed>
+  <cancel-reason nil="true"></cancel-reason>
+  <payment-details>
+    <credit-card-number>XXXX-XXXX-XXXX-1367</credit-card-number>
+    <cvv-result-code>M</cvv-result-code>
+    <credit-card-bin>548013</credit-card-bin>
+    <credit-card-company>MasterCard</credit-card-company>
+    <avs-result-code>Z</avs-result-code>
+  </payment-details>
+  <total-price type="decimal">2282.0</total-price>
+  <token>7a98f74459ca7233e9a908b7f553f218</token>
+  <landing-site-ref nil="true"></landing-site-ref>
+  <updated-at type="datetime">2013-12-29T18:55:33Z</updated-at>
+  <source-name>web</source-name>
+  <landing-site>/</landing-site>
+  <checkout-token>1bb6e76b3375bab56a60d28acd698d9b</checkout-token>
+  <checkout-id>180815877</checkout-id>
+  <taxes-included type="boolean">false</taxes-included>
+  <shipping-lines type="array"/>
+  <id type="integer">2</id>
+  <cancelled-at type="datetime" nil="true"></cancelled-at>
+  <order-number type="integer">7840</order-number>
+  <total-line-items-price type="decimal">21900.0</total-line-items-price>
+  <cart-token>d589677a08048cfdecf558a6f076edb5</cart-token>
+  <referring-site nil="true"></referring-site>
+  <processing-method>direct</processing-method>
+  <user-id nil="true"></user-id>
+  <subtotal-price type="decimal">21900.0</subtotal-price>
+  <client-details>
+    <browser-ip>75.157.31.70</browser-ip>
+    <session-hash>d629ec0a0322722809cb6fd8e646ce1d658f43b7ea8071490f7dcefa0fa20d3d</session-hash>
+    <accept-language>en-US,en;q=0.5</accept-language>
+    <user-agent>Mozilla/5.0 (Windows NT 6.2; WOW64; rv:26.0) Gecko/20100101 Firefox/26.0</user-agent>
+  </client-details>
+  <billing-address>
+    <name>Scott Jacobs</name>
+    <company nil="true"></company>
+    <city>.</city>
+    <address1>.</address1>
+    <zip>77040</zip>
+    <latitude type="decimal" nil="true"></latitude>
+    <address2 nil="true"></address2>
+    <country>United States</country>
+    <country-code>US</country-code>
+    <province-code>TX</province-code>
+    <type>Address</type>
+    <last-name>Jacobs</last-name>
+    <phone>281-793-6998</phone>
+    <longitude type="decimal" nil="true"></longitude>
+    <province>Texas</province>
+    <first-name>Scott</first-name>
+  </billing-address>
+  <note>PHONE ORDER - Drew\n11:12 booked w/MOrgan</note>
+  <location-id nil="true"></location-id>
+  <note-attributes nil="true"></note-attributes>
+  <closed-at type="datetime" nil="true"></closed-at>
+  <buyer-accepts-marketing type="boolean">true</buyer-accepts-marketing>
+  <financial-status>paid</financial-status>
+  <fulfillment-status nil="true"></fulfillment-status>
+
+  <customer>
+    <accepts-marketing type="boolean">true</accepts-marketing>
+    <created-at type="datetime">2013-12-29T18:55:00T</created-at>
+    <multipass-identifier nil="true"></multipass-identifier>
+    <last-order-id type="integer">216230785</last-order-id>
+    <orders-count type="integer">1</orders-count>
+    <default-address>
+      <name>Scott Jacobs</name>
+      <company nil="true"></company>
+      <city>.</city>
+      <address1>.</address1>
+      <zip>77040</zip>
+      <latitude type="decimal" nil="true"></latitude>
+      <address2 nil="true"></address2>
+      <country>United States</country>
+      <country-code>US</country-code>
+      <default type="boolean">true</default>
+      <id>227989601</id>
+      <province-code>TX</province-code>
+      <type>Address</type>
+      <last-name>Jacobs</last-name>
+      <phone>281-793-6998</phone>
+      <province>Texas</province>
+      <first-name>Scott</first-name>
+    </default-address>
+    <updated-at type="datetime">2013-12-29T18:55:33Z</updated-at>
+    <tags nil="true"></tags>
+    <id type="integer">179766245</id>
+    <last-name>Jacobs</last-name>
+    <last-order-name>#7840</last-order-name>
+    <verified-email type="boolean">true</verified-email>
+    <note nil="true"></note>
+    <total-spent type="decimal">0.0</total-spent>
+    <first-name>Scott</first-name>
+    <state>disabled</state>
+    <email>scottjacobs@live.com</email>
+  </customer>
+  <gateway>stripe</gateway>
+  <currency>USD</currency>
+  <total-tax type="decimal">0.0</total-tax>
+  <test type="boolean">false</test>
+  <source>browser</source>
+  <total-weight type="integer">0</total-weight>
+  <discount-codes type="array"/>
+  <fulfillments nil="true"></fulfillments>
+  <email>scottjacobs@live.com</email>
+</order>

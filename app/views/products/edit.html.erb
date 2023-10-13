@@ -1,0 +1,23 @@
+<h1>Configuration</h1>
+<p>Set up BookThatApp.</p>
+
+<div class="content-box">
+  <div class="box-header clear">
+    <% unless @product.new_record? %>
+        <span class="hidden"><small>Created: <%= I18n.l @product.created_at, :format => :short %></small></span>
+    <% end %>
+
+    <div class="button-bar fr" style="margin-top:5px">
+      <%= link_to 'Product Bookings', runsheet_path(:start => Time.now.to_date, :finish => (Time.now + 1.month).to_date, :order_by => 'start', :order_type => 'ASC', :products => @product.id) %>
+      <%= link_to('&laquo; Previous Product'.html_safe, edit_product_path(@product.previous_product)) if @product.previous_product %>
+      <%= link_to('Next Product &raquo;'.html_safe, edit_product_path(@product.next_product)) if @product.next_product %>
+    </div>
+
+    <h2>Edit Product</h2>
+  </div>
+  <div class="box-body clear">
+    <%= nested_form_for @product do |form| %>
+        <%= render :partial => "form", :locals => {:form => form} %>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,10 @@
+<div class="content-box">
+  <div class="box-header clear">
+    <h2>Edit Blackout Date</h2>
+  </div>
+  <div class="box-body clear">
+    <%= form_for @blackout, :url => {:action => "update"} do |form| %>
+        <%= render :partial => "form", :locals => {:form => form} %>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+  <%= csrf_meta_tag %>
+  <title><%= "BookThatApp" %></title>
+  <%= stylesheet_link_tag '//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css' %>
+  <%= stylesheet_link_tag 'screen' %>
+  <%= stylesheet_link_tag "/qtip/jquery.qtip.min" %>
+  <%= stylesheet_link_tag 'print', :media => 'print' %>
+  <!--[if IE 7]>
+  <%= stylesheet_link_tag 'ie7' %>
+  <![endif]-->
+
+  <%= render 'layouts/inspectlet' %>
+  <%= render 'layouts/zendesk' %>
+
+  <%= yield :head %>
+</head>
+
+<body>
+
+<!--[if lt IE 7]>
+<div style='border: 1px solid #F7941D; background: #FEEFDA; text-align: center; clear: both; height: 75px; position: relative;'>
+    <div style='position: absolute; right: 3px; top: 3px; font-family: courier new; font-weight: bold;'><a href='#' onclick='javascript:this.parentNode.parentNode.style.display="none"; return false;'>
+        <img src='http://www.ie6nomore.com/files/theme/ie6nomore-cornerx.jpg' style='border: none;' alt='Close this notice'/></a>
+    </div>
+    <div style='width: 640px; margin: 0 auto; text-align: left; padding: 0; overflow: hidden; color: black;'>
+        <div style='width: 75px; float: left;'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-warning.jpg' alt='Warning!'/></div>
+        <div style='width: 275px; float: left; font-family: Arial, sans-serif;'>
+            <div style='font-size: 14px; font-weight: bold; margin-top: 12px;'>You are using an outdated browser</div>
+            <div style='font-size: 12px; margin-top: 6px; line-height: 12px;'>For a better experience using this site, please upgrade to a modern web browser.</div>
+        </div>
+        <div style='width: 75px; float: left;'><a href='http://www.firefox.com' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-firefox.jpg' style='border: none;' alt='Get Firefox 3.5'/></a></div>
+        <div style='width: 75px; float: left;'><a href='http://www.browserforthebetter.com/download.html' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-ie8.jpg' style='border: none;' alt='Get Internet Explorer 8'/></a></div>
+        <div style='width: 73px; float: left;'><a href='http://www.apple.com/safari/download/' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-safari.jpg' style='border: none;' alt='Get Safari 4'/></a></div>
+        <div style='float: left;'><a href='http://www.google.com/chrome' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-chrome.jpg' style='border: none;' alt='Get Google Chrome'/></a></div>
+    </div>
+</div>
+<![endif]-->
+<div class="clear <%= raw params[:controller].downcase -%>-<%= params[:action] -%>">
+  <div class="sidebar">
+    <div class="logo clear">
+      <a href="/" title="Home"><%= image_tag("bta_logo.png", :class => "picture", :alt => "BookThatApp Logo") %>
+        <span class="text">Shopify Booking Engine</span>
+      </a>
+    </div>
+
+    <div class="menu">
+      <ul>
+        <li class="<%= "active" if ['events', 'bookings', 'blackouts', 'reports'].include?(params[:controller]) %>"><%= link_to 'Bookings', :controller => 'events' %>
+          <ul>
+            <li class="<%= "active" if ['events', 'bookings', 'blackouts'].include?(params[:controller]) %>"><%= link_to 'Calendar', :controller => 'events' %></li>
+            <li class="<%= "active" if params[:controller] == "reports" && params[:action] == "runsheet" %>"><%= link_to 'Run Sheet', :controller => 'reports', :action => 'runsheet' %></li>
+            <% if current_account.has_class_profile_products? %>
+            <li class="<%= "active" if params[:controller] == "reports" && params[:action] == "enrollments" %>"><%= link_to 'Enrollments', :controller => 'reports', :action => 'enrollments' %></li>
+            <% end %>
+            <% if only_admin %>
+            <li class="<%= "active" if params[:controller] == "reports" && params[:action] == "gantt" %>"><%= link_to 'Gantt Chart', :controller => 'reports', :action => 'gantt' %></li>
+            <% end %>
+          </ul>
+        </li>
+        <li id="config-menu" <%= "class=active" if ['products', 'templates', 'settings'].include?(params[:controller]) %>><%= link_to 'Configuration', :controller => 'products' %>
+          <ul>
+            <li class="<%= "active" if params[:controller] == "products" && ['index', 'edit', 'new'].include?(params[:action]) %>"><%= link_to 'Products', :controller => 'products' %></li>
+            <li class="<%= "active" if params[:controller] == "resources" %>"><%= link_to 'Resources', resources_path %></li>
+            <li class="<%= "active" if params[:controller] == "settings" && params[:action] == "hours" %>"><%= link_to 'Opening Hours', :controller => 'settings', :action => 'hours' %></li>
+            <li class="<%= "active" if params[:controller] == "locations" %>"><%= link_to 'Locations', locations_path %></li>
+            <li class="<%= "active" if params[:controller] == "settings" && params[:action] == "index" %>"><%= link_to 'Settings', :controller => 'settings' %></li>
+            <li class="<%= "active" if params[:controller] == "templates" %>"><%= link_to 'Templates', templates_path %></li>
+            <% if only_admin && false %>
+                <li class="<%= "active" if params[:controller] == "users" %>"><%= link_to 'Users', users_path %></li>
+            <% end %>
+          </ul>
+        </li>
+        <li>
+          <a href="//support.shopifyconcierge.com/hc/en-us/sections/202528766-Book-That-App" target="_blank">Help</a>
+          <ul>
+            <li><a href="//support.shopifyconcierge.com/hc/en-us/articles/211512926-Frequently-Asked-Questions-about-Book-That-App-BTA-FAQ-" target="_blank">FAQ</a></li>
+            <li><a href="//support.shopifyconcierge.com/hc/en-us/sections/202528766" target="_blank">Forum</a></li>
+            <li><a href="/GettingStarted.pdf" target="_blank">Getting Started Guide</a></li>
+          </ul>
+        </li>
+        <li id="install-menu" <%= "class=active" if params[:controller] == "doco" && params[:action] == "install" %>><%= link_to 'Install Instructions', :controller => 'doco', :action => 'install' %>
+          <ul>
+            <li class="<%= "active" if params[:controller] == "doco" && params[:action] == "install" %>"><%= link_to 'Install Steps', :controller => 'doco', :action => 'install' %></li>
+          </ul>
+        </li>
+        <li id="dev-menu" <%= "class=active" if params[:controller] == "doco" && params[:action] != "install" %>><%= link_to 'Developer Guide', :controller => 'doco', :action => 'product' %>
+          <ul>
+            <li class="<%= "active" if params[:controller] == "doco" && params[:action] == "product" %>"><%= link_to 'Product Page', :controller => 'doco', :action => 'product' %></li>
+            <li class="<%= "active" if params[:controller] == "doco" && params[:action] == "cart" %>"><%= link_to 'Cart Page', :controller => 'doco', :action => 'cart' %></li>
+            <li class="<%= "active" if params[:controller] == "doco" && params[:action] == "email" %>"><%= link_to 'Email Notifications', :controller => 'doco', :action => 'email' %></li>
+            <li class="<%= "active" if params[:controller] == "doco" && params[:action] == "compatibility" %>"><%= link_to 'Compatibility', :controller => 'doco', :action => 'compatibility' %></li>
+            <li class="<%= "active" if params[:controller] == "doco" && params[:action] == "css" %>"><%= link_to 'CSS', :controller => 'doco', :action => 'css' %></li>
+            <li class="<%= "active" if params[:controller] == "doco" && params[:action] == "themes" %>"><%= link_to 'Themes', :controller => 'doco', :action => 'themes' %></li>
+            <li><a href="//support.shopifyconcierge.com/entries/30048788-Installation-Troubleshooting-Tips" target="_blank">Troubleshooting Tips</a></li>
+          </ul>
+        </li>
+        <li id="billing-menu" <%= "class=active" if params[:controller] == "charges" %>><%= link_to 'Billing', :controller => 'charges', :action => 'index' %>
+          <ul>
+            <li class="<%= "active" if params[:controller] == "charges" && params[:action] == "index" %>"><%= link_to 'Subscription', :controller => 'charges', :action => 'index' %></li>
+            <li class="<%= "active" if params[:controller] == "charges" && params[:action] == "installation" %>"><%= link_to 'Purchase Installation', :controller => 'charges', :action => 'installation' %></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="main">
+    <div class="main-wrap">
+      <div class="header clear">
+        <% if current_shop %>
+            <ul class="links account">
+              <li>
+                <a href="<%= "//" + current_shop.url %>/admin" target="_blank"><%= image_tag("Shopify_Green_16x16.png", :class => "icon", :alt => "Shopify Admin") %>
+                  <span class="text"><%= current_shop.subdomain %></span></a>
+              </li>
+
+              <% if only_admin %>
+                  <% if user_signed_in? %>
+                      <li>
+                        <%= link_to "Welcome #{current_user.name}", edit_user_path(current_user) %>
+                      </li>
+                      <li>
+                      <%= link_to destroy_user_session_path, :method => :delete do %>
+                          <%= image_tag("door_in.png", :alt => "Logout", :class => "icon") %>
+                          <span class="text">Logout</span>
+                      <% end %>
+                      </li>
+                  <% else %>
+                      <li>|&nbsp; <%= link_to "Log in", user_session_path %></li>
+                  <% end %>
+              <% end %>
+              <% if only_admin %>
+                <li>|&nbsp; <%= ui_version_path %></li>
+              <% end %>
+            </ul>
+
+            <ul class="links clear">
+              <% if params[:controller] == "events" && params[:action] == "index" %>
+                  <li>
+                    <a href="#" onclick="guiders.show('first');"><%= image_tag("help.png", :class => "icon", :alt => "Tour") %>
+                      <span class="text">Tour</span>
+                    </a>
+                  </li>
+              <% end %>
+
+              <% if false && @notification_count.present? %>
+                  <li>
+                    <a href="/notifications"><%= image_tag("ico_enelope_24.png", :alt => "Notifications", :class => "icon") %>
+                      <span class="text">Notifications</span><%= " (#{@notification_count})" if @notification_count > 0 %>
+                    </a>
+                  </li>
+              <% end %>
+            </ul>
+        <% end %>
+      </div>
+      <div class="page clear">
+        <!--[if lte IE 9]>
+        <div class="notification note-attention">
+            <span class="icon"></span>
+            <p>You are using an old version of Internet Explorer. Please <a href="http://windows.microsoft.com/en-AU/internet-explorer/download-ie" target="_blank">upgrade</a> to
+              ensure all features are available.</p>
+        </div>
+        <![endif]-->
+
+        <%= yield %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= javascript_include_tag '//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js' %>
+<%= javascript_include_tag '//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js' %>
+<%= javascript_include_tag '/fullcalendar2/lib/moment.min.js' %>
+<%= javascript_include_tag '/qtip/jquery.qtip.min' %>
+<%= javascript_include_tag 'application' %>
+
+<%= yield :footer %>
+
+<script type='text/javascript'>
+    <% flash.keys.each do |key| %>
+    $.jGrowl('<%= escape_javascript(flash.discard(:notice)) %>', <%= raw "{ header: '#{I18n.t(key, :default => key.to_s)}', theme: '#{key.to_s}'}" %>);
+    <% end %>
+</script>
+
+<% if Rails.env.production? %>
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-31033263-2', 'bookthatapp.com');
+    ga('send', 'pageview');
+    ga(function(tracker) {
+        var clientId = tracker.get('clientId');
+        $('.ga-client-id').val(clientId);
+    });
+
+    ga('require', 'ecommerce');
+</script>
+<% end %>
+</body>
+</html>

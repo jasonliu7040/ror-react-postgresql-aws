@@ -1,0 +1,55 @@
+DEFAULTS: &DEFAULTS
+  opening_hours: "{\"seasons\":[{\"name\":\"All Year\",\"id\":\"all-year\",\"start\":\"2013-01-01\",\"finish\":\"2013-12-31\",\"days\":[{\"day\":0,\"hours\":[]},{\"day\":1,\"hours\":[{\"from\":{\"hour\":\"9\",\"minute\":\"0\"},\"to\":{\"hour\":\"17\",\"minute\":\"0\"}}]},{\"day\":2,\"hours\":[{\"from\":{\"hour\":\"9\",\"minute\":\"0\"},\"to\":{\"hour\":\"17\",\"minute\":\"0\"}}]},{\"day\":3,\"hours\":[{\"from\":{\"hour\":\"9\",\"minute\":\"0\"},\"to\":{\"hour\":\"17\",\"minute\":\"0\"}}]},{\"day\":4,\"hours\":[{\"from\":{\"hour\":\"9\",\"minute\":\"0\"},\"to\":{\"hour\":\"17\",\"minute\":\"0\"}}]},{\"day\":5,\"hours\":[{\"from\":{\"hour\":\"9\",\"minute\":\"0\"},\"to\":{\"hour\":\"17\",\"minute\":\"0\"}}]},{\"day\":6,\"hours\":[]}]}]}"
+  oauth_token: "35b63cb98175322a555e035845626664:7f3f8c39b54fd74ccd06cd448965f34c"
+
+test:
+  <<: *DEFAULTS
+  id: 1
+  subdomain: test
+  timezone: Canberra
+  settings_yaml: "--- !ruby/object:OpenStruct\ntable:\n  :wizard: inactive\n  :quantity_range: 'no'\n  :message_booked_out: Booked Out\n  :message_blacked_out: Blacked Out\n  :message_unscheduled: Not Scheduled\n  :message_unavailable: Unavailable\n  :df: dd/mm/yy\n"
+  created_at: <%= Time.zone.parse("2013-06-27") %> # legacy variant sync
+  site: "https://35b63cb98175322a555e035845626664:7f3f8c39b54fd74ccd06cd448965f34c@test.myshopify.com/admin"
+  consolidate_bookings: true
+  bookings_count: 26
+  charge_id: -2 # affiliate shop
+
+#  name: Test Shop
+
+test1:
+  <<: *DEFAULTS
+  id: 11
+  subdomain: test
+  timezone: Canberra
+  settings_yaml: "--- !ruby/object:OpenStruct\ntable:\n  :wizard: inactive\n  :quantity_range: 'no'\n  :message_booked_out: Booked Out\n  :message_blacked_out: Blacked Out\n  :message_unscheduled: Not Scheduled\n  :message_unavailable: Unavailable\n  :df: dd/mm/yy\n"
+  created_at: <%= Time.zone.parse("2013-06-27") %> # legacy variant sync
+  site: "https://35b63cb98175322a555e035845626664:7f3f8c39b54fd74ccd06cd448965f34c@test.myshopify.com/admin"
+  consolidate_bookings: true
+  bookings_count: 1
+
+hawaii:
+  <<: *DEFAULTS
+  id: 2
+  subdomain: hawaii
+  timezone: Hawaii
+  settings_yaml: "--- !ruby/object:OpenStruct\ntable:\n  :wizard: inactive\n  :quantity_range: 'no'\n  :message_booked_out: Booked Out\n  :message_blacked_out: Blacked Out\n  :message_unscheduled: Not Scheduled\n  :message_unavailable: Unavailable\n  :df: mm/dd/yy\n"
+  site: "https://35b63cb98175322a555e035845626664:7f3f8c39b54fd74ccd06cd448965f34c@hawaii.myshopify.com/admin"
+  consolidate_bookings: false
+
+new_york:
+  <<: *DEFAULTS
+  id: 3
+  subdomain: newyork
+  timezone: America/New_York
+  settings_yaml: "--- !ruby/object:OpenStruct\ntable:\n  :wizard: inactive\n  :quantity_range: 'no'\n  :message_booked_out: Booked Out\n  :message_blacked_out: Blacked Out\n  :message_unscheduled: Not Scheduled\n  :message_unavailable: Unavailable\n  :df: mm/dd/yy\n"
+  send_reminders: false
+  site: "https://35b63cb98175322a555e035845626664:7f3f8c39b54fd74ccd06cd448965f34c@newyork.myshopify.com/admin"
+
+legros:
+  <<: *DEFAULTS
+  id: 4
+  subdomain: legros-parker-and-harris6290
+  timezone: America/New_York
+  settings_yaml: "--- !ruby/object:OpenStruct\ntable:\n  :wizard: inactive\n  :quantity_range: 'no'\n  :message_booked_out: Booked Out\n  :message_blacked_out: Blacked Out\n  :message_unscheduled: Not Scheduled\n  :message_unavailable: Unavailable\n  :df: mm/dd/yy\n"
+  send_reminders: false
+  site: "https://35b63cb98175322a555e035845626664:7f3f8c39b54fd74ccd06cd448965f34c@legros-parker-and-harris6290.myshopify.com/admin"

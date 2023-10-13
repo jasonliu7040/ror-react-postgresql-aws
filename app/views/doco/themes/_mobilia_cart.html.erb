@@ -1,0 +1,9 @@
+<div class="two columns mobile_right" id="quantity_{{ forloop.index }}">
+  {% if item.product.metafields.bookthatapp.config %}
+  <input type="hidden" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}" />
+  {{ item.quantity }}
+  {% else %}
+  <span class="quantity_label">Quantity:</span>
+  <input type="number" min="0" size="2" class="quantity" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}" />
+  {% endif %}
+</div>

@@ -1,0 +1,19 @@
+<tr class="nested-fields">
+  <td>
+    <%= f.hidden_field :id %>
+    <div class="remtime">
+      <input id="remtime-input" type="number" value="0" min="0" max="59" />
+      <select id="remtime-input-units">
+        <option value="minutes" selected="selected">Minutes</option>
+        <option value="hours">Hours</option>
+        <option value="days">Days</option>
+      </select>
+      <%= f.hidden_field :duration, class: 'remtime-duration' %>
+    </div>
+    <%= f.select :trigger_type, options_for_select(reminder_triggers_for_select, :selected => f.object.trigger_type) %>
+  </td>
+  <td>
+    <%= f.select :liquid_template_id, options_for_select(reminder_templates_for_select, :selected => f.object.liquid_template_id) %>
+  </td>
+  <td><%= link_to_remove_association content_tag(:span, '', :class => "ui-icon ui-icon-trash"), f %></td>
+</tr>

@@ -1,0 +1,24 @@
+<table class="nested-form-table plain styled" id="oneoff-dates-table">
+  <thead>
+  <tr>
+    <th>Date</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <%= schedule.fields_for :oneoff_items, :wrapper => false do |item| %>
+    <tr class="fields">
+      <%= item.hidden_field :id %>
+      <td><%= item.text_field :start, :required => 'required', :class=> 'datetimepicker oneoff_items', :size => '18', :value => datetime(item.object.try(:start) || Time.now) %>
+        <%= item.link_to_remove "x" %></td>
+    </tr>
+  <% end %>
+
+  <tr>
+    <td colspan="2">
+      <%= schedule.link_to_add "Add Date", :oneoff_items, :class => 'submit' %>
+    </td>
+  </tr>
+
+  </tbody>
+</table>

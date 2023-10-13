@@ -1,0 +1,32 @@
+<h1>Configuration</h1>
+<p>Set up BookThatApp.</p>
+
+<div class="content-box">
+  <div class="box-header clear">
+    <h2>Product Imports</h2>
+  </div>
+  <div class="box-body clear">
+    <p><%= link_to 'New Import', new_product_import_path, class:'submit' %></p>
+    <table class="styled">
+      <tr>
+        <th>Created</th>
+        <th>Status</th>
+        <th>Products to Import</th>
+        <th>Products Imported</th>
+        <th class="table-actions"></th>
+      </tr>
+
+      <% @imports.each do |import| %>
+          <tr>
+            <td><%= I18n.localize(import.created_at, :format => :short) %></td>
+            <td><%= import.state.capitalize %></td>
+            <td><%= import.product_count %></td>
+            <td><%= import.import_count %></td>
+            <td class="table-actions">
+              <%= link_to content_tag(:span, '', :class => "ui-icon #{import.state == 'running' ? 'ui-icon-cancel' : 'ui-icon-trash'}"), import, :data => {:confirm => 'Are you sure?'}, :method => :delete %>
+            </td>
+          </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

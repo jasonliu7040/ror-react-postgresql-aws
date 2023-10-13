@@ -1,0 +1,185 @@
+<%= render 'common/error_messages', :object => form.object %>
+
+<%= form.hidden_field :id %>
+<%= hidden_field_tag 'ga_client_id', '', :class => 'ga-client-id' %>
+<%= form.hidden_field :body %>
+<%= form.hidden_field :category %>
+
+<% if @template.reminder? %>
+  <table class="styled">
+    <caption>Template Details</caption>
+    <tbody>
+    <tr>
+      <td class="title">
+        <%= form.label :name %>
+      </td>
+      <td>
+        <%= form.text_field :name, required: true %>
+      </td>
+    </tr>
+    <tr>
+      <td class="title">
+        <%= form.label :channel %>
+      </td>
+      <td>
+        <%= form.select :channel, options_for_select(template_channels_for_select, :selected => form.object.channel) %>
+      </td>
+    </tr>
+  </table>
+<% end %>
+
+<% if show_email_fields_for_template?(@template) %>
+  <table id="email-fields" class="styled">
+    <caption>Email</caption>
+    <tbody>
+    <tr>
+      <td class="title">
+        <%= form.label :subject %>
+      </td>
+      <td>
+        <%= form.text_field :subject %>
+      </td>
+    </tr>
+    <tr>
+      <td class="title">
+        <%= form.label :to, 'To' %>
+      </td>
+      <td>
+        <%= form.text_field :to %>
+        <%= image_tag('ico_info_16.png', :class => 'help icon', data: {tooltip: '<p>Addresses to include on the email <i>to</i> line:</p><ul><li>You can leave this field blank to automatically use the primary contact email from the booking.</li><li>Multiple email addresses can be used (comma separated)</li><li>To include the location email addresses use <i style="white-space: nowrap;">{{ booking.location_emails }}</i></li></ol>'}) %>
+      </td>
+    </tr>
+    <tr>
+      <td class="title">
+        <%= form.label :cc, 'CC' %>
+      </td>
+      <td>
+        <%= form.text_field :cc %>
+        <%= image_tag('ico_info_16.png', :class => 'help icon', data: {tooltip: 'Addresses to include on the email <i>cc</i> line'}) %>
+      </td>
+    </tr>
+    <tr>
+      <td class="title">
+        <%= form.label :bcc, 'BCC' %>
+      </td>
+      <td>
+        <%= form.text_field :bcc %>
+        <%= image_tag('ico_info_16.png', :class => 'help icon', data: {tooltip: 'Addresses to include on the email <i>bcc</i> line'}) %>
+      </td>
+    </tr>
+    <tr>
+      <td class="title">
+        <%= form.label :attach_reminder, 'Attach Reminder?' %>
+      </td>
+      <td>
+        <%= form.check_box :attach_reminder %>
+        <%= image_tag('ico_info_16.png', :class => 'help icon', data: {tooltip: 'Specify if the reminder should be attached to the email. The reminder allows customers to add the event to their calendar.'}) %>
+      </td>
+    </tr>
+    <tr>
+      <td class="title">
+        <%= form.label :attach_ticket, 'Attach Ticket?' %>
+      </td>
+      <td>
+        <%= form.check_box :attach_ticket %>
+        <%= image_tag('ico_info_16.png', :class => 'help icon', data: {tooltip: 'Specify if the reminder email should have the PDF ticket as an attachment'}) %>
+      </td>
+    </tr>
+  </table>
+<% end %>
+
+
+  <table id="email-fields" style="width:100%">
+    <caption>Body</caption>
+    <tbody>
+    <tr>
+      <td>
+        <div class="editor-wrap clear">
+          <pre id="template-editor" class="editor"></pre>
+        </div>
+
+</td>
+    </tr>
+    </tbody>
+    </table>
+
+<div class="button-bar">
+  <%= submit_tag('Save', :accesskey => 'ctrl + s', class: 'submit', :id => 'save_button') %>
+  <!-- <%= submit_tag('Preview', :accesskey => 'ctrl + p', class: 'submit modal-link', name: 'preview') %> -->
+  <%= link_to "Close", templates_path %>
+</div>
+
+<% content_for :footer do -%>
+<%= javascript_include_tag '/javascripts/ace/ace', '/javascripts/ace/theme-textmate', '/javascripts/ace/mode-html', :cache => "cache/ace" %>
+
+<script type="text/javascript">
+    var EditSession = require('ace/edit_session').EditSession;
+    var UndoManager = require("ace/undomanager").UndoManager;
+    var Mode = require("ace/mode/html").Mode;
+    var editor, session;
+
+    function saveChanges(form) {
+        $('.notification.note-error').hide();
+
+        $('#template_body').val(editor.getSession().getValue());
+
+         $.ajax({
+             url: form.attr('action'),
+             data: form.serialize(),
+             dataType: "json",
+             type: "post"
+         }).done(function(json) {
+             form.data('dirty', false);
+             $.jGrowl('Template Saved');
+         }).fail(function(jqXHR, textStatus, errorThrown) {
+             var errorCount = jqXHR.responseJSON.templates.length;
+             $('.notification.note-error .error-count').text(errorCount + (errorCount == 1 ? ' error' : ' errors'));
+             var errorList = $('.notification.note-error ul');
+             errorList.empty();
+             for (var x = 0; x < errorCount; x++) {
+               errorList.append('<li>' + jqXHR.responseJSON.templates[x] + '</li>') ;
+             }
+             $('.notification.note-error').show();
+         });
+    }
+
+    function createSession() {
+        var body = $('#template_body');
+        var form = body.parent();
+        session = new EditSession(body.val());
+        session.setUndoManager(new UndoManager());
+        session.setMode(new Mode());
+        session.on('change', function () {
+            form.data('dirty', true);
+            $('#save').removeAttr('disabled');
+        });
+        session.setTabSize(2);
+    }
+
+    $(window).load(function () {
+        createSession();
+        editor = ace.edit("template-editor");
+        editor.setTheme("ace/theme/textmate");
+        editor.setSession(session);
+        Mousetrap.bindGlobal('mod+s', function(e) {
+            e.preventDefault();
+            $('#template_form').submit();
+            return false;
+        });
+    });
+
+    $('#template_form').submit(function() {
+        saveChanges($(this));
+        return false;
+    });
+
+    $("#template_channel").change(function () {
+        var selectedValue = $("select option:selected").val();
+        if (selectedValue == '<%= TemplateChannel::EMAIL %>') {
+            $('#email-fields').show();
+        } else {
+            $('#email-fields').hide();
+        }
+    }).change();
+</script>
+<% end -%>

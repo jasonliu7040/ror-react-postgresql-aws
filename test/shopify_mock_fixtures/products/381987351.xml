@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<product>
+  <body-html>&lt;p&gt;Black Organza Bag with drawstring to store all your tops and make traveling a breeze. Holds over 12 pairs of Tops!&amp;nbsp; Don&apos;t lose your mates!!&lt;/p&gt;
+    &lt;p&gt;Item # Organza-999&lt;/p&gt;
+  </body-html>
+  <created-at type="datetime">2012-08-18T02:37:08-04:00</created-at>
+  <handle>black-organza-storage-bag</handle>
+  <id type="integer">381987351</id>
+  <product-type>Accessories</product-type>
+  <published-at type="datetime">2012-08-18T02:37:08-04:00</published-at>
+  <template-suffix nil="true"></template-suffix>
+  <title>&quot;Black&quot; Organza Storage Bag</title>
+  <updated-at type="datetime">2013-02-18T16:12:58-05:00</updated-at>
+  <vendor>Onesole</vendor>
+  <tags>bag, black, Organza, storage</tags>
+  <variants type="array">
+    <variant>
+      <compare-at-price type="decimal">3.99</compare-at-price>
+      <created-at type="datetime">2012-08-18T02:37:08-04:00</created-at>
+      <fulfillment-service>manual</fulfillment-service>
+      <grams type="integer">0</grams>
+      <id type="integer">233592770</id>
+      <product-id type="integer">27763452</product-id>
+      <inventory-management></inventory-management>
+      <inventory-policy>deny</inventory-policy>
+      <option1>Black</option1>
+      <option2 nil="true"></option2>
+      <option3 nil="true"></option3>
+      <position type="integer">1</position>
+      <price type="decimal">2.99</price>
+      <requires-shipping type="boolean">true</requires-shipping>
+      <sku>ORGANZA-998</sku>
+      <taxable type="boolean">true</taxable>
+      <title>Black</title>
+      <updated-at type="datetime">2013-02-18T16:11:56-05:00</updated-at>
+      <inventory-quantity type="integer">1</inventory-quantity>
+    </variant>
+  </variants>
+  <images type="array">
+    <image>
+      <created-at type="datetime">2012-08-18T02:37:11-04:00</created-at>
+      <id type="integer">198554544</id>
+      <position type="integer">1</position>
+      <updated-at type="datetime">2012-08-18T02:37:11-04:00</updated-at>
+      <product-id type="integer">27763452</product-id>
+      <src>http://cdn.shopify.com/s/files/1/0037/9392/products/organza_999.jpeg?6</src>
+    </image>
+  </images>
+  <options type="array">
+    <option>
+      <name>Color</name>
+      <id type="integer">119934308</id>
+      <product-id type="integer">27763452</product-id>
+      <position type="integer">1</position>
+      <values type="array">
+        <value>Red</value>
+        <value>Green</value>
+        <value>Blue</value>
+      </values>
+    </option>
+  </options>
+</product>

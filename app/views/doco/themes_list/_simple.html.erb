@@ -1,0 +1,29 @@
+<% content_for :panel_head do %>
+    Simple
+<% end %>
+<% content_for :panel_body do %>
+    <h5>Date Validation</h5>
+    <p>The Simple theme uses an Ajax add to cart. To ensure a date is entered you will need to modify the file
+      jquery.theme.js in 2 places (the code is the same for each) - around line 560 and 758. Below are the before and
+      after code snippets.</p>
+    <p>First:</p>
+    <%= render_source partial: 'doco/themes/simple_jquery_theme_a', path: 'assets/jquery.theme.js', line: '560 - before' %>
+    <%= render_source partial: 'doco/themes/simple_jquery_theme_b', path: 'assets/jquery.theme.js', line: '560 - after' %>
+    <p>Second:</p>
+    <%= render_source partial: 'doco/themes/simple_jquery_theme_c', path: 'assets/jquery.theme.js', line: '758 - before' %>
+    <%= render_source partial: 'doco/themes/simple_jquery_theme_d', path: 'assets/jquery.theme.js', line: '758 - after' %>
+
+    <h5>Displaying dates & times in the cart drawer</h5>
+    <p>The complicated thing about the Simple theme is the way the cart drawer works. Unfortunately the developers
+      of this theme have a) ignored line item properties, b) have multiple places where
+      the cart is defined and c) define it using a different technique (via HTML or Javascript). This
+      means the code needs to be changed in multiple places and in different ways.</p>
+
+    <p>To display the dates in the slide down cart after a product is added to the cart:</p>
+    <%= render_source partial: 'doco/themes/simple_jquery_theme_e', path: 'assets/jquery.theme.js', line: '688 - before' %>
+    <%= render_source partial: 'doco/themes/simple_jquery_theme_f', path: 'assets/jquery.theme.js', line: '688 - after' %>
+
+    <p>To display the dates for existing products in the slide down cart.</p>
+    <%= render_source partial: 'doco/themes/simple_jquery_theme_g', path: 'layout/theme.liquid', line: '101 - before' %>
+    <%= render_source partial: 'doco/themes/simple_jquery_theme_h', path: 'layout/theme.liquid', line: '101 - after' %>
+<% end %>

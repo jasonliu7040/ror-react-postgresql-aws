@@ -1,0 +1,52 @@
+<h1>Pretend Order Status Page</h1>
+<hr>
+<div id="content-target">
+  <h2></h2>
+  <div>
+  </div>
+</div>
+
+<% content_for :foot do -%>
+<script>
+  Shopify = {
+    Checkout: {
+      OrderStatus: {
+        addContentBox: function(header, content) {
+          $('#content-target h2').html(header);
+          $('#content-target div').html(content);
+        }
+      }
+    },
+    checkout: {
+      line_items: [{
+        applied_discounts: [],
+        compare_at_price: null,
+        fulfillment_service: "manual",
+        grams: 0,
+        id: "811d26ccea8b1187bd9d1c75521bba43",
+        key: "811d26ccea8b1187bd9d1c75521bba43",
+        line_price: "125.00",
+        price: "125.00",
+        product_id: 5940069126,
+        properties: {
+          From: "7/30/2016",
+          To: "8/1/2016"
+        },
+        quantity: 1,
+        requires_shipping: false,
+        sku: "",
+        taxable: true,
+        title: "Celebrate Independence Workshop",
+        variant_id: 18779225990,
+        variant_title: "Workshop",
+        vendor: "masterdk-staging",
+      }]
+    }
+  }
+</script>
+
+<script src="/javascripts/bta-order-status.js?_=<%= "#{Time.now.to_i}" %>" type="text/javascript"></script>
+
+<script>
+</script>
+<% end %>

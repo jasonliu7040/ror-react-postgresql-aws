@@ -1,0 +1,31 @@
+<% content_for :head do -%>
+  <%= stylesheet_link_tag 'mono-blue' %>
+<% end -%>
+
+<h1>Developer Guide</h1>
+<p>Instructions on how to integrate with BookThatApp.</p>
+
+<div class="content-box">
+	<div class="box-header clear">
+	    <h2>CSS</h2>
+	</div>
+	<div class="box-body clear">
+	    <div>
+	    	<h3>Introduction</h3>
+	    	<p>There are several CSS classes BookThatApp provides so that you can customize styles.</p>
+
+          <h3>Loading spinner</h3>
+          <p>When 'bta-load-enable' datepickers are loading the availability information we recommend showing a loading spinner
+            so that visitors know something is going on:</p>
+<pre><code>.datepicker.bta-load-enable {background: url({{ 'loading.gif' | asset_url }}) no-repeat 50% 50%}</code></pre>
+          <p>Make sure you replace 'loading.gif' with whatever loading image your theme is using.</p>
+
+	    	<h3>Blacked out dates</h3>
+			<p>Blacked out dates have a "bta-blackedout" class. To override the background color:</p>
+<pre><code>.ui-datepicker-calendar .bta-blackedout .ui-state-default {background: #000}</code></pre>
+
+	    	<h3>Booked out dates</h3>
+	    	<p>Similarily to blacked out dates, "bta-bookedout" is added to any booked out dates.</p>
+		</div>
+	</div>
+</div>

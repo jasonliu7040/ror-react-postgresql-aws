@@ -1,0 +1,36 @@
+<h3>Upcoming Bookings</h3>
+<table class="styled">
+  <thead>
+  <tr>
+    <th>Date</th>
+    <th>Booking</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% if @next_bookings.empty? %>
+  <tr>
+    <td colspan="2">
+      No upcoming bookings at this time.
+    </td>
+  </tr>
+  <% else %>
+  <% @next_bookings.each do |booking| %>
+      <tr>
+        <td class="nowrap">
+          <span class="no-print ui-icon <%= "#{booking.status == 2 ? 'ui-icon-calendar' : 'ui-icon-clock'}" %>" %> ></span>
+          <%= "#{I18n.localize(booking.start.to_date, :format => :short)}" %>
+        </td>
+        <td>
+          <%= link_to edit_booking_path(booking) do %>
+              <%= "#{booking.product_title}" %> for <%= booking.name %>
+          <% end %>
+        </td>
+      </tr>
+  <% end %>
+  <% end %>
+  </tbody>
+</table>
+
+<% if @next_bookings.size == 5 %>
+<%= link_to 'View More...', runsheet_path(:start => Time.now.to_date, :finish => (Time.now + 1.month).to_date, :order_by => 'start', :order_type => 'ASC'), :class => 'fr' %>
+<% end %>

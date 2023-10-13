@@ -1,0 +1,44 @@
+<% content_for :head do -%>
+    <%= stylesheet_link_tag 'mono-blue' %>
+<% end -%>
+
+<h1>Developer Guide</h1>
+<p>Instructions on how to integrate with BookThatApp.</p>
+
+<div class="content-box">
+  <div class="box-header clear">
+    <h2>Email Notifications</h2>
+  </div>
+  <div class="box-body clear">
+    <div>
+      <h3>Adding booking dates to Shopify notification emails</h3>
+
+      <p>You can include booking details in the notification email Shopify sends out when an order is received.
+        BookThatApp is using line item properties to store the details, so the instructions are the same as listed on the
+        Shopify wiki article <a href="http://wiki.shopify.com/Line_Item_Properties#Updating_email_templates" target="_blank">Updating email templates</a>.</p>
+
+      <h3>Modified Standard Templates</h3>
+      <p>We have provided standard notification templates that have been modified to use the BTA properties. If you haven't
+      customized your emails then simply copy the code from the links below and replace the code in the existing template.</p>
+      <h4>New Order Notification</h4>
+      <ul>
+        <li><a href="https://gist.github.com/gterrill/8126300" target="_blank">Plain Text</a></li>
+        <li><a href="https://gist.github.com/gterrill/9560235" target="_blank">HMTL</a></li>
+      </ul>
+      <h4>Order Confirmation</h4>
+      <ul>
+        <li><a href="https://gist.github.com/gterrill/9560252" target="_blank">Plain Text</a></li>
+        <li><a href="https://gist.github.com/gterrill/9560269" target="_blank">HMTL</a></li>
+      </ul>
+
+      <h3>Rolling your own</h3>
+      <p class="no-pad">In the email template the <a href="http://docs.shopify.com/themes/liquid-basics/output#replace" target="_blank">replace filter</a> is
+        used to change the attribute names to something more user friendly (the same way it is done for the cart page):</p>
+  <pre><code>{{ line.title }}{% for p in line.properties %}{% unless p.last == blank %} - {{ p.first | replace: 'booking-start', 'Date' | replace: 'booking-time', 'Time' }}: {{ p.last }}{% endunless %}{% endfor %}</code></pre>
+      <p class="no-pad">For more control you can extract properties directly. In this example the time is formatted using the <a href="http://docs.shopify.com/themes/liquid-basics/output#date" _target="_blank">date filter</a>:</p>
+<pre><code>{% for line in line_items %}{% assign time = line.properties['booking-start'] | date: '%d/%m/%y %I:%M %p' %}
+    {{ line.quantity }}x {{line.title }} {% unless time == blank %}on {{ time }}{% endunless %} for {{ line.price | money }} each
+{% endfor %}</code></pre>
+    </div>
+  </div>
+</div>

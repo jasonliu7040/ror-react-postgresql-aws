@@ -1,0 +1,16 @@
+hook_product_option_duration_1:
+   product_id: 4
+   option_external_id: 119934308
+   value: "Red"
+   duration: 0
+   low_range: 0
+   high_range: 0
+
+hook_product_option_duration_2:
+   product_id: 4
+   option_external_id: 119934308
+   value: "Black"
+   duration: 0
+   low_range: 0
+   high_range: 0
+

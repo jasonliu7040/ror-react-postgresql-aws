@@ -1,0 +1,8 @@
+<% content_for :panel_head do %>
+    New Standard
+<% end %>
+<% content_for :panel_body do %>
+    <h5>Product Page</h5>
+    <p>Place the booking form in product.liquid under the product-variants div.</p>
+    <%= render_source partial: 'doco/themes/new_standard_product', path: 'templates/product.liquid', line: 69 %>
+<% end %>

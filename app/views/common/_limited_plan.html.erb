@@ -1,0 +1,8 @@
+<% if current_account.charge_id == -1  %>
+<div id="add-products-info" class="notification note-info" >
+  <a title="Close notification" class="close" href="#"><span>close</span></a>
+  <span class="icon"></span>
+  <p>You are currently on the trial plan (maximum <%= Bookthatapp::Application.config.limited_plan_max_products %> products/<%= Bookthatapp::Application.config.limited_plan_max_bookings %>
+    bookings). <a href="/charges">Upgrade your subscription</a> to the paid plan for unlimited products and bookings.</p>
+</div>
+<% end %>

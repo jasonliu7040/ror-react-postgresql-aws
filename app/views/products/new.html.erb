@@ -1,0 +1,13 @@
+<h1>Configuration</h1>
+<p>Set up BookThatApp.</p>
+
+<div class="content-box">
+  <div class="box-header clear">
+    <h2>Import Product</h2>
+  </div>
+  <div class="box-body clear">
+    <%= nested_form_for @product, :url => {:action => "create"} do |form| %>
+      <%= render :partial => "form", :locals => {:form => form} %>
+    <% end %>
+  </div>
+</div>

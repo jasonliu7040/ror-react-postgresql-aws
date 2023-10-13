@@ -1,0 +1,20 @@
+<%
+   home = "//#{ @shop.subdomain }.bookthatapp.#{Rails.env.development? ? 'dev:3002' : 'com'}"
+%>
+
+<% content_for :head do %>
+    <base target="_parent"/>
+<% end %>
+
+<iframe id='BTA' name='BTA'
+        seamless='' frameborder='0'
+        width='100%' height='1450' scrolling='no'
+        src='<%= "#{ home }/embed/new" %>'>
+</iframe>
+
+<% content_for :foot do %>
+    <script src='<%= "#{ home }" %>/javascripts/iframeResizer.min.js'></script>
+    <script>
+        iFrameResize()
+    </script>
+<% end %>

@@ -1,0 +1,12 @@
+{% comment %}
+BookThatApp auto installed snippet. Changes made to this file will be lost if installed again.
+{% endcomment %}
+
+{% if item.product.metafields.bookthatapp.product_id %}
+{% capture attribute %}booking-{{ item.variant.id }}-start{% endcapture %}
+<label for="{{ attribute }}">Date:</label>
+<input id="{{ attribute }}" type="text" name="attributes[{{ attribute }}]" value="{{ cart.attributes[attribute] }}" class="datepicker bta" size="12" />
+{% capture attribute %}booking-{{ item.variant.id }}-finish{% endcapture %}
+<label for="{{ attribute }}"> - </label>
+<input id="{{ attribute }}" type="text" name="attributes[{{ attribute }}]" value="{{ cart.attributes[attribute] }}" class="datepicker bta" size="12" />
+{% endif %}

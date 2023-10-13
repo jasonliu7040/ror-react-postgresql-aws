@@ -1,0 +1,45 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: All Year
+  id_of_season: all-year
+  start: 2014-01-01
+  finish: 2014-12-31
+  hourable_id: 1
+  hourable_type: Shop
+
+two:
+  name: Holidays
+  id_of_season: holidays
+  start: 2014-11-01
+  finish: 2014-12-31
+  hourable_id: 1
+  hourable_type: Shop
+
+three:
+  name: Holidays
+  id_of_season: holidays
+  start: 2014-11-01
+  finish: 2014-12-31
+  hourable: one (Resource)
+
+four:
+  name: Easter Time
+  id_of_season: easter-time
+  start: 2015-04-01
+  finish: 2015-04-16
+  hourable: one (ResourceGroup)
+
+resource_one_base:
+  name: Base
+  id_of_season: base
+  start: 2014-11-01
+  finish: 2014-12-31
+  hourable: one (Resource)
+
+resource_four_base:
+  name: Base
+  id_of_season: base
+  start: 2014-11-01
+  finish: 2014-12-31
+  hourable: four (Resource)

@@ -1,0 +1,80 @@
+<h1>Configuration</h1>
+<p>Set up BookThatApp.</p>
+
+<div class="content-box">
+	<div class="box-header clear">
+        <h2>Booking Wizard</h2>
+	</div>
+	<div class="box-body clear">
+		<%= form_for current_account, :url => {:action => "wizard" } do | form | %>
+          <%= hidden_field_tag 'ga_client_id', '', :class => 'ga-client-id' %>
+		  <%= render :partial => "settings", :locals => {:form => form} %>
+		<% end %>
+        <a href="#" id="test" class="bta-wizard">View Wizard</a>
+	</div>
+</div>
+
+<% content_for :footer do -%>
+<%= javascript_include_tag '/javascripts/jquery.simplemodal.1.4.1.min.js' %>
+
+<script type='text/javascript'>
+
+    wizard_open = function(dialog) {
+        var h = 635;
+        dialog.overlay.fadeIn(200, function () {
+            dialog.container.fadeIn(200, function () {
+                dialog.data.fadeIn(200, function () {
+                    $('#bta-wizard-container #bta_wizard').animate({height: h}, function () {
+                        $('#bta_wizard').fadeIn(200, function () {
+                            $('#bta-wizard #booking-start').focus();
+                        });
+                    });
+                });
+            });
+        });
+    }
+
+	jQuery(document).ready(function($) {
+        var src = "http://legros-parker-and-harris6290.bookthatapp.dev:3005/wizard";
+        var frame = $('body').append('<iframe id="bta-wizard-frame" src="' + src + '" height="635" width="960" style="border:0;display:none">');
+
+		$('#test').click(function(e) {
+            e.preventDefault();
+
+            $("#bta-wizard-frame").modal({
+                closeHTML:"",
+                persist: true,
+                containerCss:{
+                    backgroundColor:"transparent",
+                    borderColor:"#fff",
+                    height:635,
+                    padding:0,
+                    width:960
+                },
+                overlayClose:true,
+                onOpen: wizard_open
+            });
+
+//            $.get(bta.base + "/wizard", function(data){
+//                $(data).modal({
+////                    closeHTML: "<a href='#' title='Close' class='modal-close'>x</a>",
+//                    minWidth: 960,
+//                    position: ["5%",],
+//                    persist: true,
+//                    overlayId: 'bta-wizard-overlay',
+//                    containerId: 'bta-wizard-container',
+//                    onOpen: wizard_open
+//        //                    onShow: contact.show,
+//        //                    onClose: contact.close
+//                });
+//            });
+
+
+//			$("#bta-container").get("/wizard", function(data) {
+//				$(data).css({"position": "absolute", "background": "#000", "top": "10%", "left": "10px"});
+//			});
+			return false;
+		})
+	})
+</script>
+<% end -%>

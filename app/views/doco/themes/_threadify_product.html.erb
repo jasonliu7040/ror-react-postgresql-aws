@@ -1,0 +1,32 @@
+{% if product.available  %}
+{% if product.variants.size > 1 %}
+<!-- If the product only has MULTIPLE OPTIONS -->
+<form action="/cart/add" method="post" class="product-variants">
+  <div id="options">
+    <select id="product-select" name='id'>
+      {% for variant in product.variants %}
+      <option value="{{ variant.id }}">{{ variant.title }}</option>
+      {% endfor %}
+    </select>
+    {% include 'booking-form' %}
+  </div> <!-- options -->
+
+  <div class="price-field"></div>
+  <input type="submit"  name="add" value="Add to cart" id="purchase" />
+</form>
+
+{% else %}
+<!-- If the product only has ONE variant -->
+<form action="/cart/add" method="post" class="product-variants">
+  <div id="options">
+    {% include 'booking-form' %}
+  </div> <!-- options -->
+  <div class="price-field"> {{ product.price | money }}</div>
+  <input type="submit"  name="add" value="Add to cart" id="purchase" />
+  <input  type="hidden" id="{{ variant.id }}" name="id" value="{{ product.variants[0].id }}" /> <!-- passes variant id -->
+</form>
+{% endif %}
+
+{% else %}
+<p></p>
+{% endif %}

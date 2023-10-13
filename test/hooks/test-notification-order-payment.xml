@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<order>
+  <number type="integer">234</number>
+  <name>#9999</name>
+  <created-at type="datetime">2012-01-03T17:51:21-05:00</created-at>
+  <total-discounts type="decimal">0.0</total-discounts>
+  <cancel-reason>customer</cancel-reason>
+  <token nil="true"></token>
+  <updated-at type="datetime">2012-01-03T17:51:21-05:00</updated-at>
+  <total-price type="decimal">239.94</total-price>
+  <landing-site nil="true"></landing-site>
+  <taxes-included type="boolean">false</taxes-included>
+  <cancelled-at type="datetime">2012-01-03T17:51:21-05:00</cancelled-at>
+  <id type="integer">123456</id>
+  <referring-site nil="true"></referring-site>
+  <total-line-items-price type="decimal">229.94</total-line-items-price>
+  <subtotal-price type="decimal">229.94</subtotal-price>
+  <note nil="true"></note>
+  <gateway>bogus</gateway>
+  <fulfillment-status>pending</fulfillment-status>
+  <financial-status>voided</financial-status>
+  <currency>USD</currency>
+  <closed-at type="datetime" nil="true"></closed-at>
+  <buyer-accepts-marketing type="boolean">true</buyer-accepts-marketing>
+  <total-tax type="decimal">0.0</total-tax>
+  <total-weight type="integer">0</total-weight>
+  <email>jon@doe.ca</email>
+  <browser-ip nil="true"></browser-ip>
+  <landing-site-ref nil="true"></landing-site-ref>
+  <order-number type="integer">1234</order-number>
+  <discount-codes type="array"/>
+  <billing-address>
+    <company>My Company</company>
+    <city>Billtown</city>
+    <address1>123 Billing Street</address1>
+    <latitude type="decimal" nil="true"></latitude>
+    <zip>K2P0B0</zip>
+    <address2 nil="true"></address2>
+    <country>United States</country>
+    <phone>555-555-BILL</phone>
+    <last-name>Biller</last-name>
+    <longitude type="decimal" nil="true"></longitude>
+    <province>Kentucky</province>
+    <first-name>Bob</first-name>
+    <name>Bob Biller</name>
+    <country-code>US</country-code>
+    <province-code>KY</province-code>
+  </billing-address>
+  <tax-lines type="array"/>
+  <shipping-address>
+    <company>Shipping Company</company>
+    <city>Shippington</city>
+    <address1>123 Shipping Street</address1>
+    <latitude type="decimal" nil="true"></latitude>
+    <zip>K2P0S0</zip>
+    <address2 nil="true"></address2>
+    <country>United States</country>
+    <phone>555-555-SHIP</phone>
+    <last-name>Shipper</last-name>
+    <longitude type="decimal" nil="true"></longitude>
+    <province>Kentucky</province>
+    <first-name>Steve</first-name>
+    <name>Steve Shipper</name>
+    <country-code>US</country-code>
+    <province-code>KY</province-code>
+  </shipping-address>
+  <shipping-lines type="array">
+    <shipping-line>
+      <price type="decimal">10.0</price>
+      <code nil="true"></code>
+      <title>Generic Shipping</title>
+      <source>shopify</source>
+    </shipping-line>
+  </shipping-lines>
+  <line-items type="array">
+    <line-item>
+      <price type="decimal">199.99</price>
+      <product-id type="integer">123456</product-id>
+      <title>Sledgehammer</title>
+      <quantity type="integer">1</quantity>
+      <requires-shipping type="boolean">true</requires-shipping>
+      <grams type="integer">5000</grams>
+      <sku>SKU2006-001</sku>
+      <fulfillment-status nil="true"></fulfillment-status>
+      <variant-title nil="true"></variant-title>
+      <vendor nil="true"></vendor>
+      <fulfillment-service>manual</fulfillment-service>
+      <variant-id type="integer">654321</variant-id>
+      <name>Sledgehammer</name>
+    </line-item>
+    <line-item>
+      <price type="decimal">29.95</price>
+      <product-id type="integer">12345</product-id>
+      <title>Wire Cutter</title>
+      <quantity type="integer">1</quantity>
+      <requires-shipping type="boolean">true</requires-shipping>
+      <grams type="integer">500</grams>
+      <sku>SKU2006-020</sku>
+      <fulfillment-status nil="true"></fulfillment-status>
+      <variant-title nil="true"></variant-title>
+      <vendor nil="true"></vendor>
+      <fulfillment-service>manual</fulfillment-service>
+      <variant-id type="integer">54321</variant-id>
+      <name>Wire Cutter</name>
+    </line-item>
+  </line-items>
+  <fulfillments type="array"/>
+  <customer>
+    <accepts-marketing type="boolean" nil="true"></accepts-marketing>
+    <created-at type="datetime" nil="true"></created-at>
+    <orders-count type="integer">0</orders-count>
+    <updated-at type="datetime" nil="true"></updated-at>
+    <note nil="true"></note>
+    <last-name>Smith</last-name>
+    <state>disabled</state>
+    <total-spent type="decimal">0.0</total-spent>
+    <first-name>John</first-name>
+    <email>john@test.com</email>
+    <tags></tags>
+  </customer>
+  <note-attributes type="array">
+  </note-attributes>
+</order>

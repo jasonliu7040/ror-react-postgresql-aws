@@ -1,0 +1,155 @@
+<%
+   # TODO because of old implementation we should have only one recurring_item
+
+%>
+<%= schedule.fields_for :recurring_items do |item| %>
+  <%= item.hidden_field :id %>
+  <div id="schedule-wrap" class="clear">
+    <div>
+      <div class="box-header clear">
+        <ul class="tabs clear">
+          <li><a href="#schedule-form-rec" class="selected">Schedule</a></li>
+          <li><a href="#schedule-raw">View Config</a></li>
+        </ul>
+        <h2>Schedule</h2>
+      </div>
+      <div class="box-body clear">
+        <div id="schedule-form-rec">
+          <div class="form-field clear">
+            <label class="form-label fl-space2" for="repeating">Repeating?:</label>
+            <input type="checkbox" name="" id="repeating">
+          </div>
+          <div id="recurring-schedule" style="display: none">
+            <div class="form-field clear start-dates" style="display: none">
+              <label class="form-label fl-space2" for="start-date">Start:</label>
+              <div class="fl">
+                <input type="text" class="text fl datetimepicker" id="start-date"/>
+              </div>
+            </div>
+            <div id="finish-div" class="form-field clear hidden">
+              <label class="form-label fl-space2" for="finish-date">End:</label>
+
+              <div class="fl">
+                <input type="text" class="text fl datetimepicker" id="finish-date"/>
+              </div>
+            </div>
+            <div id="duration-div" class="form-field clear">
+              <label class="form-label fl-space2" for="duration">Duration:</label>
+
+              <div class="fl">
+                <input type="number" class="text short_number" id="duration" min="1">
+                <select id="duration-units">
+                  <option>Minutes</option>
+                  <option selected="selected">Hours</option>
+                  <option>Days</option>
+                  <option>Weeks</option>
+                </select>
+              </div>
+            </div>
+            <fieldset>
+              <legend>Repeating Rules</legend>
+              <div id="recurrences">
+                <button id="add-recurrence" class="rrule-btnAdd fr">+ Rule</button>
+              </div>
+            </fieldset>
+            <!--
+            <fieldset><legend>Exceptions</legend>
+            <div id="exceptions">
+                    <button id="add-exception" class="exrule-btnAdd fr">Add</button>
+            </div>
+            </fieldset>
+            -->
+            <p id="schedule-summary"></p>
+          </div>
+        </div>
+        <div id="schedule-raw">
+          <%= item.text_area :schedule_yaml, :style => "width:100%", id: 'product_schedule_yaml' %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+
+<script id="rule-template" type="text/html">
+  <div class="${type}-group clear">
+    <div class="fl form-field">
+      <label class="form-label fl-space2" for="${type}_0_rule_type">Rule:</label>
+
+      <div class="clear">
+        <select name="${type}[0][rule_type]" id="${type}_0_rule_type" class="rule_type" data-pattern-name="${type}[++][rule_type]" data-pattern-id="${type}_++_rule_type">
+          <option value="IceCube::MinutelyRule">Minutes</option>
+          <option value="IceCube::HourlyRule">Hourly</option>
+          <option value="IceCube::DailyRule" selected="selected">Daily</option>
+          <option value="IceCube::WeeklyRule">Weekly</option>
+          <option value="IceCube::MonthlyRule">Monthly</option>
+          <option value="IceCube::YearlyRule">Yearly</option>
+        </select>
+      </div>
+      <div class="clear">
+        <label class="form-label fl-space2" for="${type}_0_interval">Repeat Every</label>
+        <input type="number" class="short_number text" id="${type}_0_interval" min="1" name="${type}[0][interval]" value="1" data-pattern-name="${type}[++][interval]" data-pattern-id="${type}_++_interval">&nbsp;<span id="${type}_0_interval_prompt" data-pattern-id="${type}_++_interval_prompt">Days</span>
+      </div>
+      <div id="${type}_0_moy" class="moy clear" data-pattern-id="${type}_++_moy">
+        <label class="form-label fl-space2">Specific Months</label>
+
+        <div class="checkboxes">
+          <label><input type="checkbox" value="1" name="${type}[0][moy]" data-pattern-name="${type}[++][moy]" id="${type}_0_moy_jan" data-pattern-id="${type}_++_moy_jan"/>Jan</label>
+          <label><input type="checkbox" value="2" name="${type}[0][moy]" data-pattern-name="${type}[++][moy]" id="${type}_0_moy_feb" data-pattern-id="${type}_++_moy_feb"/>Feb</label>
+          <label><input type="checkbox" value="3" name="${type}[0][moy]" data-pattern-name="${type}[++][moy]" id="${type}_0_moy_mar" data-pattern-id="${type}_++_moy_mar"/>Mar</label>
+          <label><input type="checkbox" value="4" name="${type}[0][moy]" data-pattern-name="${type}[++][moy]" id="${type}_0_moy_apr" data-pattern-id="${type}_++_moy_apr"/>Apr</label>
+          <label><input type="checkbox" value="5" name="${type}[0][moy]" data-pattern-name="${type}[++][moy]" id="${type}_0_moy_may" data-pattern-id="${type}_++_moy_may"/>May</label>
+          <label><input type="checkbox" value="6" name="${type}[0][moy]" data-pattern-name="${type}[++][moy]" id="${type}_0_moy_jun" data-pattern-id="${type}_++_moy_jun"/>Jun</label>
+          <label><input type="checkbox" value="7" name="${type}[0][moy]" data-pattern-name="${type}[++][moy]" id="${type}_0_moy_jul" data-pattern-id="${type}_++_moy_jul"/>Jul</label>
+          <label><input type="checkbox" value="8" name="${type}[0][moy]" data-pattern-name="${type}[++][moy]" id="${type}_0_moy_aug" data-pattern-id="${type}_++_moy_aug"/>Aug</label>
+          <label><input type="checkbox" value="9" name="${type}[0][moy]" data-pattern-name="${type}[++][moy]" id="${type}_0_moy_sep" data-pattern-id="${type}_++_moy_sep"/>Sep</label>
+          <label><input type="checkbox" value="10" name="${type}[0][moy]" data-pattern-name="${type}[++][moy]" id="${type}_0_moy_oct" data-pattern-id="${type}_++_moy_oct"/>Oct</label>
+          <label><input type="checkbox" value="11" name="${type}[0][moy]" data-pattern-name="${type}[++][moy]" id="${type}_0_moy_nov" data-pattern-id="${type}_++_moy_nov"/>Nov</label>
+          <label><input type="checkbox" value="12" name="${type}[0][moy]" data-pattern-name="${type}[++][moy]" id="${type}_0_moy_dec" data-pattern-id="${type}_++_moy_dec"/>Dec</label>
+        </div>
+      </div>
+      <div id="${type}_0_dow" class="dow clear" data-pattern-id="${type}_++_dow">
+        <label class="form-label fl-space2">Specific Days</label>
+
+        <div class="checkboxes">
+          <label><input type="checkbox" value="0" name="${type}[0][dow]" data-pattern-name="${type}[++][dow]" id="${type}_0_dow_sun" data-pattern-id="${type}_++_dow_sun"/>Sun</label>
+          <label><input type="checkbox" value="1" name="${type}[0][dow]" data-pattern-name="${type}[++][dow]" id="${type}_0_dow_mon" data-pattern-id="${type}_++_dow_mon"/>Mon</label>
+          <label><input type="checkbox" value="2" name="${type}[0][dow]" data-pattern-name="${type}[++][dow]" id="${type}_0_dow_tue" data-pattern-id="${type}_++_dow_tue"/>Tue</label>
+          <label><input type="checkbox" value="3" name="${type}[0][dow]" data-pattern-name="${type}[++][dow]" id="${type}_0_dow_wed" data-pattern-id="${type}_++_dow_wed"/>Wed</label>
+          <label><input type="checkbox" value="4" name="${type}[0][dow]" data-pattern-name="${type}[++][dow]" id="${type}_0_dow_thu" data-pattern-id="${type}_++_dow_thu"/>Thu</label>
+          <label><input type="checkbox" value="5" name="${type}[0][dow]" data-pattern-name="${type}[++][dow]" id="${type}_0_dow_fri" data-pattern-id="${type}_++_dow_fri"/>Fri</label>
+          <label><input type="checkbox" value="6" name="${type}[0][dow]" data-pattern-name="${type}[++][dow]" id="${type}_0_dow_sat" data-pattern-id="${type}_++_dow_sat"/>Sat</label>
+        </div>
+      </div>
+      <div class="clear">
+        <label class="form-label fl-space2" for="${type}_0_hour">Time </label>
+        <select name="${type}[0][hour]" id="${type}_0_hour" class="recurrence_hour" data-pattern-name="${type}[++][hour]" data-pattern-id="${type}_++_hour">
+          <option value="">--</option>
+          <% (0..23).each do |hour| %>
+            <option value="<%= hour %>"><%= "%02d" % hour %></option>
+          <% end %>
+        </select>
+        <select name="${type}[0][time]" id="${type}_0_minute" data-pattern-name="${type}[++][minute]" data-pattern-id="${type}_++_minute">
+          <option value="">--</option>
+          <% (0..55).step(5).each do |minute| %>
+            <option value="<%= minute %>"><%= "%02d" % minute %></option>
+          <% end %>
+        </select>
+      </div>
+      <div class="clear until-dates" style="display: none">
+        <label class="form-label fl-space2" for="${type}_0_until">Until </label>
+        <input type="text" class="datetimepicker date-until" id="${type}_0_until" data-pattern-name="${type}[++][until]" data-pattern-id="${type}_++_until"/>
+      </div>
+    </div>
+    <button class="${type}-btnRemove fr">- Rule</button>
+  </div>
+</script>
+
+<% content_for :footer do %>
+  <%= javascript_include_tag '/fullcalendar2/fullcalendar.min' %>
+  <%= javascript_include_tag '/javascripts/schedadly-product' %>
+  <script type='text/javascript'>
+    scheduler.init(); // schedadly.js
+
+  </script>
+<% end %>

@@ -1,0 +1,13 @@
+<application_charge type="hash">
+  <api_client_id>755357713</api_client_id>
+  <created_at>"2014-10-27T16:22:12-04:00"</created_at>
+  <id>2</id>
+  <name>"Super Duper Expensive action"</name>
+  <price>"100.00"</price>
+  <return_url>"http://super-duper.shopifyapps.com"</return_url>
+  <status>accepted</status>
+  <test>null</test>
+  <updated_at>"2014-10-27T16:22:12-04:00"</updated_at>
+  <charge_type>null</charge_type>
+  <decorated_return_url>"http://super-duper.shopifyapps.com?charge_id=1012637313"</decorated_return_url>
+</application_charge>

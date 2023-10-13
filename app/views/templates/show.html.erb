@@ -1,0 +1,47 @@
+<% if @last_booking.nil? %>
+    <p>Preview not available - no bookings exists</p>
+<% else %>
+<p>Using booking: <%= link_to @last_booking.id, edit_booking_path(@last_booking) %></p>
+<ul style="list-style: disc inside; margin: 10px 0 20px;">
+  <li>Created: <%= I18n.localize(@last_booking.created_at, :format => :short) %></li>
+  <li>Products: <%= "#{@last_booking.product_summary}" %></li>
+  <li>Start: <%= (@last_booking.start.hour == 0 && @last_booking.start.min == 0) ? " #{I18n.localize(@last_booking.start.to_date, :format => :short)}"
+          : " #{I18n.localize(Time.at(@last_booking.start.to_time), :format => :short)}" %></li>
+  <li>Email: <%= "#{@last_booking.email}" %></li>
+  <li>
+    Resources:
+    <ul style="list-style: disc inside; margin-left: 10px">
+      <% @last_booking.resources.each do |resource| %>
+          <li><%= link_to resource.name, edit_resource_path(resource) %></li>
+      <% end %>
+    </ul>
+  </li>
+  <li>Locations:
+    <ul style="list-style: disc inside; margin-left: 10px">
+    <% @last_booking.locations.each do |location| %>
+      <li><%= link_to location.name, edit_location_path(location) %></li>
+     <% end %>
+    </ul>
+  </li>
+</ul>
+
+<table class="styled">
+  <tr>
+    <td>Subject</td><td><%= @fields.subject %></td>
+  </tr>
+  <tr>
+    <td>To</td><td><%= @fields.to %></td>
+  </tr>
+  <tr>
+    <td>CC</td><td><%= @fields.cc %></td>
+  </tr>
+  <tr>
+    <td>BCC</td><td><%= @fields.bcc %></td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <%= raw @content %>
+    </td>
+  </tr>
+</table>
+<% end %>

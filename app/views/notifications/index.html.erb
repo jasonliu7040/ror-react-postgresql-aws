@@ -1,0 +1,41 @@
+<div class="content-box">
+  <div class="box-header clear">
+    <h2>Notifications</h2>
+  </div>
+  <div class="box-body clear">
+    <table class="styled">
+      <thead>
+      <tr>
+        <th class="nowrap">Date/Time</th>
+        <th>Message</th>
+        <th class="table-actions"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @action_items.each do |note| %>
+          <tr>
+            <td class="nowrap"><%= I18n.localize(note.created_at, :format => :short) %></td>
+            <td>
+              <%= note.message.html_safe %>
+            </td>
+            <td class="table-actions">
+              <% if note.noteable_type == "Event" && !note.noteable_id.nil? %>
+                <%= link_to edit_booking_path(note.noteable_id) do %>
+		  Edit
+                      <% icon = "ui-icon #{note.was_read? ? 'ui-icon-mail-open' : 'ui-icon-mail-closed'}" %>
+                      <%= content_tag(:span, '', :class => icon) %>
+                  <% end %>
+              <% end %>
+            </td>
+          </tr>
+      <% end %>
+      <% if @action_items.empty? %>
+          <tr id="inventory-placeholder">
+            <td colspan="2">No notifications</td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+    <%= paginate @action_items %>
+  </div>
+</div>

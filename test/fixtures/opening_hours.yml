@@ -1,0 +1,181 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one_one:
+  day_number: 0
+  start: 2014-11-10 12:00:00
+  finish: 2014-11-10 12:00:00
+  season: one
+one_two:
+  day_number: 1
+  start: 2014-11-10 12:00:00
+  finish: 2014-11-10 12:00:00
+  season: one
+one_three:
+  day_number: 2
+  start: 2014-11-10 12:00:00
+  finish: 2014-11-10 12:00:00
+  season: one
+one_four:
+  day_number: 3
+  start: 2014-11-10 12:00:00
+  finish: 2014-11-10 12:00:00
+  season: one
+one_five:
+  day_number: 4
+  start: 2014-11-10 12:00:00
+  finish: 2014-11-10 12:00:00
+  season: one
+one_six:
+  day_number: 5
+  start: 2014-11-10 12:00:00
+  finish: 2014-11-10 12:00:00
+  season: one
+one_seven:
+  day_number: 6
+  start: 2014-11-10 12:00:00
+  finish: 2014-11-10 12:00:00
+  season: one
+
+two_one:
+  day_number: 0
+  start: 2014-11-10 12:00:00
+  finish: 2014-11-10 12:00:00
+  season: two
+two_two:
+  day_number: 1
+  start: 2014-11-10 12:00:00
+  finish: 2014-11-10 12:00:00
+  season: two
+two_three:
+  day_number: 2
+  start: 2014-11-10 12:00:00
+  finish: 2014-11-10 12:00:00
+  season: two
+two_four:
+  day_number: 3
+  start: 2014-11-10 12:00:00
+  finish: 2014-11-10 12:00:00
+  season: two
+two_five:
+  day_number: 4
+  start: 2014-11-10 12:00:00
+  finish: 2014-11-10 12:00:00
+  season: two
+two_six:
+  day_number: 5
+  start: 2014-11-10 12:00:00
+  finish: 2014-11-10 12:00:00
+  season: two
+two_seven:
+  day_number: 6
+  start: 2014-11-10 12:00:00
+  finish: 2014-11-10 12:00:00
+  season: two
+
+three_one:
+  day_number: 0
+  start: 2014-11-10 12:00:00
+  finish: 2014-11-10 12:00:00
+  season: three
+three_two:
+  day_number: 1
+  start: 2014-11-10 12:00:00
+  finish: 2014-11-10 12:00:00
+  season: three
+three_three:
+  day_number: 2
+  start: 2014-11-10 12:00:00
+  finish: 2014-11-10 12:00:00
+  season: three
+three_three:
+  day_number: 3
+  start: 2014-11-10 12:00:00
+  finish: 2014-11-10 12:00:00
+  season: three
+three_five:
+  day_number: 4
+  start: 2014-11-10 12:00:00
+  finish: 2014-11-10 12:00:00
+  season: three
+three_six:
+  day_number: 5
+  start: 2014-11-10 12:00:00
+  finish: 2014-11-10 12:00:00
+  season: three
+three_seven:
+  day_number: 6
+  start: 2014-11-10 12:00:00
+  finish: 2014-11-10 12:00:00
+  season: three
+
+four_one:
+  day_number: 0
+  start: 2014-11-10 12:00:00
+  finish: 2014-11-10 12:00:00
+  season: four
+four_two:
+  day_number: 1
+  start: 2014-11-10 12:00:00
+  finish: 2014-11-10 12:00:00
+  season: four
+four_three:
+  day_number: 2
+  start: 2014-11-10 12:00:00
+  finish: 2014-11-10 12:00:00
+  season: four
+four_four:
+  day_number: 3
+  start: 2014-11-10 12:00:00
+  finish: 2014-11-10 12:00:00
+  season: four
+four_five:
+  day_number: 4
+  start: 2014-11-10 12:00:00
+  finish: 2014-11-10 12:00:00
+  season: four
+four_six:
+  day_number: 5
+  start: 2014-11-10 12:00:00
+  finish: 2014-11-10 12:00:00
+  season: four
+four_seven:
+  day_number: 6
+  start: 2014-11-10 12:00:00
+  finish: 2014-11-10 12:00:00
+  season: four
+
+res_four_one:
+  day_number: 0
+  start:
+  finish:
+  season: resource_four_base
+res_four_two:
+  day_number: 1
+  start: 2014-11-10 12:00:00
+  finish: 2014-11-10 12:00:00
+  season: resource_four_base
+res_four_three:
+  day_number: 2
+  start: 2014-11-10 9:00:00
+  finish: 2014-11-10 12:00:00
+  season: resource_four_base
+res_four_four:
+  day_number: 3
+  start: 2014-11-10 10:00:00
+  finish: 2014-11-10 15:00:00
+  season: resource_four_base
+res_four_five:
+  day_number: 4
+  start: 2014-11-10 9:00:00
+  finish: 2014-11-10 18:00:00
+  season: resource_four_base
+res_four_six:
+  day_number: 5
+  start: 2014-11-10 9:00:00
+  finish: 2014-11-10 18:00:00
+  season: resource_four_base
+res_four_seven:
+  day_number: 6
+  start:
+  finish:
+  season: resource_four_base

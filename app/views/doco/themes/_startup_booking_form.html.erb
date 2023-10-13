@@ -1,0 +1,41 @@
+<script>
+    var bta = {
+        productId: {{ product.id }}
+    }
+
+    var selectVariant = function(form) {
+        var start = form.getStartDate(),
+                finish = form.getFinishDate();
+
+        if (start && finish) {
+            var quantity = bta.dayDelta(start, finish), minutes = (quantity * 1440);
+            $('#quantity').val(quantity);
+
+            var index = -1, low = 0,
+                    configs = bta.parseVariantConfigs(form.datepicker('start').attr('data-bta-variant-config'));
+
+            for (var id in configs) {
+                var config = configs[id],
+                        duration = form.getDuration();
+
+                if (minutes > low) {
+                    index += 1;
+                }
+
+                low = duration;
+            }
+
+            $('#product-select option').removeAttr('selected');
+            $('#product-select option:eq(' + index + ')').attr('selected', 'selected');
+
+            $('#product-select-option-0 option').removeAttr('selected');
+            $('#product-select-option-0 option:eq(' + index + ')').attr('selected', 'selected');
+
+            $('#product-select-option-0').trigger('change');
+        }
+    };
+
+    $('form[action="/cart/add"]').on('bta.datetimeChange', function(event, form) {
+        selectVariant(form);
+    });
+</script>

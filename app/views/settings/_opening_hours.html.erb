@@ -1,0 +1,124 @@
+<script id="seasons-template" type="text/x-jQuery-tmpl">
+  <ul>
+    {{each seasons}}
+    <li><a href="#${id}">${name}</a></li>
+    {{/each}}
+  </ul>
+  {{tmpl(seasons) "#season-template"}}
+</script>
+
+<script id="season-template" type="text/x-jQuery-tmpl">
+  <div id="${id}" class="season">
+    <div class="season-details">
+      <div class="row">
+        <label for="season-name">Season</label>
+        <input name="season-name" type="text" value="${name}" class="season-name" required="required" />
+      </div>
+      <div class="row">
+        <label for="${id}-season-start">Dates</label>
+        <input id="${id}-season-start" name="${id}-season-start" type="text" class="datepicker start-date" data-date="${start}" required="required" readonly="readonly" /> -
+        <input id="${id}-season-finish" name="${id}-season-finish" type="text" class="datepicker finish-date" data-date="${finish}" required="required" readonly="readonly" />
+        <div class="season-range-warning hidden" style="margin-top:10px">
+          <div class="notification note-attention"><span class="icon"></span>
+            <p><strong>Note:</strong> Dates that fall outside of the seasonal date ranges will not be available.</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <input type="checkbox" id="toggle-add-${id}" class="check btn-add-slots"><label for="toggle-add-${id}">Configure Times</label>
+      </div>
+      <div class="add-slots hidden">
+        <div class="row" style="display:none">
+          <div class="notification note-error"><span class="icon"></span>
+            <p>Could not create times:</p>
+            <ul class="add-slots-errors">
+            </ul>
+          </div>
+        </div>
+        <div class="row dow">
+          <p>Select days of the week</p>
+          <input type="checkbox" id="${ id }-dow-0" /><label for="${ id }-dow-0">Sunday</label>
+          <input type="checkbox" id="${ id }-dow-1"/><label for="${ id }-dow-1">Monday</label>
+          <input type="checkbox" id="${ id }-dow-2"/><label for="${ id }-dow-2">Tuesday</label>
+          <input type="checkbox" id="${ id }-dow-3"/><label for="${ id }-dow-3">Wednesday</label>
+          <input type="checkbox" id="${ id }-dow-4"/><label for="${ id }-dow-4">Thursday</label>
+          <input type="checkbox" id="${ id }-dow-5"/><label for="${ id }-dow-5">Friday</label>
+          <input type="checkbox" id="${ id }-dow-6" /><label for="${ id }-dow-6">Saturday</label>
+        </div>
+        <div class="add-slot-start-time row">
+          <div class="label">Open</div>
+          <select data-min="0" data-max="13" data-default="9" class="slot-hours dyno">
+          </select>
+          <select data-min="0" data-max="60" class="slot-minutes dyno">
+          </select>
+          <select class="slot-ampm">
+            <option>AM</option>
+            <option>PM</option>
+          </select>
+        </div>
+        <div class="add-slot-finish-time row">
+          <div class="label">Close</div>
+          <select data-min="1" data-max="13" data-default="5" class="slot-hours dyno">
+          </select>
+          <select data-min="0" data-max="60" class="slot-minutes dyno">
+          </select>
+          <select class="slot-ampm">
+            <option>AM</option>
+            <option selected="selected">PM</option>
+          </select>
+        </div>
+          <div class="row">
+            <button class="btn-create-slots">Create Timeslots</button>
+          </div>
+      </div>
+    </div>
+    <div class="opening-hours">
+      {{tmpl(days) "#day-template"}}
+    </div>
+  </div>
+</script>
+
+<script id="day-template" type="text/x-jQuery-tmpl">
+  <div class="label">${ formatter.weekday(day) }</div>
+  <div style="position:relative">
+    <select class="hours day-${ day }" multiple="multiple">
+      {{tmpl(hours) "#slot-template"}}
+    </select>
+    <button class="btn-remove" disabled="disabled" style="position:absolute; top:0"></button>
+  </div>
+</script>
+
+<script id="slot-template" type="text/x-jQuery-tmpl">
+  <option value="${from.hour}.${from.minute}:${to.hour}.${to.minute}">${ formatter.ampm(from) } - ${ formatter.ampm(to) }</option>
+</script>
+
+<div id="hours-wrap" class="hidden">
+  <div id="seasons" class="custom">
+  </div>
+
+  <div class="form-field clear">
+    <div class="form-checkbox-item clear fl-space2">
+      <input id="enforced" name="enforced" type="checkbox"/><label for="enforced" class="fl">Restrict datepickers and
+      timepickers to opening hours?</label>
+    </div>
+  </div>
+
+  <%= form_for current_account, :url => {:action => "update_hours"} do |form| %>
+      <%= form.error_messages %>
+      <%= form.hidden_field :id %>
+      <%= form.hidden_field :opening_hours %>
+      <%= hidden_field_tag 'ga_client_id', '', :class => 'ga-client-id' %>
+
+      <div class="button-bar">
+        <button id="btn-add">Create Additional Season</button>
+        <button id="btn-save" class="fr">Save Changes</button>
+        <button id="btn-delete" class="fr" disabled="disabled">Delete Season</button>
+      </div>
+  <% end %>
+</div>
+
+<div id="dialog-confirm-delete" title="Delete Season?" class="hidden">
+  <p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>This season will be permanently deleted and cannot be recovered. Are you sure?</p>
+</div>
+
+

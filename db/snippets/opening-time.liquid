@@ -1,0 +1,39 @@
+{% comment %}
+BookThatApp auto installed snippet. Changes made to this file will be lost if installed again.
+{% endcomment %}
+
+{% if product.metafields.bookthatapp.config %}
+{% unless bta_configured %}
+<div class="booking-form">
+    <div>
+        {% capture attribute %}booking-start{% endcapture %}
+        <label for="{{ attribute }}-{{ product.handle }}">Date:</label>
+        <input id="{{ attribute }}-{{ product.handle }}" type="text" name="properties[Date]" size="12" class="datepicker bta required bta-load-enable bta-dp-start" disabled="disabled"
+               data-handle="{{ product.handle }}" data-variant="{{ product.selected_or_first_available_variant.id }}"
+               data-bta-product-config="{{ product.metafields.bookthatapp.config }}"
+               data-bta-variant-config="{% for variant in product.variants %}{{ variant.id }}:{{ variant.metafields.bookthatapp.config }}{% unless forloop.last %},{% endunless %}{% endfor %}"
+               data-time="" data-bta-time-bound="false" />
+    </div>
+    <div>
+        {% capture attribute %}booking-time{% endcapture %}
+        <label for="{{ attribute }}-{{ product.handle }}">Time:</label>
+        <select id="{{ attribute }}-{{ product.handle }}" name="properties[Time]" class="bta-opening-hours bta-load-enable" disabled="disabled"
+                data-datepicker="booking-start-{{ product.handle }}"
+                data-prompt="Choose a date..." data-bta-display-range="true" >
+          <option class="loading">Loading...</option>
+        </select>
+        <span class="bta-no-slots-available" style="display: none;">No times available</span>
+    </div>
+    <div class="bta-validation-messages" style="display:none">
+      <p class="bta-validation-date-missing">Please select a date</p>
+    </div>
+</div>
+
+<script>
+var bta = {
+    productId: {{ product.id }}
+}
+</script>
+{% assign bta_configured = true %}
+{% endunless %}
+{% endif %}

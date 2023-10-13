@@ -1,0 +1,32 @@
+<div class="clear">
+  <%= nested_form_for @shop do |form| %>
+      <%= render 'common/error_messages', :object => form.object %>
+      <%= form.hidden_field :id %>
+      <%= hidden_field_tag 'ga_client_id', '', :class => 'ga-client-id' %>
+
+      <div>
+        <table class="nested-form-table plain styled">
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th class="table-actions"></th>
+          </tr>
+          </thead>
+          <tbody>
+          <%= form.fields_for :locations, :wrapper => false %>
+          <tr class="nested-form-actions">
+            <td colspan="3">
+              <%= form.link_to_add "Add Location", :locations, :class => 'submit' %>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="tab-footer">
+          <div class="button-bar">
+            <%= form.submit 'Save Locations', :id => "save", :class => "submit" %>
+          </div>
+        </div>
+      </div>
+  <% end %>
+</div>

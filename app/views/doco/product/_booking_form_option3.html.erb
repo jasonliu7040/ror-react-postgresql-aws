@@ -1,0 +1,23 @@
+<div class="selector-wrapper">
+  {% capture attribute %}booking-start{% endcapture %}
+  <label for="{{ attribute }}">From:</label>
+  <input id="{{ attribute }}"
+         type="text"
+         name="properties[{{ attribute }}]"
+         class="datepicker bta required bta-load-enable"
+         size="15" data-handle="{{ product.handle }}"
+         data-variant="{{ product.variants.first.id}}"
+         data-bta-product-config="{{ product.metafields.bookthatapp.config }}"
+         data-time="" data-bta-variant-config="{% for variant in product.variants %}{{ variant.id }}:{{ variant.metafields.bookthatapp.config }}{% unless forloop.last %},{% endunless %}{% endfor %}"
+         disabled="disabled" />
+</div>
+
+<div class="selector-wrapper">
+  {% capture attribute %}booking-time{% endcapture %}
+  <label for="{{ attribute }}">Time:</label>
+  <select id="{{ attribute }}" name="properties[{{ attribute }}]" class="bta-load-enable" data-datepicker="booking-start">
+    <option value="9:00" selected>09:00 am</option>
+    <option value="9:30">09:30 am</option>
+    ... add more options here ...
+  </select>
+</div>

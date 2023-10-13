@@ -1,0 +1,18 @@
+<% content_for :panel_head do %>
+    Supply
+<% end %>
+<% content_for :panel_body do %>
+    <h5>Product Page</h5>
+    <p>Include the booking form in product.liquid:</p>
+    <%= render_source partial: 'doco/themes/include_booking_form', path: 'templates/product.liquid', line: 89 %>
+
+    <h5>Cart Page</h5>
+    <p>In <em>cart.liquid</em> locate where the quantity is displayed and update:</p>
+    <%= render_source partial: 'doco/themes/supply_cart_a', path: 'templates/cart.liquid', line: '57 - before' %>
+    <%= render_source partial: 'doco/themes/supply_cart_b', path: 'templates/cart.liquid', line: '57 - after' %>
+
+    <h5>CSS</h5>
+    <p>Change the width of the datepicker (so it isn't so wide) by pasting the following
+      at the bottom of the stylesheet:</p>
+    <%= render_source partial: 'doco/themes/supply_css', path: 'assets/timber.scss.liquid' %>
+<% end %>

@@ -1,0 +1,120 @@
+<% content_for :head do -%>
+	<script type='text/javascript'>
+	jQuery(document).ready(function($) {
+		$("a.screenshot").fancybox({
+			'transitionIn'	:	'elastic',
+			'transitionOut'	:	'elastic',
+			'speedIn'		:	400,
+			'speedOut'		:	400,
+			'overlayShow'	:	false
+		});
+
+		$(".scrollable").scrollable({ });
+	});
+	</script>
+<% end -%>
+
+<div class="header header_home page">
+    <div class="price_tag">
+    </div>
+    <img src="images/brochure/screenshot.jpg" alt="" class="main_screenshot" />
+    <div class="info">
+        <h1>Book That!</h1>
+        <p>Do you offer products for hire (rental), run courses or want to be able to take reservations for appointments, bookings and activities using products from your <a href="https://www.shopify.com/services/signup?ref=gtck" target="_blank">Shopify</a> store?
+          BookThatApp tracks your Shopify orders and maintains a bookings calendar for your products. Our easy to use calendar let's you see at a glance your bookings on a monthly, weekly or daily basis. BookThatApp features real-time
+		availability showing what products are available based on the inventory you specify in Shopify.</p>
+	<%= link_to login_url(subdomain: "www"), class: "button icon" do %>
+	  <img src="images/brochure/go_icon.png" alt="" /><span> Signup Now!</span>
+	<% end %>
+        <span class="trial">$US <%= Bookthatapp::Application.config.price %>/month -  <%= Bookthatapp::Application.config.trial_period %> day free trial.</span>
+    </div>
+    <!-- End App Info -->
+    <div class="clear">
+    </div>
+</div>
+
+<div id="home" class="padding">
+    <div id="screenshots">
+        <div class="section_title">
+            <h3>Screenshots</h3>
+        </div>
+        <a href="javascript:;" class="controls prev">Previous</a>
+        <div class="scrollable">
+            <div class="items">
+                <ul>
+                    <li>
+                      <a href="images/brochure/screenshots/bta-calendar-full.jpg" class="screenshot" rel="group"><img src="images/brochure/screenshots/bta-calendar-thumb.jpg" alt="Shopify Booking Calendar" /></a>
+                    </li>
+                    <li>
+                      <a href="images/brochure/screenshots/bta-product.jpg" class="screenshot" rel="group"><img src="images/brochure/screenshots/bta-product-thumb.jpg" alt="Import products for booking availability" /></a>
+                    </li>
+                    <li>
+                      <a href="images/brochure/screenshots/bta-email.jpg" class="screenshot" rel="group"><img src="images/brochure/screenshots/bta-email-thumb.jpg" alt="Configure reminder emails" /></a>
+                    </li>
+                  <li>
+                    <a href="images/brochure/screenshots/bta-site-templates.jpg" class="screenshot" rel="group"><img src="images/brochure/screenshots/bta-site-templates-thumb.jpg" alt="Customize availability search" /></a>
+                  </li>
+                  <li>
+                    <a href="images/brochure/screenshots/bta-tooltip.jpg" class="screenshot" rel="group"><img src="images/brochure/screenshots/bta-tooltip-thumb.jpg" alt="View booking details at a glance" /></a>
+                  </li>
+                </ul>
+				<!--
+                <ul>
+                    <li>
+                        <a href="images/screenshots/screen_1.jpg" class="screenshot" rel="group"><img src="images/brochure/screenshots/screen_1_thumb.jpg" alt="" /></a>
+                    </li>
+                    <li>
+                        <a href="images/screenshots/screen_2.jpg" class="screenshot" rel="group"><img src="images/brochure/screenshots/screen_2_thumb.jpg" alt="" /></a>
+                    </li>
+                    <li>
+                        <a href="images/screenshots/screen_3.jpg" class="screenshot" rel="group"><img src="images/brochure/screenshots/screen_3_thumb.jpg" alt="" /></a>
+                    </li>
+                    <li>
+                        <a href="images/screenshots/screen_4.jpg" class="screenshot" rel="group"><img src="images/brochure/screenshots/screen_4_thumb.jpg" alt="" /></a>
+                    </li>
+                    <li>
+                        <a href="images/screenshots/screen_5.jpg" class="screenshot" rel="group"><img src="images/brochure/screenshots/screen_5_thumb.jpg" alt="" /></a>
+                    </li>
+                </ul> -->
+            </div>
+        </div><a href="javascript:;" class="controls next">Next</a>
+        <div class="clear">
+        </div>
+    </div>
+    <div id="features">
+        <div class="section_title">
+            <h3>Features &amp; Specs</h3>
+        </div>
+        <p>
+            <b>Shopify Booking Engine</b>
+            <img src="images/brochure/shopify-bag-btn-63.png" alt="" />BookThatApp seamlessly integrates with Shopify to keep track of bookings made for your products. When an
+          order is placed a booking is automatically created in BookThatApp.
+        </p>
+        <p>
+            <b>Book Anything!</b>
+            <img src="images/brochure/icons/track.gif" alt="" />BookThatApp is perfect for stores offering equipment or product rentals, course and class bookings, tours and activities,
+          or as an appointment management system.
+        </p>
+        <p class="last">
+            <b>Real-time Bookings &amp; Availability</b>
+            <img src="images/brochure/icons/time.gif" alt="" />BookThatApp's reservation management system integrates into your product and cart pages offering availability updates in real time.
+        </p>
+        <div class="clear spacer">
+        </div>
+        <p>
+            <b>Pending/Confirmed Bookings</b>
+            <img src="images/brochure/icons/task.gif" alt="" />BookThatApp can be set up to create reserved bookings for orders where payment is authorized, but not captured. Once a payment is made, the booking becomes confirmed.
+        </p>
+        <p>
+            <b>View by Month, Week or Day</b>
+            <img src="images/brochure/icons/schedule.gif" alt="" />View bookings using Day, Week, or Month view. Color coding lets you see at a glance your confirmed and pending bookings.
+        </p>
+        <p class="last">
+            <b>Brought to you by Conciergify</b>
+            <img src="images/brochure/icons/dude.gif" alt="" /> <a href="http://www.shopifyconcierge.com">Shopfiy<em>Concierge</em></a> have years of experience developing Shopify themes and apps, and our <a href="http://support.shopifyconcierge.com/home">help desk</a> and dedicated <a href="http://support.shopifyconcierge.com/forums/332501-bookthatapp-shopify-application">support forum</a>
+			ensures you get timely and expert help.
+        </p>
+        <div class="clear">
+        </div>
+    </div>
+</div>

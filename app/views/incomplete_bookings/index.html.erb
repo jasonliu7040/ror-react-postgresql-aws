@@ -1,0 +1,17 @@
+<h1>Incomplete Bookings</h1>
+<p>Each of these in the list below will need a Start and End Date. They went through the Checkout without selecting it.</p><p>Easiest way is to phone the client, or email, and get the date in which they would like to pick</p>
+<table class="styled">
+  <tr>
+    <th>Edit</th>
+    <th>Delete?</th>
+  </tr>
+
+<% @incomplete_bookings.each do |incomplete_booking| %>
+  <tr>
+    <td><%= link_to incomplete_booking.id, edit_incomplete_booking_path(incomplete_booking) %></td>
+    <td><%= link_to '(X)', incomplete_booking, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />

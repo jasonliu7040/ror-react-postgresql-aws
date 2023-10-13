@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<order>
+  <buyer-accepts-marketing type="boolean">true</buyer-accepts-marketing>
+  <cancel-reason nil="true"/>
+  <cancelled-at type="datetime" nil="true"/>
+  <cart-token>daa7a052a203aef5669a4401fa4eabb5</cart-token>
+  <checkout-token nil="true"/>
+  <closed-at type="datetime" nil="true"/>
+  <confirmed type="boolean">true</confirmed>
+  <created-at type="datetime">2012-08-03T16:40:01-04:00</created-at>
+  <currency>USD</currency>
+  <email>gavin@shopifyconcierge.com</email>
+  <financial-status>authorized</financial-status>
+  <fulfillment-status nil="true"/>
+  <gateway>bogus</gateway>
+  <id type="integer">144974050</id>
+  <landing-site>/</landing-site>
+  <location-id type="integer" nil="true"/>
+  <name>#1001</name>
+  <note nil="true"/>
+  <number type="integer">32</number>
+  <reference nil="true"/>
+  <referring-site></referring-site>
+  <source>browser</source>
+  <subtotal-price type="decimal">24.43</subtotal-price>
+  <taxes-included type="boolean">false</taxes-included>
+  <test type="boolean">true</test>
+  <token>584a0374ce1677090c255e18f25ea44e</token>
+  <total-discounts type="decimal">0.00</total-discounts>
+  <total-line-items-price type="decimal">24.43</total-line-items-price>
+  <total-price type="decimal">34.43</total-price>
+  <total-price-usd type="decimal">34.43</total-price-usd>
+  <total-tax type="decimal">0.00</total-tax>
+  <total-weight type="integer">0</total-weight>
+  <updated-at type="datetime">2013-11-27T16:35:50-05:00</updated-at>
+  <user-id type="integer" nil="true"/>
+  <browser-ip>203.51.61.171</browser-ip>
+  <landing-site-ref nil="true"/>
+  <order-number type="integer">1032</order-number>
+  <discount-codes type="array"/>
+
+  <note-attributes type="array">
+    <note-attribute>
+      <name>booking</name>
+      <value>2012-10-08</value>
+    </note-attribute>
+  </note-attributes>
+
+  <processing-method>direct</processing-method>
+  <checkout-id nil="true"/>
+  <source-name>web</source-name>
+
+  <line-items type="array">
+    <line-item>
+      <fulfillment-service>manual</fulfillment-service>
+      <fulfillment-status nil="true"/>
+      <grams type="integer">0</grams>
+      <id type="integer">222619792</id>
+      <price type="decimal">24.43</price>
+      <product-id type="integer">27763442</product-id>
+      <quantity type="integer">1</quantity>
+      <requires-shipping type="boolean">true</requires-shipping>
+      <sku>10</sku>
+      <title>Bar Staff</title>
+      <variant-id type="integer">65985852</variant-id>
+      <variant-title nil="true"/>
+      <vendor>OUTFIT CHILL</vendor>
+      <name>Bar Staff</name>
+      <variant-inventory-management nil="true"/>
+      <properties type="array">
+        <property>
+          <name>booking-start</name>
+          <value>2013-12-17T00:00:00</value>
+        </property>
+      </properties>
+      <product-exists type="boolean">true</product-exists>
+    </line-item>
+  </line-items>
+  <shipping-lines type="array">
+    <shipping-line>
+      <code>Standard Shipping</code>
+      <price type="decimal">10.00</price>
+      <source>shopify</source>
+      <title>Standard Shipping</title>
+    </shipping-line>
+  </shipping-lines>
+  <tax-lines type="array"/>
+  <payment-details>
+    <avs-result-code nil="true"/>
+    <credit-card-bin>1</credit-card-bin>
+    <cvv-result-code nil="true"/>
+    <credit-card-number>XXXX-XXXX-XXXX-1</credit-card-number>
+    <credit-card-company>Bogus</credit-card-company>
+  </payment-details>
+  <billing-address type="Address">
+    <address1>Bla Drive 123</address1>
+    <address2></address2>
+    <city>Beverly Hills</city>
+    <company></company>
+    <country>United States</country>
+    <first-name>Joe</first-name>
+    <last-name>Blow</last-name>
+    <latitude type="decimal">34.095941</latitude>
+    <longitude type="decimal">-118.433396</longitude>
+    <phone>12345</phone>
+    <province>California</province>
+    <zip>90210</zip>
+    <name>Joe Blow</name>
+    <country-code>US</country-code>
+    <province-code>CA</province-code>
+  </billing-address>
+  <shipping-address type="Address">
+    <address1>Bla Drive 123</address1>
+    <address2></address2>
+    <city>Beverly Hills</city>
+    <company></company>
+    <country>United States</country>
+    <first-name>Joe</first-name>
+    <last-name>Blow</last-name>
+    <latitude type="decimal">34.095941</latitude>
+    <longitude type="decimal">-118.433396</longitude>
+    <phone>12345</phone>
+    <province>California</province>
+    <zip>90210</zip>
+    <name>Joe Blow</name>
+    <country-code>US</country-code>
+    <province-code>CA</province-code>
+  </shipping-address>
+  <fulfillments type="array"/>
+  <client-details>
+    <accept-language>en-US,en;q=0.8</accept-language>
+    <browser-ip>203.51.61.171</browser-ip>
+    <session-hash>fd4b595ea32fffe9c343f5b678e76698b12bbdbb570e5c510163d2f0d6f27ab5</session-hash>
+    <user-agent>Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.57 Safari/536.11</user-agent>
+  </client-details>
+  <customer>
+    <accepts-marketing type="boolean">true</accepts-marketing>
+    <created-at type="datetime">2011-01-03T14:53:10-05:00</created-at>
+    <email>gavin@shopifyconcierge.com</email>
+    <first-name>Joe</first-name>
+    <id type="integer">28098422</id>
+    <last-name>Blow</last-name>
+    <last-order-id type="integer" nil="true"/>
+    <multipass-identifier nil="true"/>
+    <note nil="true"/>
+    <orders-count type="integer">0</orders-count>
+    <state>enabled</state>
+    <total-spent type="decimal">0.00</total-spent>
+    <updated-at type="datetime">2013-11-27T16:35:50-05:00</updated-at>
+    <verified-email type="boolean">true</verified-email>
+    <tags></tags>
+    <last-order-name nil="true"/>
+    <default-address>
+      <address1>Bla Drive 123</address1>
+      <address2></address2>
+      <city>Beverly Hills</city>
+      <company></company>
+      <country>United States</country>
+      <first-name>Joe</first-name>
+      <id type="integer">39396122</id>
+      <last-name>Blow</last-name>
+      <phone>12345</phone>
+      <province>California</province>
+      <zip>90210</zip>
+      <name>Joe Blow</name>
+      <province-code>CA</province-code>
+      <country-code>US</country-code>
+      <country-name>United States</country-name>
+      <default type="boolean">true</default>
+    </default-address>
+  </customer>
+</order>

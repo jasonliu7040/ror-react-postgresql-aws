@@ -1,0 +1,165 @@
+<h3>Events Calendar</h3>
+
+{% if products.size > 1 %}
+<p>
+<label for="bta-product-select">Product</label>
+<select id="bta-product-select">
+    <option value="">All products</option>
+    {% for product in products %}
+        <option value="{{ product.handle }}">{{ product.title }}</option>
+    {% endfor %}
+</select>
+<span id="bta-variant-select-wrap" style="margin-left:10px; display:none">
+    <label for="bta-variant-select">Type</label>
+    <select id="bta-variant-select">
+        <option value="">All variants</option>
+    </select>
+</span>
+{% comment %} Location is also available to filter on...
+    <label for="bta-location-select">Location</label>
+    <select id="bta-location-select">
+        <option value="">All locations</option>
+        {% for location in locations %}
+            <option value="{{ location.id }}">{{ location.name }}</option>
+        {% endfor %}
+    </select>
+{% endcomment %}
+</p>
+{% endif %}
+
+<div id="bta-calendar"></div>
+<span id="bta-loading" class="loading" style="display:none">Loading...</span>
+
+<script src="{{ shop.bookthatapp }}/fullcalendar2/lib/moment.min.js" type="text/javascript"></script>
+<script src="{{ shop.bookthatapp }}/fullcalendar2/fullcalendar.js" type="text/javascript"></script>
+<script type="text/javascript">
+(function(){
+    var today = new Date(),
+        btacal = {
+        init: function() {
+            var calendar = jQuery('#bta-calendar').fullCalendar({
+                timeFormat: 'h(:mm)t',
+                defaultView: $(window).width() < 514 ? 'basicDay' : 'month',
+                contentHeight: 'auto',
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,basicWeek,basicDay'
+                },
+                events: function(start, end, tz, callback) {
+                    var params = {
+                         start: start.format(),
+                         end: end.format(),
+                         handle: $('#bta-product-select').val(),
+                         variant: $('#bta-variant-select').val(),
+                         location: $('#bta-location-select').val()
+                    }
+
+                    if ($('#bta-location-select').length > 0) {
+                        params['location'] = $('#bta-location-select').val();
+                    }
+
+                    $('#bta-loading').fadeIn();
+                    $.getJSON("{{ shop.bookthatapp }}/availability/schedule.json?callback=?", params, function (data) {
+                        callback($.map(data.schedule, function (item, n) {
+                            var result = $.extend(item, {
+                                start:new Date(item.start[0], item.start[1] - 1, item.start[2], item.start[3], item.start[4], item.start[5]),
+                                end:new Date(item.end[0], item.end[1] - 1, item.end[2], item.end[3], item.end[4], item.end[5])
+                            });
+
+                            // prevent clicking through to past events or products already booked out
+                            if (result.start < today || result.bookingCount >= result.capacity) {
+                                delete result.url;
+                            }
+
+                            return result;
+                        }));
+
+                        calendar.fullCalendar('render');
+                    }).done(function() {
+                        $('#bta-loading').fadeOut();
+                    });
+                },
+                eventRender: function(event, element) {
+                    if (event.bookingCount >= event.capacity) {
+                        element.addClass('booked-out');
+                    }
+
+                    if (event.end < today) {
+                        element.addClass('past-event');
+                    }
+
+                    if (event.image) {
+                        btacal.renderImage(event, element);
+                    }
+                },
+                windowResize: function(view) {
+                    btacal.resize(calendar)
+                }
+            });
+
+            btacal.resize(calendar);
+
+            $('#bta-product-select').change(btacal.updateVariants);
+
+            $('#bta-product-select, #bta-variant-select, #bta-location-select').change(function() {
+                calendar.fullCalendar('refetchEvents');
+            })
+        },
+        updateVariants : function() {
+            var product = $('#bta-product-select').val();
+            if (product === "") {
+                $("#bta-variant-select-wrap").fadeOut();
+            } else {
+                $("#bta-variant-select-wrap").fadeIn();
+            }
+
+            var select = $("#bta-variant-select"), options = btacal.variants[product];
+            select.empty().append($('<option>').val('').text('All Variants'));
+
+            if (options) {
+                for (var i = 0; i < options.length; i++) {
+                    select.append($('<option>').val(options[i][0]).text(options[i][1]));
+                }
+            }
+        },
+        resize: function(calendar) {
+            if ($(window).width() < 514){
+                calendar.fullCalendar( 'changeView', 'basicDay' );
+            } else {
+                calendar.fullCalendar( 'changeView', 'month' );
+            }
+        },
+        renderImage: function(event, element) {
+            var parts = event.image.split('?'),
+                image = parts[0],
+                index = image.lastIndexOf('.'),
+                ext = image.substr(index),
+                path = image.substr(0, index),
+                div = $('<div>', {'class': 'fc-thumb'}),
+                img = $('<img>', {'src': path + "_small" + ext + "?_=" + parts[1]});
+
+            element.find('.fc-content').append(div.append(img));
+        },
+        variants: {{ variants | json }},
+        loadStyleSheet: function(url) {
+            if (document.createStyleSheet) {
+                document.createStyleSheet(url);
+            } else {
+                var link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.type = 'text/css';
+                link.href = url;
+                document.getElementsByTagName('head')[0].appendChild(link);
+            }
+        }
+    }
+
+    btacal.loadStyleSheet("{{ shop.bookthatapp }}/fullcalendar2/fullcalendar.css");
+    btacal.loadStyleSheet("{{ shop.bookthatapp }}/stylesheets/bta-calendar.css");
+
+    document.addEventListener("DOMContentLoaded", function(event) {
+        btacal.init();
+    });
+})();
+</script>

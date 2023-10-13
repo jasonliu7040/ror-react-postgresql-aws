@@ -1,0 +1,10 @@
+<script>
+  var bta = {
+    productId: {{ product.id }}
+  }
+
+  $('form[action="/cart/add"]').on('bta.timeslotsLoaded', function(event) {
+    $(document).foundation();
+    Foundation.libs.forms.refresh_custom_select(jQuery('select.bta-opening-hours'), true);
+  });
+</script>

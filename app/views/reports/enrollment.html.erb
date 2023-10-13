@@ -1,0 +1,56 @@
+<% if @product.blank? || @start.blank? %>
+<h4>No Products</h4>
+<p>You will need a product, start time to display bookings on this page.</p>
+<% else %>
+<h4><%= @product.product_title %> - <%= I18n.localize(@start.to_time, :format => :short) %></h4>
+<div class="dataTables_wrapper">
+<table class="styled">
+  <thead>
+  <tr>
+    <th width="1%">Booking</th>
+    <th width="1%">Order</th>
+    <th width="1%">Status</th>
+    <th class="nowrap">Customer</th>
+    <th class="nowrap">Email<span class="no-print ui-icon ui-icon-mail-closed"></span></th>
+    <th class="nowrap">Phone</th>
+    <th>Notes</th>
+    <th width="1%"># in Party</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @bookings.each do |booking| %>
+      <tr>
+        <td><%= link_to booking.id, edit_booking_path(booking) %></td>
+        <td>
+          <a href='<%= "https://#{current_shop.url}/admin/orders/#{booking.order_id}" %>' target='_blank'>
+            <%= booking.order_name.nil? ? "View Order" : booking.order_name %>
+          </a>
+        </td>
+        <td><%= booking.status == 1 ? "Reserved" : "Confirmed" %></td>
+        <td><%= booking.name %></td>
+        <td><%= mail_to booking.email, booking.email %></td>
+        <td><%= booking.phone %></td>
+        <td><%= booking.notes %></td>
+        <td><%= booking.number_in_party %></td>
+      </tr>
+  <% end %>
+  </tbody>
+  <tfoot>
+  <tr>
+    <td colspan="7" style="text-align: right;">Total:</td>
+    <td><%= @total %></td>
+  </tr>
+  </tfoot>
+</table>
+</div>
+<div class="tab-footer clear no-print">
+  <div class="fr">
+    <%= paginate @bookings %>
+  </div>
+  <!--
+  <div class="fl">
+    <%= link_to "PDF", runsheet_path(request.parameters.symbolize_keys.merge({:format => :pdf})), :class => 'fl-space submit' %>
+  </div>
+  -->
+</div>
+<% end %>

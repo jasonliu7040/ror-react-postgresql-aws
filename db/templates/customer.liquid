@@ -1,0 +1,16 @@
+<h2>Your Bookings</h2>
+{% if bookings.size == 0 %}
+    <p>No bookings</p>
+{% else %}
+    <ul>
+        {% for booking in bookings %}
+            <li>{{ booking.start | date: "%m/%d/%Y %I:%M %p" }}:
+                <ul>
+                    {% for item in booking.items %}
+                    <li>{{ item.quantity }} x {{ item.product.title }} - {{ item.variant.title }} (sku: {{ item.sku }})</li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}

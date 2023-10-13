@@ -1,0 +1,20 @@
+<%= render partial: 'common/breadcrumbs',
+           locals: {
+               section: 'Booking',
+               crumbs: [
+                   {title: 'Bookings', path: admin_bookings_path},
+                   {title: 'Create'}
+               ]
+           } %>
+<%=
+  react_component(
+    'NewBookingsContainer',
+    shopId: @shopId,
+    isTrialAccount: @isTrialAccount,
+    products: ActiveModel::ArraySerializer.new(
+        @products,
+        each_serializer: ShortProductSerializer,
+        scope: {show_default_times: true}),
+    reminderTemplates: @reminder_templates
+  )
+%>

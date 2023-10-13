@@ -1,0 +1,38 @@
+<%= form_for(@location) do |f| %>
+    <%= render 'common/error_messages', :object => f.object %>
+    <table class="form-table styled">
+      <tbody>
+      <tr>
+        <td class="title">
+          <%= f.label :name %>
+        </td>
+        <td>
+          <%= f.text_field :name, required: true %>
+        </td>
+      </tr>
+      <tr>
+        <td class="title">
+          <%= f.label :address %>
+        </td>
+        <td>
+          <%= f.text_area :address %>
+        </td>
+      </tr>
+      <tr>
+        <td class="title">
+          <%= f.label :email %>
+        </td>
+        <td>
+          <%= f.text_field :email, type: :emal %>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div class="tab-footer clear" style="display: block; margin-top: 20px;">
+      <div class="button-bar">
+        <%= f.submit "Save" %>
+        <%= link_to "Close", locations_path %>
+      </div>
+    </div>
+<% end %>

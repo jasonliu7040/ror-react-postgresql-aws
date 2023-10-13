@@ -1,0 +1,37 @@
+<% content_for :head do -%>
+    <%= stylesheet_link_tag 'mono-blue' %>
+<% end -%>
+
+<h1>Developer Guide</h1>
+<p>Instructions on how to integrate with BookThatApp.</p>
+
+<div class="content-box">
+  <div class="box-header clear">
+    <h2>Compatibility</h2>
+  </div>
+  <div class="box-body clear">
+    <h3>Javascript</h3>
+
+    <p>The BookThatApp integration Javascript (the script that runs in the store) has the following Javascript library dependencies. These
+    libraries are automatically loaded unless they are already loaded.</p>
+
+    <table class="styled">
+      <tr>
+        <td>jQuery</td>
+        <td>Version 1.7.2 or higher</td>
+      </tr>
+      <tr>
+        <td>jQuery UI</td>
+        <td>Version 1.8.2 or higher of jQuery UI. If your theme is using a custom build ensure the datepicker
+          component is included.</td>
+      </tr>
+    </table>
+
+    <h3>Apps</h3>
+    <p>The following Apps are <strong>not compatible</strong> with BookThatApp:</p>
+    <ul>
+      <li>Bold Apps Product Builder</li>
+      <li>Tipify</li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,78 @@
+<form action="/reports/runsheet" method="get" class="no-print">
+  <table class="styled">
+    <caption>Filter</caption>
+    <tbody>
+    <tr>
+      <td class="title">
+        <select id="date_type" name="date_type">
+          <option value="start">Booking Starts</option>
+          <option value="finish" <%= 'selected=selected' if @the_data.date_type == "finish" %>>Booking Ends</option>
+        </select>
+      </td>
+      <td>
+        <label for="start">between</label>
+        <input type="text" id="start" name="start" class="datepicker" size="15"/>
+        <label for="finish">and&nbsp;</label><input type="text" id="finish" name="finish" class="datepicker" size="15"/>
+      </td>
+    </tr>
+    <tr>
+      <td class="title"><label for="products">Product:</label></td>
+      <td>
+        <select id="products" name="products">
+          <%= display_product_search_options %>
+        </select>
+        <label for="variants">/</label>
+        <select id="variants" name="variants">
+          <option value="">Select Variant...</option>
+          <%= display_product_variants %>
+        </select>
+      </td>
+    </tr>
+
+    <% unless @available_resources.empty? %>
+    <tr>
+      <td class="title"><label for="resource">Resource:</label></td>
+      <td>
+        <select id="resources" name="resources">
+          <%= display_resources %>
+        </select>
+      </td>
+    </tr>
+    <% end %>
+
+    <tr>
+      <td class="title"><label for="order_name">Order #:</label></td>
+      <td>
+        <input type="text" id="order_name" name="order_name" size="15" value="<%= @the_data.order_name %>"/>
+      </td>
+    </tr>
+    <tr>
+      <td class="title"><label for="name">Customer:</label></td>
+      <td>
+        <input type="text" id="name" name="name" size="50" value="<%= @the_data.name %>"/>
+      </td>
+    </tr>
+    <tr>
+      <td class="title"><label for="order_by">Sort:</label></td>
+      <td>
+        <select id="order_by" name="order_by">
+          <option value="start" <%= 'selected=selected' if @the_data.order_by == 'start' %>>Start Date</option>
+          <option value="finish" <%= 'selected=selected' if @the_data.order_by == 'finish' %>>Finish Date</option>
+          <option value="order_name" <%= 'selected=selected' if @the_data.order_by == 'order_name' %>>Order #</option>
+          <option value="name" <%= 'selected=selected' if @the_data.order_by == 'name' %>>Customer</option>
+          <option value="products.product_title" <%= 'selected=selected' if @the_data.order_by == 'products.product_title' %>>Product</option>
+        </select>
+        <select id="order_type" name="order_type">
+          <option value="DESC" <%= 'selected=selected' if @the_data.order_type == 'DESC' %>></option>
+          <option value="ASC" <%= 'selected=selected' if @the_data.order_type == 'ASC' %>></option>
+        </select>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <div class="tab-footer">
+    <div style="text-align:right">
+      <input type="submit" class="submit" value="Search"/>
+    </div>
+  </div>
+</form>

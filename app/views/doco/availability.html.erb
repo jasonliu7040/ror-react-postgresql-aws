@@ -1,0 +1,50 @@
+<% content_for :head do -%>
+<%= stylesheet_link_tag 'mono-blue' %>
+<% end -%>
+
+<h1>Installation Guide</h1>
+<p>Instructions on how to integrate with BookThatApp.</p>
+
+<div class="content-box">
+	<div class="box-header clear">
+	    <h2>Real Time Availability</h2>
+	</div>
+	<div class="box-body clear">
+		    <div>
+
+	    	<h3>Introduction</h3>
+	    	<p>BookThatApp provides a web service that lists bookings for a given date range, and restricted dates due to bookings and
+			blackout dates. This service can be used with the datepicker to restrict the days that can be selected.</p>
+
+	    	<h3>Black out dates</h3>
+			<p>To restrict the dates available in the datepicker based on black out dates, add <strong><i>blackedout</i></strong> to the CSS for the datepicker:</p>
+<pre><code>&lt;input id="booking" type="text" name="attributes[booking]" value="{{ cart.attributes[booking] }}" class="datepicker blackedout" /></code></pre>
+
+            <h3>Real time availability</h3>
+            <p>BookThatApp provides a web service that lists days a product is available (scheduled) within a given date range, taking into account the capacity
+            and number of bookings already made. This is ideal for offering courses with a limited number of seats for example. Use the CSS class 'bta' to enable
+            availability.</p>
+<pre><code>&lt;input id="booking" type="text" name="attributes[booking]" value="{{ cart.attributes[booking] }}" class="datepicker bta" data-handle="{{ product.handle }}" /></code></pre>
+            <p>You can also narrow down availability based on the product and variant. Please see the <a href="/doco/product">Product Page</a> documentation,
+            and look at the Variant Availability section.</p>
+
+<!--
+            <h3>Capacity Callback</h3>
+            <p>BookThatApp can call a function when it loads that will provide capacity information on a number of variants.</p>
+            <pre><code>
+&lt;script type="text/javascript">
+bta_callbacks["capacity"] = function(variant, i) {
+    // console.log(variant);
+    var html = variant.start.toDateString() + " - " + variant.finish.toDateString();
+    if (variant.booking_count >= variant.capacity) {
+        html += "&lt;br/>Booked Out! The dates requested are no longer available.";
+        $("form[action='/cart'] input[type=submit][name=checkout]").addClass('disabled').attr('disabled', 'disabled');
+    }
+    $('#dates-' + variant.id).html(html);
+}
+&lt;/script>
+            </code></pre>
+-->
+		</div>
+	</div>
+</div>

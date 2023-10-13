@@ -1,0 +1,46 @@
+<%= form_for(@resource_group) do |f| %>
+    <%= render 'common/error_messages', :object => f.object %>
+    <table class="form-table styled">
+      <tbody>
+      <tr>
+        <td class="title">
+          <%= f.label :name %>
+        </td>
+        <td>
+          <%= f.text_field :name %>
+        </td>
+      </tr>
+      <tr>
+        <td class="title">
+          <%= f.label :description %>
+        </td>
+        <td>
+          <%= f.text_field :description %>
+        </td>
+      </tr>
+      <tr>
+        <td class="title">
+          <%= f.label :description %>
+        </td>
+        <td>
+          <%= f.text_field :description %>
+        </td>
+      </tr>
+      <tr>
+        <td class="title">
+          <%= f.label :resource_id %>
+        </td>
+        <td>
+          <%= select_tag :resource_id, options_from_collection_for_select(@resources, "id", "name"), prompt: "Select A Resource" %>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div class="tab-footer clear" style="display: block; margin-top: 20px;">
+      <div class="button-bar">
+        <%= f.submit "Save" %>
+        <%= link_to "Close", resource_groups_path %>
+      </div>
+    </div>
+<% end %>

@@ -1,0 +1,8 @@
+<p>Hi {{ shop.name }},</p>
+<p>{{ booking.name }} just created a booking for {{ booking.start | date: "%m/%d/%Y %I:%M %p" }}.</p>
+<p>Booking Details:</p>
+<ul>
+{% for item in booking.items %}
+<li>{{ item.quantity }} x {{ item.product.title }} - {{ item.variant.title }}{% unless item.sku == blank %} (sku: {{ item.sku }}){% endunless %}</li>
+{% endfor %}
+</ul>

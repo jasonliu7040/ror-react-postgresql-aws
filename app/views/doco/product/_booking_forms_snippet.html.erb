@@ -1,0 +1,10 @@
+<form action="/cart/add" method="post">
+  ...
+  <select id="product-select" name="id">
+    {% for variant in product.variants %}
+      <option value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money }}</option>
+    {% endfor %}
+  </select>
+  {% include 'booking-form' %}
+  ...
+</form>

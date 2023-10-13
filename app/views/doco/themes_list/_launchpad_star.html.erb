@@ -1,0 +1,16 @@
+<% content_for :panel_head do %>
+  Launchpad Star
+<% end %>
+<% content_for :panel_body do %>
+  <h5>Product Page</h5>
+  <p>The code for the product page is in a snippet called <em>product</em>.</p>
+  <%= render_source partial: 'doco/themes/launchpad_product', path: 'snippets/product.liquid', line: 100 %>
+
+  <h5>Cart Page</h5>
+  <p>The theme doesn't have line item properties installed so you need to add it yourself. Add the code below.</p>
+  <%= render_source partial: 'doco/themes/launchpad_cart', path: 'snippets/cart.liquid', line: 47 %>
+
+  <p>Find where the quantity is displayed and update it as follows:</p>
+  <%= render_source partial: 'doco/themes/launchpad_star_cart_a', path: 'snippets/cart.liquid', line: '57 - before' %>
+  <%= render_source partial: 'doco/themes/launchpad_star_cart_b', path: 'snippets/cart.liquid', line: '57 - after' %>
+<% end %>

@@ -1,0 +1,197 @@
+<div id="booking-form" class="clear">
+  <%= render 'common/error_messages', :object => form.object %>
+  <%= form.hidden_field :id %>
+    <%= hidden_field_tag 'ga_client_id', '', :class => 'ga-client-id' %>
+
+    <% if current_account.charge_id == -1  %>
+      <%= render :partial => "common/limited_plan" %>
+    <% end %>
+
+    <div class="half fl">
+      <table class="styled">
+	<tbody>
+	  <%= form.fields_for :items do |item|  %>
+	  <tr>
+	    <td class="title"><%= item.label :product_id, "Product" %></td>
+	      <td>
+		<%= item.collection_select(:product_id, @products, :id, :product_title, options = {:prompt => "Select Product..."}, {:class => 'product-picker', :required => 'required'}) %>
+	      </td>
+	  </tr>
+	  <tr>
+	    <td class="title"><%= item.label :variant_id, "Variant" %></td>
+	      <td>
+		<%= item.collection_select(:variant_id, @variants, :id, :title, options = {:prompt => "Select Variant..."}, {:class => 'product-picker-variant', :required => 'required'}) %>
+	      </td>
+	  </tr>
+	  <tr>
+	    <td class="title"><%= item.label :start, "Date/Time" %></td>
+	      <td>
+		<%= item.check_box(:all_day, {:class => "all_day_toggle"}, 1, 0) %><%= item.label :all_day, "All Day" %>
+
+		<br/>
+		<%= item.text_field :start,
+		:size => 20,
+		:value => scheduled_at(@items.start, @items.all_day),
+		:autocomplete => "off", :class => "bta", :required => true %>
+		  <span class="no-wrap"> - </span>
+		  <%= item.text_field :finish, :size => 20, :value => scheduled_at(@items.finish, @items.all_day), :autocomplete => "off", :class => "bta" %>
+	      </td>
+	  </tr>
+
+	  <tr>
+	    <td class="title"><%= form.label :order_name, 'Order' %></td>
+	      <td>
+		<%= form.text_field :order_name, :readonly => true %>
+	      </td>
+	  </tr>
+	  <tr>
+	    <td class="title"><%= form.label :sku %></td>
+	      <td><%= form.text_field :sku %></td>
+	  </tr>
+	  <tr class="profiled profile-activity">
+	    <td class="title"><%= form.label :hotel %></td>
+	      <td><%= form.text_field :hotel %></td>
+	  </tr>
+	  <tr>
+	    <td class="title"><%= form.label :notes %></td>
+	      <td>
+		<%= form.text_area :notes, :rows => 8, :cols => 50 %>
+	      </td>
+	  </tr>
+	  <tr>
+	    <td class="title"><%= form.label :status, "Status" %></td>
+	      <td class=""><%= form.select :status, options_for_select([['Reserved', '1'], ['Confirmed', '2']], form.object.status.to_s) %></td>
+	  </tr>
+	</tbody>
+      </table>
+    </div>
+    <div class="half fr">
+      <table id="booking-names" class="styled">
+        <tbody>
+          <% unless form.object.new_record? %>
+            <tr>
+              <td class="title"><%= form.label :name, "Name(s)" %></td>
+		<td><%= form.text_field :name, :readonly => true, :style => "border: 0 none;" %></td>
+            </tr>
+		<% end %>
+		<tr>
+		  <td class="title">
+                    <%= form.label :email, "Contact Email" %>
+		  </td>
+		  <td>
+                    <%= gravatar_for @booking.email, :size => 48, :class => 'fr' %>
+                    <%= form.text_field :email, :required => true %>
+		  </td>
+		</tr>
+		<tr>
+		  <td class="title">
+                    <%= form.label :phone, "Contact Phone" %><br/>
+		  </td>
+		  <td>
+                    <%= form.text_field :phone %>
+                      <small>SMS reminders sent outside of North America require a country code</small>
+		  </td>
+		</tr>
+		<tr>
+		  <td class="title"><%= form.label :number_in_party, "Number in Party" %></td>
+		    <td><%= form.number_field :number_in_party, :min => 1 %></td>
+		</tr>
+		<tr>
+		  <td class="title" colspan="2" style="border-bottom: 0 none;"><label>Booking names</label></td>
+		</tr>
+		<tr>
+		  <td class="title" colspan="2" style="border-bottom: 0 none;">
+                    <table class="nested-form-table plain styled">
+                      <thead>
+			<tr>
+			  <th>Name</th>
+			  <th>Email</th>
+			  <th></th>
+			</tr>
+                      </thead>
+                      <tbody>
+			<%= item.fields_for :booking_names, :wrapper => false %>
+			<tr class="nested-form-actions">
+                          <td colspan="3">
+                            <%= item.link_to_add "Add Name", :booking_names, :class => 'submit' %>
+                          </td>
+			</tr>
+                      </tbody>
+                    </table>
+		  </td>
+		</tr>
+<% end %>
+
+        </tbody>
+      </table>
+    </div>
+</div>
+
+<div class="button-bar">
+  <%= form.submit 'Save', :id => "save" %>
+    <% unless form.object.new_record? %>
+      <%= form.submit 'Delete', :id => "delete", :name => 'delete', :confirm => "Are you sure you want to delete this booking?" %>
+	<%= link_to 'Send Reminder', reminder_path(@booking) unless @account.subdomain == "columbusinternational" %>
+	<%= link_to 'iCalendar', booking_path(@booking, :format => :ics) unless @account.subdomain == "columbusinternational" %>
+	<% unless @booking.phone.nil? %>
+          <%= link_to 'Send SMS', sms_path(@booking) %>
+	<% end %>
+	<%= link_to 'Download Ticket', ticket_booking_path(@booking, :format => 'pdf', :pp => 'disable') %>
+      <% end %>
+      <%= link_to 'Close', events_path %>
+</div>
+
+<% content_for :footer do %>
+  <%= javascript_include_tag '/javascripts/schedadly-event-form.js' %>
+
+  <script type="text/javascript">
+   <%= render :partial => 'common/async_bta' %>
+
+   $('a[href*="/reminder/"], a[href*="/sms/"]').click(function() {
+     if ($(this).hasClass('disabled')) {
+       return false;
+     }
+
+     $.jGrowl($(this).text().replace('Send', 'Sending'));
+
+     var href = $(this).attr('href');
+     $.ajax({
+       url: href,
+       error:function(request, textStatus, errorThrown) {
+         $.jGrowl('Send Failure: ' + request.responseText);
+       }
+     });
+
+     return false;
+   });
+
+   $('.tabs').tabs({cache: false}).show();
+
+   $('.all_day_toggle').data('start_element', $('#order_items_attributes_0_start'));
+   $('.all_day_toggle').data('finish_element', $('#order_items_attributes_0_finish'));
+
+   $('#order_items_attributes_0_product_id').productVariantPicker({
+     variantElement:$('#order_items_attributes_0_variant_id'),
+     productSelectedCallback:function (data) {
+       if (data.profile == '') {
+         $('.profiled').fadeIn();
+       } else {
+         $('.profiled').fadeOut(function () {
+           $('.profile-' + data.profile).fadeIn();
+         });
+       }
+     }
+   });
+
+   $(document).ready(function(){
+     window.NestedFormEvents.prototype.insertFields = function(content, assoc, link) {
+       var $tr = $(link).parents('.nested-form-table').find('tbody tr:last').not('.nested-form-actions');
+       if ($tr.length > 0) {
+         $tr.remove();
+       }
+       $tr = $(link).parents('.nested-form-table').find('tbody tr:last');
+       return $(content).insertBefore($tr);
+     }
+   })
+  </script>
+<% end %>

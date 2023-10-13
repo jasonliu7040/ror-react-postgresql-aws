@@ -1,0 +1,57 @@
+<div class="ibox float-e-margins no-print">
+  <div class="ibox-title">
+    <h5>Filter</h5>
+  </div>
+  <div class="ibox-content">
+    <form action="/reports/enrollments" method="get" class="no-print form-horizontal">
+      <input type="text" id="start" name="start" value="<%= @filter.start.strftime('%FT%H:%M') if @filter.present? %>" class="hidden" />
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label" for="products">Class</label>
+        <div class="col-sm-10">
+          <select id="products" name="products" class="form-control">
+            <%= display_product_search_options %>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-10 col-sm-offset-2">
+
+          <div id="event-instructions" class="alert alert-info" style="display:none;">
+            <span class="icon"></span>
+            <p>Select a class to display upcoming schedule.</p>
+          </div>
+
+          <table class="table table-striped" id="upcoming-classes" class="plain styled" style="display:none;">
+            <thead>
+            <tr>
+              <td></td>
+              <td>Date</td>
+              <td>Bookings</td>
+              <td>Capacity</td>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+
+          <div id="no-events" class="alert alert-info" style="display: none">
+            <p>No classes scheduled.</p>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <div class="col-sm-4 col-sm-offset-2">
+          <input type="submit" class="submit btn btn-primary" value="Show Enrollments for selected class"/>
+        </div>
+      </div>
+
+    </form>
+
+
+  </div>
+</div>
+

@@ -1,0 +1,2416 @@
+<% cache(@shop) do %>
+;
+
+if (window.navigator.userAgent.indexOf("MSIE ") == -1) {
+    var style = document.createElement('style');
+    style.type = 'text/css';
+    style.innerHTML = '.bta-loading,.datepicker.bta-load-enable {background: url(data:image/gif;base64,R0lGODlhEAAQAMQAAP///+7u7t3d3bu7u6qqqpmZmYiIiHd3d2ZmZlVVVURERDMzMyIiIhEREQARAAAAAP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh+QQFBwAQACwAAAAAEAAQAAAFdyAkQgGJJOWoQgIjBM8jkKsoPEzgyMGsCjPDw7ADpkQBxRDmSCRetpRA6Rj4kFBkgLC4IlUGhbNQIwXOYYWCXDufzYPDMaoKGBoKb886OjAKdgZAAgQkfCwzAgsDBAUCgl8jAQkHEAVkAoA1AgczlyIDczUDA2UhACH5BAUHABAALAAAAAAPABAAAAVjICSO0IGIATkqIiMKDaGKC8Q49jPMYsE0hQdrlABCGgvT45FKiRKQhWA0mPKGPAgBcTjsspBCAoH4gl+FmXNEUEBVAYHToJAVZK/XWoQQDAgBZioHaX8igigFKYYQVlkCjiMhACH5BAUHABAALAAAAAAQAA8AAAVgICSOUGGQqIiIChMESyo6CdQGdRqUENESI8FAdFgAFwqDISYwPB4CVSMnEhSej+FogNhtHyfRQFmIol5owmEta/fcKITB6y4choMBmk7yGgSAEAJ8JAVDgQFmKUCCZnwhACH5BAUHABAALAAAAAAQABAAAAViICSOYkGe4hFAiSImAwotB+si6Co2QxvjAYHIgBAqDoWCK2Bq6A40iA4yYMggNZKwGFgVCAQZotFwwJIF4QnxaC9IsZNgLtAJDKbraJCGzPVSIgEDXVNXA0JdgH6ChoCKKCEAIfkEBQcAEAAsAAAAABAADgAABUkgJI7QcZComIjPw6bs2kINLB5uW9Bo0gyQx8LkKgVHiccKVdyRlqjFSAApOKOtR810StVeU9RAmLqOxi0qRG3LptikAVQEh4UAACH5BAUHABAALAAAAAAQABAAAAVxICSO0DCQKBQQonGIh5AGB2sYkMHIqYAIN0EDRxoQZIaC6bAoMRSiwMAwCIwCggRkwRMJWKSAomBVCc5lUiGRUBjO6FSBwWggwijBooDCdiFfIlBRAlYBZQ0PWRANaSkED1oQYHgjDA8nM3kPfCmejiEAIfkEBQcAEAAsAAAAABAAEAAABWAgJI6QIJCoOIhFwabsSbiFAotGMEMKgZoB3cBUQIgURpFgmEI0EqjACYXwiYJBGAGBgGIDWsVicbiNEgSsGbKCIMCwA4IBCRgXt8bDACkvYQF6U1OADg8mDlaACQtwJCEAIfkEBQcAEAAsAAABABAADwAABV4gJEKCOAwiMa4Q2qIDwq4wiriBmItCCREHUsIwCgh2q8MiyEKODK7ZbHCoqqSjWGKI1d2kRp+RAWGyHg+DQUEmKliGx4HBKECIMwG61AgssAQPKA19EAxRKz4QCVIhACH5BAUHABAALAAAAAAQABAAAAVjICSOUBCQqHhCgiAOKyqcLVvEZOC2geGiK5NpQBAZCilgAYFMogo/J0lgqEpHgoO2+GIMUL6p4vFojhQNg8rxWLgYBQJCASkwEKLC17hYFJtRIwwBfRAJDk4ObwsidEkrWkkhACH5BAUHABAALAAAAQAQAA8AAAVcICSOUGAGAqmKpjis6vmuqSrUxQyPhDEEtpUOgmgYETCCcrB4OBWwQsGHEhQatVFhB/mNAojFVsQgBhgKpSHRTRxEhGwhoRg0CCXYAkKHHPZCZRAKUERZMAYGMCEAIfkEBQcAEAAsAAABABAADwAABV0gJI4kFJToGAilwKLCST6PUcrB8A70844CXenwILRkIoYyBRk4BQlHo3FIOQmvAEGBMpYSop/IgPBCFpCqIuEsIESHgkgoJxwQAjSzwb1DClwwgQhgAVVMIgVyKCEAIfkECQcAEAAsAAAAABAAEAAABWQgJI5kSQ6NYK7Dw6xr8hCw+ELC85hCIAq3Am0U6JUKjkHJNzIsFAqDqShQHRhY6bKqgvgGCZOSFDhAUiWCYQwJSxGHKqGAE/5EqIHBjOgyRQELCBB7EAQHfySDhGYQdDWGQyUhADs=) no-repeat 50% 50%}';
+    document.getElementsByTagName('head')[0].appendChild(style);
+}
+
+if (typeof(bta) == "undefined") {
+    bta = {};
+}
+
+bta.log = function(msg) {
+    if (typeof console == "object") {
+        console.log("[BTA] " + msg)
+    }
+};
+
+bta.config = function(config, name) {
+    if (config === undefined) return "";
+    var results = config.match(new RegExp(name + "=([^&]*)")); // config.match(/\w+\=\s?\w+(?=,?\s?)/)
+    return results == null? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+};
+
+bta.dateInst = function(a) {
+    return new Date(a[0], a[1] - 1, a[2], a[3], a[4], a[5], 0);
+};
+
+bta.pad = function(n) {
+    return ("0" + n).slice(-2);
+};
+
+bta.formatTime = function(date) {
+    return [bta.pad(date.getHours()), bta.pad(date.getMinutes())].join(':');
+};
+
+bta.format12HourDateTime = function(date) {
+  return moment(date).format(bta.settings.df + ' HH:mm a');
+};
+
+bta.isIPhone = function() {
+  return (
+      (navigator.platform.indexOf("iPhone") != -1) ||
+      (navigator.platform.indexOf("iPod") != -1)
+  );
+};
+
+bta.initDatepicker = function(jqdp) {
+    bta.chainBeforeShowDay = jqdp.datepicker("option", "beforeShowDay");
+
+    var config = jqdp.attr('data-bta-product-config') || jqdp.attr('data-bta-config'),
+        altFieldId = jqdp.hasClass('bta-inline-datepicker') ? jqdp.attr('id') + "_" : "",
+        min = jqdp.attr('data-mindate') || bta.config(config, 'mindate') || 0,
+        max = jqdp.attr('data-maxdate') || bta.config(config, 'maxdate') || '+2y',
+        image = jqdp.attr('data-image'),
+        firstDay = jqdp.attr('data-first-day'),
+        initParams = jQ.extend({
+            minDate: min,
+            maxDate: max,
+            changeYear: jqdp.attr('data-bta-change-year') == 'disable' ? false : true,
+            changeMonth: jqdp.attr('data-bta-change-month') == 'disable' ? false : true,
+            buttonImage: image,
+            buttonImageOnly: true,
+            beforeShow: bta.beforeShow,
+            beforeShowDay: bta.beforeShowDay,
+            onChangeMonthYear: bta.availability,
+            onClose: function (dateText, inst) {
+                jQ(inst.input).removeClass('openDatepicker').css('z-index', '0').trigger('blur');
+            },
+            dateFormat: bta.settings.df || 'mm/dd/yy',
+            altField: '#' + altFieldId,
+            firstDay: firstDay
+        }, (bta.settings.region || '') === '' ? {} : jQ.datepicker.regional[bta.settings.region]),
+        dp = jqdp.datepicker(initParams);
+
+    dp.css('position', 'relative');
+
+    if (!jqdp.hasClass('bta-inline-datepicker')) {
+        dp.prop('autocomplete', 'off');
+
+        if (!bta.isIPhone()) { // readonly prop breaks iphones.
+          dp.prop('readonly', true);
+        }
+
+        // prevent manually entering rubbish or a date that is booked out.
+        dp.keydown(function (event) {
+            event.preventDefault();
+        });
+
+        dp.focus(function() {
+          jQ(this).blur(); // removes keyboard popup on iphone
+        });
+
+        dp.on('paste', function(e) { // dont allow pasting bad dates
+          e.preventDefault();
+        });
+    }
+
+    if (jQ('input.datepicker.bta-highlight-duration').length > 0) {
+        // inject CSS to fix up padding
+        new Loader().loadStylesheet(bta.base + "/stylesheets/bta-highlight-duration.css?_=1");
+
+        // highlight duration
+        jQ('#ui-datepicker-div').on({
+            mouseenter: function (event) {
+                var btaForm = jQ('input.datepicker.openDatepicker').parents('form[action="/cart/add"]').data('bta.bookingForm'),
+                    cell = jQ(this),
+                    start = new Date(parseInt(cell.attr('data-year'),10), parseInt(cell.attr('data-month'),10), parseInt(cell.text(), 10)),
+                    finish = btaForm.addDuration(start),
+                    days = bta.dayDelta(start, finish) - 1;  // -1 accounts for range being inclusive of the start day
+
+                if (btaForm.isCountNights()) {
+                    days += 1;
+                }
+
+                var elements = cell.nextAll('td:lt('+ days +')'); // find cells to highlight in this row
+                elements.find('a').addClass('ui-state-hover');
+
+                days -= elements.length; // subtract number of days already highlighted
+                if (days > 0) {
+                    cell = cell.parents('tr').next().find('td:first'); // point to the next row
+
+                    while (days > 0 && cell) {
+                        var row = cell.parents('tr');
+                        elements = row.find('td:lt('+ days +')');
+                        elements.find('a').addClass('ui-state-hover');
+
+                        if (elements.length > 0) {
+                            days -= elements.length;
+                        } else {
+                            days = 0;
+                        }
+
+                        // find next row starting cell
+                        cell = row.next().find('td:first');
+                    }
+                }
+            },
+            mouseleave: function () {
+                jQ('.ui-datepicker-calendar td a').removeClass('ui-state-hover');
+            }
+        }, '.ui-datepicker-calendar td[data-handler="selectDay"]');
+    }
+};
+
+bta.bookingsAt = function(data, product, variant, date, time, duration, createComparisonBookingFunction) {
+  var allocations = bta.sharedResourceAllocations(data, product, date),
+      bookings = jQ.grep(product.bookings.concat(allocations), function (booking, n) {
+        var compare = bta.clone(booking);
+        if (typeof(createComparisonBookingFunction) === 'function') { // used by jquery.bta availability. adds lead time to existing bookings.
+          compare = createComparisonBookingFunction(booking);
+        }
+
+        var result = bta.dateMatches(date, compare);
+
+        if (result) {
+          result = bta.timeOverlaps(date, time, variant, compare);
+        }
+
+        // is capacity type set to track based on variant option?
+        return (result && bta.matchesOnCapacityType(compare, product, variant));
+      });
+  return bookings;
+};
+
+bta.matchesOnCapacityType = function(booking, product, variant) {
+  if (product.capacity_type == 0) {
+    return true;
+  }
+
+  // find matching option capacity for the variant
+  var oc = bta.oc(product, variant),
+      bookingVariant = bta.variant(product, booking.variant); // reference the booking variant (to compare option capacities)
+
+  if (!(bookingVariant == undefined) && oc) {
+    // see if this booking variant has the same option values as the currently selected variant
+    var ocMatches = false;
+
+    if (oc.option1 != null) {
+      ocMatches = (bookingVariant.option1 === oc.option1) || (bookingVariant.option1 === oc.option2) || (bookingVariant.option1 === oc.option3);
+    }
+    if (oc.option2 != null && ocMatches) {
+      ocMatches = (bookingVariant.option2 === oc.option1) || (bookingVariant.option2 === oc.option2) || (bookingVariant.option2 === oc.option3);
+    }
+    if (oc.option3 != null && ocMatches) {
+      ocMatches = (bookingVariant.option3 === oc.option1) || (bookingVariant.option3 === oc.option2) || (bookingVariant.option3 === oc.option3);
+    }
+  }
+
+  return ocMatches;
+};
+
+(function() {
+    this.cache = {};
+//    this.base = '<%= "//#{@shop.subdomain}.#{::DOMAIN}" %>';
+    this.base = '<%= Rails.env.development? ? "//#{@shop.subdomain}.bookthatapp.dev:3002" : "//#{@shop.subdomain}.bookthatapp.com" %>';
+    this.shop = '<%= @shop.subdomain %>.myshopify.com';
+    this.account = '<%= @shop.subdomain %>';
+    this.accountTime = new Date([2015, 6, 19, 21, 34, 57]);
+    this.settings = <%= @shop.settings_json %>;
+    this.initialized = false;
+    this.urlparms = {};
+    this.hours = <%= raw @shop.opening_hours %>;
+    this.dateRangeConstraints = {max:0, min:0};
+    this.debug = this.debug || false;
+    this.preload = [];
+    this.dateParam = function(str) {
+        var result = new Date(); // default to today
+
+        if (bta.urlparms.hasOwnProperty(str)) { // see if a date param was specified
+            var time = bta.urlparms[str].split('T');
+            if (time.length == 2) { // iso date format found
+                result = bta.setTime(jQ.datepicker.parseDate( "yy-mm-dd", time[0]), time[1]);
+            } else if (time.length == 1) { // assume millis since epoch
+                result = new Date(parseInt(time[0], 10));
+                result.setTime(result.getTime() + result.getTimezoneOffset() * 60000);
+            }
+        }
+
+        return result;
+    };
+}).apply(bta);
+
+var e, a = /\+/g, // Regex for replacing addition symbol with a space
+        r = /([^&=]+)=?([^&]*)/g,
+        d = function (s) {
+            return decodeURIComponent(s.replace(a, " "));
+        },
+        q = window.location.search.substring(1);
+
+while (e = r.exec(q))
+    bta.urlparms[d(e[1])] = d(e[2]);
+
+bta.debug = bta.urlparms.btadebug === "true";
+
+// support .toISOString in older browsers
+if (!Date.prototype.toISOString) {
+    (function() {
+        Date.prototype.toISOString = function() {
+            return bta.toLocalIsoString(this);
+        };
+    }());
+}
+
+// used for String interpolation
+if (!String.prototype.supplant) {
+    String.prototype.supplant = function (o) {
+        return this.replace(/{([^{}]*)}/g,
+                function (a, b) {
+                    var r = o[b];
+                    return typeof r === 'string' || typeof r === 'number' ? r : a;
+                }
+        );
+    };
+}
+
+bta.BookingForm = function(f) {
+    if (f.data('bta.bookingForm')) {return}
+    f.data('bta.bookingForm', this);
+
+    var form = f,
+        _this = this;
+
+    this.init = function() {
+        this.bookedOutDates = []; // array of times populated by bta.availability
+
+        bta.maxDuration = _this.getMaxDuration();
+
+        this.initDatepickers();
+        this.initStartField();
+        this.initFinishField();
+        this.initScheduledTimesWidget();
+        this.initOpeningHoursSelect();
+        this.initUpcomingEventsTable();
+
+        var startField = _this.datepicker("start"),
+            finishField = _this.datepicker("finish");
+
+        if (startField) {
+            _this.preload(startField, function(data) {
+                var startDate = null;
+
+                // figure out if start date and time are passed through via a query string
+                if (("start" in bta.urlparms) || ("properties[booking-start]" in bta.urlparms)) { // populate from calendar if available
+                    startDate = bta.dateParam('start') ||  _this.convertToLocalDate(bta.urlparms["properties[booking-start]"]);
+                } else {
+                    // check for session cookie
+                    startDate = _this.rememberedDateTime('start');
+                }
+
+                if (startDate) {
+                    _this.setDate(startField, startDate);
+
+                    var startTimepicker = _this.findTimepickerForDatepicker(startField);
+                    if (startTimepicker && startDate.getHours() > 0 || startDate.getMinutes() > 0) {
+                        var startTime = [bta.pad(startDate.getHours()), bta.pad(startDate.getMinutes())].join(':');
+                        startTimepicker.attr('data-initial-time', startTime);
+                    }
+
+                    _this.updateQuantity();
+                }
+
+                _this.startFieldDataLoaded(data);
+            });
+
+            _this.preload(finishField, function(data) { // callback is only invoked if new data loaded
+                _this.triggerDatetimeChange();
+            });
+            _this.preloadMinDate(startField);
+            // load next month if previously selected dates span across month boundaries
+
+            _this.setMinMaxDates();
+        }
+
+        // automatically handle variant selection for optionSelection enabled themes
+        form.on('change', '.single-option-selector, .single-option-selector__radio', function () {
+            // When a new variant is selected trigger a datetime change event because duration may have changed
+            var trigger = true; // upcoming events widget doesn't have a date field
+            if (startField) {
+                // only trigger if the variant has changed or not initialized
+                trigger = (startField.attr('data-variant') != bta.findSelectedVariantId(form) || typeof(startField.attr('data-duration')) == 'undefined');
+            }
+
+            if (trigger) {
+                _this.updateSelectedVariant();
+                _this.triggerDatetimeChange();
+                _this.updateUpcomingEventsTable();
+            }
+        });
+
+        form.on('change', 'input[name="quantity"], select[name="quantity"]', function () {
+            _this.updateUpcomingEventsTable();
+        });
+
+        <% if $flipper[:duration_v2].enabled?(@shop) %>
+        // since bta.js is loaded after everything else (e.g. twitter/facebook), hiding the duration option
+        // needs to happen in the booking snippet
+        //        _this.hideDurationOption();
+        <% end %>
+
+        bta.loaded();
+    };
+
+    this.preload = function(picker, callback) {
+        if (picker) {
+            var pid = picker.attr('data-product-id');
+            if (typeof(pid) != 'undefined') {
+                bta.productId = pid;
+            }
+
+            // preloads any date already selected via cookie or url param
+            _this.preloadDate(picker.datepicker('getDate') || new Date(), callback);
+        }
+    };
+
+    this.getMaxDuration = function() {
+      var max = 87600, // default to 2 months
+          dp = _this.datepicker('start');
+
+      if (dp) {
+        var variantConfig = dp.attr('data-bta-variant-config');
+        if (typeof(variantConfig) != "undefined") {
+          var variantConfigs = bta.parseVariantConfigs(variantConfig);
+          for (vc in variantConfigs) {
+            var duration = parseInt(bta.config(variantConfigs[vc], 'duration'), 10);
+            if (duration > max) {
+              max = duration;
+            }
+          }
+        }
+      }
+
+      return max;
+    };
+
+    this.preloadDate = function(startDate, callback) {
+        var key = bta.cache_key(startDate);
+        if (jQ.inArray(key, bta.preload) == -1) {
+            var dp = _this.datepicker('start');
+            if (dp) {
+              var start = new Date(startDate.getTime()),
+                  finish = new Date(startDate.getTime());
+
+              // subtract month in case user navigates backwards
+              start.setMonth(startDate.getMonth() - 1);
+
+              // find out longest duration and use that as end of query date
+              finish.setMinutes(startDate.getMinutes() + bta.maxDuration);
+              bta.rangeAvailability(start, finish, callback);
+            }
+        }
+    };
+
+    this.preloadMinDate = function(field, callback) {
+        if (field) {
+            // check if mindate pushes preloaded date over month boundary
+            var minDate = field.datepicker('option', 'minDate');
+
+            if (minDate && minDate !== "0") {
+                // preload data for the minimum date month
+                _this.preloadDate(bta.getMinDate(minDate), callback);
+            }
+        }
+    };
+
+    this.preloadRangeMinDate = function() {
+        // preload for when range min date crosses month boundary
+        var rangeMin = parseInt(_this.datepicker("start").attr('data-bta-range-days-min'), 10) || 0,
+            date = _this.getStartDate();
+
+        if (rangeMin > 0) {
+            date.setDate(date.getDate() + rangeMin);
+            _this.preloadDate(date);
+        }
+    };
+
+    this.convertToLocalDate = function(time) {
+        var date = new Date(parseInt(time, 10));
+        return new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+    };
+
+    this.initDatepickers = function() {
+        jQ('.datepicker.bta', form).not('.hasDatepicker').each(function (n, inst) {
+            bta.initDatepicker(jQ(this));
+        });
+    };
+
+    this.initStartField = function() {
+        var field = _this.datepicker("start");
+        if (field && !field.hasClass('bta-initialized')) {
+            var proxied = field.datepicker('option', 'onSelect');
+
+            // workaround for jquery UI datepicker behaviour of defaulting to today's date when in inline mode
+            if (field.hasClass('bta-inline-datepicker')) {
+                field.attr('bta-inline-date-selected', 'false');
+            }
+
+            field.addClass('bta-initialized bta-range-start').datepicker('option', 'onSelect', function(selectedDate) {
+                _this.rememberDateTime('start', _this.getStartDateTime());
+                _this.selectStartDate(selectedDate);
+                bta.chainOnSelect(proxied, field, selectedDate);
+            });
+
+            _this.handle = field.attr('data-handle');
+
+            field.keyup(function(e) {
+                e.preventDefault();
+                if (e.keyCode == 8 || e.keyCode == 46) { // backspace or delete key
+                    _this.clearDate("start");
+                }
+            });
+
+            var config = field.attr('data-bta-product-config');
+            if (config) {
+                var min = parseInt(bta.config(config, 'range_min'), 10) || 0,
+                    max = parseInt(bta.config(config, 'range_max'), 10) || 0,
+                    finish = this.datepicker('finish');
+
+                if (field.hasClass('bta-range-start') && finish && (min >= 0)) {
+                    field.attr('data-bta-range-days-min', min);
+                    field.attr('data-bta-range-days-max', max);
+                    field.attr('data-bta-range-partner-id', finish.id);
+                    finish.attr('data-bta-range-partner-id', field.id);
+                    finish.attr('data-bta-range-days-min', min);
+                    finish.attr('data-bta-range-days-max', max);
+                }
+            }
+
+            this.initFormSubmitValidation();
+        }
+    };
+
+    this.startFieldDataLoaded = function(data) {
+      _this.updateSelectedVariant();
+
+      if (_this.getStartDate()) {
+          if (_this.isCurrentDateAvailable()) {
+              _this.preloadRangeMinDate();
+              _this.loadScheduledTimes();
+              jQ('.bta-opening-hours.bta-initialized').each(function() {
+                _this.loadOpeningHours(_this.findDatepickerForTimepicker(jQ(this)));
+              });
+              _this.updateSlots();
+              _this.triggerDatetimeChange();
+          } else {
+              // can't call reset here because it triggers a datetimechange
+              _this.clearDate("start");
+              _this.clearDate("finish");
+              _this.resetTimeSelects();
+          }
+      }
+
+      _this.trackBookedOutDates(data);
+    };
+
+    this.initFinishField = function() {
+        var field = this.datepicker("finish");
+        if (field && !field.hasClass('bta-initialized')) {
+            var existing = field.datepicker('option', 'onSelect');
+            field.addClass('bta-initialized bta-range-finish').datepicker('option', 'onSelect', function(selectedDate) {
+                _this.rememberDateTime('finish', _this.getFinishDateTime());
+                _this.setMinMaxDates();
+                _this.selectFinishDate(selectedDate);
+                _this.updateQuantity();
+                _this.triggerDatetimeChange();
+                bta.chainOnSelect(existing, field, selectedDate);
+            });
+
+            field.keyup(function(e) {
+                e.preventDefault();
+                if (e.keyCode == 8 || e.keyCode == 46) { // backspace or delete key
+                    _this.clearDate("finish");
+                }
+            });
+
+            if ("properties[booking-finish]" in bta.urlparms) {
+                _this.setFinishDate(_this.convertToLocalDate(bta.urlparms["properties[booking-finish]"]));
+            } else {
+                var finishTime = _this.rememberedDateTime('finish');
+                if (finishTime) {
+                    _this.setFinishDate(finishTime);
+
+                    var finishTimepicker = _this.findTimepickerForDatepicker(field);
+                    if (finishTimepicker && (finishTime.getHours() > 0 || finishTime.getMinutes() > 0)) {
+                        finishTimepicker.attr('data-initial-time', [bta.pad(finishTime.getHours()), bta.pad(finishTime.getMinutes())].join(':'));
+                    }
+                }
+            }
+        }
+    };
+
+    this.initTimepicker = function(timepicker) {
+        _this.resetTimeSelect(timepicker);
+        timepicker.addClass('required bta-initialized');
+        timepicker.on('change', function() {
+            if (jQ(this).hasClass('bta-changing')) return;
+
+            // update the data-time attribute when a time is selected
+            var datepicker = _this.findDatepickerForTimepicker(timepicker),
+                field = 'start',
+                time = _this.getStartDateTime();
+
+            datepicker.attr('data-time', timepicker.val());
+
+            if (datepicker.hasClass('bta-range-finish')) {
+                field = 'finish';
+                time = _this.getFinishDateTime();
+            }
+
+            _this.updateQuantity();
+            _this.updateSlots(); // update timepicker slots
+            _this.rememberDateTime(field, time);
+            _this.triggerDatetimeChange();
+        });
+    };
+
+    this.initScheduledTimesWidget = function() {
+        jQ('.bta-scheduled-times-widget', form).not('.bta-initialized').each(function(ndx, element) {
+            var defaultName = jQ(this).attr('data-name') || 'booking-time';
+
+            if (_this.isCartPage()) {
+                var name = 'attributes[' + defaultName + ']';
+            } else {
+                var name = 'properties[' + defaultName + ']';
+            }
+
+            if (ndx > 0) {
+                name = name.substring(0, name.length - 1) + "-" + (ndx + 1) + "]"
+            }
+
+            var $this = jQ(this),
+                id = name,
+                label = jQ('<label/>').text($this.attr('data-label') || "Time:").attr('for', id),
+                select = jQ('<select/>').addClass('bta-scheduled-times bta-time required')
+                        .attr('id', id)
+                        .attr('data-datepicker', $this.attr('data-datepicker'))
+                        .attr('disabled', 'disabled')
+                        .attr('name', name)
+                        .attr('data-prompt', $this.attr('data-prompt'))
+                        .attr('data-bta-timeformat', $this.attr('data-bta-timeformat')),
+                onload = $this.attr('data-onload');
+
+            jQ('.bta-scheduled-times-widget p.loading', form).remove();
+
+            _this.initTimepicker(select);
+
+            $this.append(label);
+            $this.append(select);
+            $this.find('.booked-out-message').appendTo($this); // move msg to bottom
+
+            if (onload) {
+                eval(onload);
+            }
+        });
+    };
+
+    this.initOpeningHoursSelect = function() {
+        jQ('select.bta-opening-hours', form).not('.bta-initialized').each(function(ndx, el) {
+            var select = jQ(el);
+
+            // legacy install support
+
+            // - make sure time picker has bta-time class
+            select.addClass('bta-time');
+
+            // - if the datepicker id reference is invalid default to first start datepicker
+            var datepicker = jQ('#' + select.attr('data-datepicker')),
+                start = _this.datepicker('start');
+
+            if (datepicker.length == 0) {
+                bta.log('invalid datepicker reference - using start datepicker')
+                select.attr('data-datepicker', start.attr('id'));
+            }
+
+            _this.initTimepicker(select);
+        });
+        _this.triggerTimeslotsLoaded();
+    };
+
+    this.rememberDateTime = function(field, time) {
+      var datepicker = _this.datepicker(field);
+
+      var remember = /^true$/i.test(datepicker.attr('data-bta-remember') || "true");
+      if (!remember) return;
+
+      if (datepicker) {
+        var datetime = datepicker.datepicker("getDate"),
+            timepicker = _this.findTimepickerForDatepicker(datepicker);
+
+        if (datetime) {
+          if (timepicker) {
+            bta.setTime(datetime, timepicker.val());
+          }
+
+          jQ.cookie("__bta.booking-" + field, time.getTime(), {path: '/'});
+        } else {
+          jQ.cookie("__bta.booking-" + field, null, {path: '/'});
+        }
+      }
+    };
+
+    this.rememberedDateTime = function(field) {
+      var cookie = jQ.cookie("__bta.booking-" + field);
+      if (cookie) {
+        return new Date(parseInt(cookie, 10));
+      }
+    };
+
+    this.formatDate = function(date, formatSpec) {
+      return jQ.datepicker.formatDate(formatSpec, date);
+    };
+
+    this.formatTime = function(time, formatSpec) {
+      return moment(time).format(formatSpec.replace(/tt/, 'a')); // converts legacy XDate 'tt' format to moment 'a' format for am/pm
+    };
+
+    this.initUpcomingEventsTable = function() {
+      jQ('table.bta-upcoming-events-table', form).each(function () {
+        var table = jQ(this),
+            handle = table.attr('data-handle'),
+            variantId = bta.findSelectedVariantId(form),
+            maxEvents = table.attr('data-bta-max-events') || 20,
+            timeFormat = table.attr('data-bta-timeformat') || table.attr('data-timeformat') || 'hh:mm a',
+            dateFormat = table.attr('data-dateformat') || 'M d, yy',
+            propertyName = table.attr('data-name') || 'booking-start',
+            start = bta.dateParam('start'),
+            config = table.attr('data-bta-product-config'),
+            minDate = parseInt(table.attr('data-mindate') || bta.config(config, 'mindate'), 10) || 0;
+
+        _this.handle = handle;
+
+        if (minDate > 0) {
+            var minStart = new Date();
+            minStart.setDate(minStart.getDate() + minDate);
+
+            if (minStart > start) {
+                start = minStart;
+            }
+        }
+
+        var finish = new Date(start.getTime());
+        finish.setMonth(start.getMonth() + 13);
+
+        jQ.getJSON(bta.base + "/availability/schedule.json?callback=?", {
+          start: bta.YMDDateString(start),
+          end: bta.YMDDateString(finish),
+          handle: handle,
+          variant: variantId
+        }, function (data) {
+          var capacity = -1,
+              events = jQ.map(data.schedule, function (item, n) {
+                return jQ.extend(item, {
+                  start: new Date(item.start[0], item.start[1] - 1, item.start[2], item.start[3], item.start[4], item.start[5]),
+                  end: new Date(item.end[0], item.end[1] - 1, item.end[2], item.end[3], item.end[4], item.end[5])
+                })
+              });
+
+          table.empty();
+
+          jQ.each(events, function (i, e) {
+            if (e.capacity > capacity) {
+              capacity = e.capacity;
+              table.attr('data-bta-default-capacity', capacity);
+            }
+
+            if (i > maxEvents) {
+              return false;
+            }
+
+            var row = jQ('<tr>'),
+                startVal = bta.YMDDateString(e.start),
+                radio = jQ('<input type="radio" id="event-' + startVal + '" name=properties[' + propertyName + '] data-bta-bookings="' + e.bookingCount + '">');
+
+            radio.val(startVal);
+            row.append(jQ('<td>').append(radio.wrap('<label for="event-' + startVal + '"></label>').parent()));
+
+            var range = "";
+            if (e.allDay) { // ignore times
+              range = _this.formatDate(e.start, dateFormat) + " -";
+            } else {
+              if (e.start.getDate() == e.end.getDate()) { // show day and start/finish times
+                range = _this.formatTime(e.start, timeFormat) + " - " + _this.formatTime(e.end, timeFormat);
+              } else { // show different days and times
+                range = _this.formatTime(e.start, timeFormat) + " " + _this.formatDate(e.start, dateFormat) + " - " + _this.formatTime(e.end, timeFormat);
+              }
+            }
+            range += " " + _this.formatDate(e.end, dateFormat);
+
+            row.append(jQ('<td>').append(range));
+            row.append(jQ('<td class="remaining">')); // remaining cell
+            table.append(row);
+          });
+
+          // chose an event based on select or start param
+          if (bta.urlparms.hasOwnProperty('select')) { // select param is iso format
+            table.find("input[value*='" + bta.urlparms['select'] + "']").prop('checked', true);
+          } else if (bta.urlparms.hasOwnProperty('start')) { // start param is iso format or millis since epoch (deprecated)
+            var startDateParam = bta.dateParam('start');
+            table.find("input[value*='" + bta.YMDDateString(startDateParam) + "']").prop('checked', true);
+          }
+
+          table.on('click', 'input[type=radio]', function () {
+            _this.setQuantityMax(parseInt(jQ(this).attr('data-bta-available'), 10)); // data-bta-available set by updateUpcomingEventsTable
+          });
+
+          _this.updateUpcomingEventsTable();
+        });
+
+        // TODO: should selecting a radio affect _this.triggerDatetimeChange()?
+
+        _this.initFormSubmitValidation();
+      });
+    };
+
+    this.updateUpcomingEventsTable = function() {
+      jQ('table.bta-upcoming-events-table', form).each(function () {
+        var table = jQ(this),
+            variant = bta.findSelectedVariantId(form),
+            variantConfigs = table.attr('data-bta-variant-config'),
+            lowCapacityThreshold = table.attr('data-bta-low-capacity') || 4,
+            availableText = table.attr('data-available-label') || 'Space Available',
+            partiallyAvailableText = table.attr('data-partially-available-label') || '{available} Places Remaining',
+            lastAvailableText = table.attr('data-last-available-label') || '1 Place Remaining',
+            bookedOutText = table.attr('data-booked-out-label') || 'No Space Available',
+            now = new Date(),
+            capacity = parseInt(table.attr('data-bta-default-capacity'), 10) || 1,
+            units = 1,
+            qtyField = _this.quantityField(),
+            qty = 1,
+            requiredSpace = -1;
+
+        if (qtyField.length > 0 && _this.isValidQuantity()) {
+          qty = parseInt(qtyField.val(), 10);
+        }
+
+        if (typeof(variantConfigs) != "undefined") {
+          var config = bta.parseVariantConfigs(variantConfigs)[variant];
+          capacity = parseInt(bta.config(config, "capacity"), 10);
+          units = parseInt(bta.config(config, "units"), 10);
+        }
+
+        requiredSpace = qty * units;
+
+        // update remaining spaces
+        jQ('tr', table).each(function () {
+          var radio = jQ('input[type=radio]', jQ(this)),
+              bookingCount = parseInt(radio.attr('data-bta-bookings'), 10),
+              start = moment(radio.val()),
+              remainingCell = jQ('td.remaining', jQ(this)),
+              remaining = Math.max(capacity - bookingCount, 0),
+              remainingText = '';
+
+          if (bookingCount < capacity && requiredSpace <= remaining) {
+            if (start > now) { // no text for events in the past
+              if (remaining < lowCapacityThreshold) {
+                if (remaining == 1) {
+                  remainingText = lastAvailableText;
+                } else {
+                  remainingText = partiallyAvailableText.supplant({available: remaining});
+                }
+              } else {
+                remainingText = availableText;
+              }
+
+              radio.attr('data-bta-available', Math.floor(remaining / units));
+              radio.prop('disabled', false);
+            } else { // disable past events
+              radio.prop('disabled', true);
+              radio.attr('data-bta-available', 0);
+            }
+          } else {
+            remainingText = bookedOutText;
+            radio.prop('disabled', true);
+            radio.attr('data-bta-available', 0);
+          }
+
+          remainingCell.empty().text(remainingText);
+        });
+
+        // if nothing selected or the selected one is booked out already choose next available
+        var selectedEvent = table.find('input[type=radio]:checked');
+        if (selectedEvent.length == 0 || selectedEvent.is(':disabled')) {
+          jQ(table).find('input[type=radio]').filter(function(index, e){
+            return parseInt(jQ(e).attr('data-bta-available'), 10) > 0;
+          }).first().prop('checked', true);
+        }
+
+        selectedEvent = table.find('input[type=radio]:checked').not(':disabled');
+        if (selectedEvent.length > 0) {
+          _this.setQuantityMax(parseInt(selectedEvent.attr('data-bta-available'), 10));
+        }
+
+        // if every event is disabled then try to disable the add to cart button
+        var addBtn = jQ('form[action="/cart/add"] input[type=submit], form[action="/cart/add"] button[type=submit]');
+        addBtn.prop('disabled', jQ('form[action="/cart/add"] input[type=radio]').not(':disabled').length == 0);
+
+        _this.triggerUpcomingEventsLoaded();
+      });
+    };
+
+    this.initFormSubmitValidation = function() {
+        form.on('submit', function(e) {
+            var valid = _this.isValid();
+            if (!valid) {
+                e.preventDefault();
+                e.stopImmediatePropagation(); // prevents default form submit handler
+            }
+            return valid;
+        });
+
+        // reverse bindings on submit event so that bta validation comes first
+        var events = form.events || jQ._data(form[0], "events");
+        events["submit"].reverse();
+    };
+
+    this.isCartPage = function() {
+        return form.attr('action') === "/cart";
+    };
+
+    this.isProductPage = function() {
+        return form.attr('action') === "/cart/add";
+    };
+
+    this.updateSelectedVariant = function() {
+        _this.setSelectedVariantId(bta.variantId || bta.findSelectedVariantId(form));
+    };
+
+    /*
+        Sets the data-variant and data-duration attributes on the datepicker
+     */
+    this.setSelectedVariantId = function(variant) {
+        var start = _this.datepicker("start"), capacity = -1;
+
+        if (!variant) {
+          if (_this.isProductPage()) {
+            // Handle scenario where currently selected variant options don't map to a valid variant
+            var submitBtn = jQ('input[type=submit]', form);
+
+            if (submitBtn.length == 0 || submitBtn.is(':disabled')) {
+                bta.log('Variant is null. Hiding booking form.');
+                _this.hideForm();
+            }
+
+            if (start) {
+              start.removeAttr('data-variant');
+              start.removeAttr('data-duration');
+            }
+          }
+
+          return;
+        }
+
+        if (!start) {return;}
+
+        // no need to set the variant if already set
+        if (variant == start.attr('data-variant') && typeof(start.attr('data-duration')) != 'undefined' && start.attr('data-duration')) return;
+
+        start.attr('data-variant', variant);
+        var finish = _this.datepicker("finish");
+        if (finish) {
+            finish.attr('data-variant', variant);
+        }
+
+        var variantConfig = start.attr('data-bta-variant-config');
+
+        if (typeof(variantConfig) != "undefined") {
+            var variantConfigs = bta.parseVariantConfigs(variantConfig),
+                config = variantConfigs[variant],
+                duration = _this.currentDuration();
+
+            _this.setDuration(duration);
+            capacity = parseInt(bta.config(config, "capacity"), 10);
+
+            // if an ignored variant is chosen hide the booking form and rename the line item property
+            // fields so that they aren't added to the cart
+            if (bta.config(config, "ignored") === "true") {
+                _this.hideForm();
+            } else {
+                _this.showForm();
+            }
+
+            var startTimepicker = _this.findTimepickerForDatepicker(start),
+                finishTimepicker = _this.findTimepickerForDatepicker(finish);
+
+            if (duration >= 1440) { // greater than 1 day
+                _this.showDatepickerComponent(start);
+                _this.showDatepickerComponent(finish);
+                _this.hideTimepickerComponent(startTimepicker);
+                _this.hideTimepickerComponent(finishTimepicker);
+            } else {
+                _this.hideDatepickerComponent(start);
+                _this.hideDatepickerComponent(finish);
+                _this.showTimepickerComponent(startTimepicker);
+                _this.showTimepickerComponent(finishTimepicker);
+            }
+        }
+
+        var date = _this.getStartDate();
+        if (date) {
+            if (!_this.isCurrentDateAvailable()) {
+                _this.reset();
+            } else {
+                var data = bta.cached(date);
+                if (data) {
+                    _this.loadOpeningHours(start);
+                    _this.loadOpeningHours(finish);
+                    _this.updateSlots();
+                    _this.updateQuantity();
+                } else {
+                  bta.log('cached data not loaded');
+                }
+            }
+        } else {
+            // set initial quantity - assume no bookings yet
+            if (capacity > -1 && !_this.isRangeQuantity()) {
+                _this.setQuantityMax(capacity);
+            }
+        }
+    };
+
+    /* Get duration in minutes for the currently selected variant */
+    this.currentDuration = function() {
+      var start = _this.datepicker("start"),
+          variant = start.attr('data-variant'),
+          productConfig = start.attr('data-bta-product-config'),
+          variantConfig = start.attr('data-bta-variant-config'),
+          variantConfigs = bta.parseVariantConfigs(variantConfig),
+          config = variantConfigs[variant],
+          duration = parseInt(bta.config(config, "duration"), 10);
+
+      <% if $flipper[:duration_v2].enabled?(@shop) %>
+      // duration v2
+      var durationConfigs = JSON.parse(bta.config(productConfig, 'durations')),
+          durationOptionPosition = parseInt(bta.config(productConfig, 'duration_option_position'), 10) - 1, // eq is 0 based
+          durationType = bta.config(productConfig, 'duration_type');
+
+      if (durationType == 1) { // based on variant option value
+        var element = jQ('.single-option-selector:eq(' + durationOptionPosition + ') option:selected, input[type=radio]:checked:eq(' + durationOptionPosition + ')'),
+            matchingConfigs = jQ.grep(durationConfigs, function(c) {return c['value'] == element.val()});
+
+        if (matchingConfigs.length > 0) {
+          duration = (matchingConfigs[0].duration/60); // convert secs to minutes
+        }
+      } else { // based on product
+        duration = parseInt(bta.config(productConfig, 'duration'), 10)/60;
+      }
+      <% end %>
+
+      return duration;
+    };
+
+    this.changeElementNameAttribute = function(element, from, to) {
+      element.attr('name', element.attr('name').replace(from, to));
+    };
+
+    this.hideForm = function() {
+        jQ('.booking-form', this._form).hide();
+        jQ('input[name^="properties[booking-"], select[name^="properties[booking-"]', this._form).each(function() {
+            _this.changeElementNameAttribute(jQ(this), 'properties[', 'bta-hidden[');
+        });
+    };
+
+    this.showForm = function() {
+        jQ('.booking-form', this._form).show();
+        jQ('input[name^="bta-hidden[booking-"], select[name^="bta-hidden[booking-"]', this._form).each(function() {
+            _this.changeElementNameAttribute(jQ(this), 'bta-hidden[', 'properties[');
+        });
+    };
+
+    this.selectStartDate = function(date) {
+        var field = _this.datepicker("start");
+
+        field.attr('bta-inline-date-selected', 'true');
+
+        if ((typeof(date) === 'object') || (typeof(date) === 'string' && date.length > 0)) {
+            _this.clearDate('finish');
+            _this.setMinMaxDates();
+            _this.loadScheduledTimes();
+            _this.loadOpeningHours(field);
+            _this.preloadRangeMinDate();
+
+            jQ('div.booking-form .bta-validation-messages').hide();
+        }
+
+        _this.updateSlots();
+        _this.updateQuantity();
+        _this.triggerDatetimeChange();
+    };
+
+    this.selectFinishDate = function(date) {
+        var field = _this.datepicker("finish");
+
+        field.attr('bta-inline-date-selected', 'true');
+
+        if (typeof(date === 'object') || (typeof(date) === 'string' && date.length > 0)) {
+            _this.loadOpeningHours(field);
+            _this.updateSlots(); // update finish timepicker slots
+        }
+    };
+
+    this.updateFinishFieldUsingDuration = function() {
+        var startField = _this.datepicker("start"),
+            startDate = _this.getStartDate(),
+            finishField = _this.datepicker("finish");
+
+        if (startField && startField.hasClass('bta-initialized') && startField.attr('data-bta-update-finish-date') == 'true' && startDate && finishField) {
+            var finishDate = new Date(startDate.getTime());
+
+            finishDate.setSeconds(finishDate.getSeconds() + (_this.getDuration() * 60));
+            _this.setFinishDate(finishDate);
+
+            var df = startField.datepicker('option', 'dateFormat');
+            finishField.val(_this.formatDate(finishDate, df));
+        }
+    };
+
+    this.datepicker = function(name) {
+        var selectors = [
+                ".bta-dp-" + name,
+                "input.bta[name*='" + name + "']",
+                "div.bta[name*='" + name + "']",
+                "#booking-" + name + (name === 'start' ? ", input[name='attributes[booking]']" : ""),
+                ".bta.bta-range-" + name
+            ],
+            dp = jQ(selectors.join(','), form);
+
+        if (dp.length > 0) {
+            return jQ(dp[0]);
+        }
+
+        return false;
+    };
+
+    this.setDate = function(field, date) {
+        if (field) {
+            if (field.hasClass('datepicker')) {
+                field.datepicker("setDate", date);
+            }
+        }
+    };
+
+    this.getStartDate = function() {
+        var dp = _this.datepicker("start");
+        if (dp) {
+            return dp.datepicker("getDate");
+        }
+    };
+
+    this.getStartDateTime = function() {
+        var dp = _this.datepicker("start"),
+            tp = _this.findTimepickerForDatepicker(dp),
+            dt = _this.getStartDate();
+
+        if (dp) {
+          if (tp) { // do we have a time picker?
+            bta.setTime(dt, tp.val());
+          } else {
+            // fall through - time is midnight
+          }
+        } else {
+            // check if using upcoming events table
+            var event = jQ('input[name="properties[booking-start]"]:checked').val();
+            if (event) {
+              dt = bta.parseISODateString(event);
+            }
+        }
+
+        return dt;
+    };
+
+    this.findDatepickerForTimepicker = function(timepicker) {
+        var dp = jQ('#' + timepicker.attr('data-datepicker'));
+        if (dp.length == 0) {
+            dp = jQ('input.datepicker.bta');
+            bta.log('data-datepicker attribute did not identify a datepicker input, defaulting to first datepicker');
+        }
+        return dp;
+    };
+
+    this.findTimepickerForDatepicker = function(datepicker) {
+        if (!datepicker) return false;
+        var tp = jQ('.bta-time[data-datepicker="' + datepicker.attr('id') + '"]', form);
+        return tp.length > 0 ? jQ(tp[0]) : false;
+    };
+
+    this.setTimepickerTime = function(timepicker, time) {
+        var datepicker = _this.findDatepickerForTimepicker(timepicker);
+        timepicker.val(time);
+        if (timepicker.val() === time) { // equality check to see if specified time was a valid option
+            datepicker.attr('data-time', time);
+        }
+    };
+
+    this.hideDatepickerComponent = function(datepicker) {
+      if (datepicker && (datepicker.attr('data-bta-hide-if-duration-lte-1-day') == 'true' || false)) {
+        datepicker.parents(':first').hide();
+        _this.changeElementNameAttribute(datepicker, 'properties[', 'bta-hidden[');
+      }
+    };
+
+    this.showDatepickerComponent = function(datepicker) {
+      if (datepicker && (datepicker.attr('data-bta-hide-if-duration-lte-1-day') == 'true' || false)) {
+        datepicker.parents(':first').show();
+        _this.changeElementNameAttribute(datepicker, 'bta-hidden[', 'properties[');
+      }
+    };
+
+    this.hideTimepickerComponent = function(timepicker) {
+      if (timepicker && (timepicker.attr('data-bta-hide-if-duration-gte-1-day') == 'true' || false)) {
+        timepicker.parents(':first').hide();
+        _this.changeElementNameAttribute(timepicker, 'properties[', 'bta-hidden[');
+      }
+    };
+
+    this.showTimepickerComponent = function(timepicker) {
+      if (timepicker && (timepicker.attr('data-bta-hide-if-duration-gte-1-day') == 'true' || false)) {
+        timepicker.parents(':first').show();
+        _this.changeElementNameAttribute(timepicker, 'bta-hidden[', 'properties[');
+      }
+    };
+
+    this.getFinishDate = function() {
+        var dp = _this.datepicker("finish");
+        if (dp) {
+            return dp.datepicker("getDate");
+        }
+    };
+
+    this.getFinishDateTime = function () {
+      var dp = this.datepicker("finish"),
+          dt = _this.getFinishDate(),
+          tp = _this.findTimepickerForDatepicker(dp);
+
+      if (dp) {
+        if (tp) {
+          bta.setTime(dt, tp.val());
+        } else {
+          if (dt) {
+            bta.setTime(dt, "11:59");
+            dt.setSeconds(59);
+          }
+        }
+
+      }
+
+      return dt;
+    };
+
+    this.setFinishDate = function(date) {
+        _this.setDate(this.datepicker("finish"), date);
+        _this.updateQuantity();
+    };
+
+    this.clearDate = function(field) {
+        var dp = _this.datepicker(field);
+        if (dp) {
+            if (dp.hasClass('hasDatepicker')) {
+                jQ.datepicker._clearDate(dp);
+            }
+            jQ.cookie("__bta.booking-" + field, null, {path: '/'});
+
+            if (field == "finish") {
+                dp.datepicker('option', 'minDate', null);
+                dp.datepicker('option', 'maxDate', null);
+            }
+
+            var timepicker = _this.findTimepickerForDatepicker(dp);
+            if (timepicker) {
+                _this.resetTimeSelect(timepicker);
+            }
+        }
+    };
+
+    this.reset = function() {
+        _this.clearDate("start");
+        _this.clearDate("finish");
+        _this.resetTimeSelects();
+        _this.triggerDatetimeChange();
+    };
+
+    this.resetTimeSelects = function() {
+        jQ('select.bta-time').each(function() {
+            _this.resetTimeSelect(jQ(this));
+        })
+    };
+
+    this.resetTimeSelect = function(timepicker) {
+        jQ('.bta-no-slots-available').hide();
+
+        timepicker.empty().append(jQ('<option value=""/>').text(timepicker.attr('data-prompt') || "Choose a date..."));
+        timepicker.show();
+
+        var dp = _this.findDatepickerForTimepicker(timepicker);
+        if (dp) {
+            dp.attr('data-time', '');
+        }
+    };
+
+    /* Get the current duration (minutes) */
+    this.getDuration = function() {
+        return parseInt(_this.datepicker('start').attr('data-duration'), 10) || 0;
+    };
+
+    this.setDuration = function(duration) {
+        _this.datepicker('start').attr('data-duration', duration);
+    };
+
+    this.addDuration = function(date) {
+        var result = new Date(date.getTime());
+        result.setMinutes(date.getMinutes() + _this.getDuration());
+        return result;
+    };
+
+    this.isCurrentDateAvailable = function() {
+      var start = _this.datepicker("start"),
+          date = _this.getStartDateTime(),
+          result = false;
+
+      // make sure it isn't blacked out/unscheduled etc on the day
+      bta.checkAvailability(date, start, {
+        availability: function(capacity, bookingCount) {
+          result = _this.getAvailability() > 0;
+        }
+      });
+
+      return result;
+    };
+
+    /* get the availability (capacity - bookings) based on current date/time */
+    this.getAvailability = function () {
+      var startDateField = _this.datepicker("start"),
+          startTimeField = _this.findTimepickerForDatepicker(startDateField),
+          startDate = _this.getStartDateTime();
+
+      // check if a timepicker is present and all times disabled
+      if (startTimeField) {
+        if (jQ('option', startTimeField).not(':disabled').length == 0) { // all timeslots are disabled
+          return 0;
+        }
+      }
+
+      if (startDate) {
+        return _this.capacityAt(startDate);
+      }
+
+      return 0;
+    };
+
+    this.capacityAt = function(date) {
+      var data = bta.cached(date),
+          start = _this.datepicker("start"),
+          time = start.attr('data-time'),
+          product = bta.product(data, start.attr('data-handle')),
+          variant = bta.variant(product, start.attr('data-variant')),
+          capacity = bta.capacity(product, variant),
+          duration = _this.getDuration(),
+          bookings = bta.bookingsAt(data, product, variant, date, time, duration),
+          booked = 0;
+
+      for (var i = 0; i < bookings.length; i++) {
+        booked += bookings[i].quantity;
+      }
+
+      return capacity - booked;
+    };
+
+    this.selectRangeVariantOption = function() {
+      var start = _this.getStartDate(),
+          finish = _this.getFinishDate();
+  
+      if (start && finish) {
+        var config = _this.datepicker('start').attr('data-bta-product-config'),
+            durationConfig = bta.config(config, 'durations'),
+            ranges = durationConfig.length > 0 ? JSON.parse(durationConfig) : [],
+            optionPosition = parseInt(bta.config(config, 'duration_option_position'), 10) || 1, // which option is used for date ranges
+            optionValueIndex = 0,
+            select = jQ('.single-option-selector:eq(' + (optionPosition - 1) + ')'), // eq is 0 based
+            rangeCountSecs = _this.rangeCount() * 86400; // range count (number of days/nights) converted to secs
+
+        for (var x = 0; x < ranges.length; x++) {
+          if (ranges[x].low <= rangeCountSecs && ranges[x].high >= rangeCountSecs) {
+            optionValueIndex = x;
+            break;
+          }
+        }
+
+        var shouldSelect = _this.datepicker('start').attr('bta-select-matching-range-variant') || 'true';
+        if (optionValueIndex != select.find('option:selected').index() && (shouldSelect == 'true')) {
+          select.find(':nth-child(' + (optionValueIndex + 1) + ')').prop('selected', true); // nth-child is 1 based
+          select.trigger('change');
+        }
+      }
+    };
+
+    this.hideDurationOption = function() {
+      var start = _this.getStartDate();
+      if (start) {
+          var config = _this.datepicker('start').attr('data-bta-product-config'),
+              optionPosition = parseInt(bta.config(config, 'duration_option_position'), 10) || 1; // which option is used for date ranges
+
+          jQ('.selector-wrapper:nth-child(' + optionPosition + ')').hide()
+      }
+    };
+
+    this.triggerDatetimeChange = function() {
+        <% if $flipper[:duration_v2].enabled?(@shop) %>
+        _this.selectRangeVariantOption();
+        <% end %>
+
+        _this.updateFinishFieldUsingDuration();
+
+        form.trigger('bta.datetimeChange', _this);
+    };
+
+    this.triggerTimeslotsLoaded = function() {
+        form.trigger('bta.timeslotsLoaded', _this);
+
+        // trigger change on select elements so that any 3rd party select controls update
+        // - bta-changing class is to prevent cascading updates
+        jQ('select.bta-time').addClass('bta-changing').trigger('change').removeClass('bta-changing');
+    };
+
+    this.triggerUpcomingEventsLoaded = function() {
+        form.trigger('bta.upcomingEventsLoaded', _this);
+    };
+
+    this.triggerDataLoaded = function(data) {
+        form.trigger('bta.dataLoaded', _this, data);
+    };
+
+    this.setMinMaxDates = function() {
+        var start = _this.datepicker("start"),
+            finish = _this.datepicker("finish"),
+            startDate = _this.getStartDate();
+
+        if (startDate && finish) {
+            var min = parseInt(start.attr('data-bta-range-days-min') || '0', 10),
+                minFinishDate = new Date(startDate.getTime());
+
+            if (min > 0) {
+                minFinishDate = moment(minFinishDate).add(min, 'days').toDate();
+            }
+
+            finish.datepicker('option', 'minDate', minFinishDate);
+
+            // find first booked out date > start date
+            var bod = _this.firstBookedOutDate(startDate);
+            if (bod) {
+                finish.datepicker('option', 'maxDate', bod);
+            }
+        }
+    };
+
+    this.quantityField = function() {
+      return jQ('select[name=qty], select[name=quantity], input[name=quantity], select[name=qty]', form);
+    };
+
+    this.unitsField = function() {
+      return jQ('select[name="properties[Units]"], select[name="properties[booking-units]"], input[name="properties[Units]"], input[name="properties[booking-units]"]', form);
+    };
+
+    this.setNumericInputMax = function(input, max) {
+        if (input && input.length > 0 && !input.is(':hidden')) {
+            // input field
+            if (input.attr('type') === 'number') {
+                input.attr('max', max);
+                input.attr('min', 1);
+            }
+
+            if (input.attr('type') === 'text') {
+                input.attr('data-max', max);
+                input.attr('data-min', 1);
+            }
+
+            var current = parseInt(input.val(), 10);
+            if (current > max) {
+                input.val(max);
+            }
+
+            if ((current == 0) && (max > 0)) {
+                input.val(1);
+            }
+        }
+    };
+
+    this.setNumericSelectMax = function(select, max) {
+        if (select && select.length > 0) {
+            select.find('option').removeAttr('disabled');
+            select.find('option').filter(function () {
+                return parseInt(this.value, 10) > max;
+            }).prop('disabled', true);
+        }
+    };
+
+    /*
+     Disallow values above the available places. Works against quantity and units line item properties for input and select fields.
+      */
+    this.setQuantityMax = function(max) {
+        var qty = _this.quantityField(),
+            units = form.find('input[name="properties[Units]"], input[name="properties[booking-units]"], select[name="properties[Units]"], select[name="properties[booking-units]"], input[name="properties[booking-party]"], select[name="properties[booking-party]"]');
+
+        if (qty.length === 0 && units.length === 0) return;
+
+        if (!_this.isRangeQuantity()) {
+          _this.setNumericInputMax(qty, max);
+          _this.setNumericSelectMax(qty, max);
+        }
+
+        _this.setNumericInputMax(units, max);
+        _this.setNumericSelectMax(units, max);
+    };
+
+    this.isRangeQuantity = function() {
+        return (bta.settings.quantity_range || 'no') === 'yes';
+    };
+
+    // 'fast forwards' through all bookings in a range finding the max quantity booked  at any one time. adapted from:
+    // - http://stackoverflow.com/questions/2244964/finding-number-of-overlaps-in-a-list-of-time-ranges
+    // - http://rosettacode.org/wiki/Text_processing/Max_licenses_in_use#Ruby
+    this.unitsAvailableInRange = function(stime, ftime) {
+      var data = bta.cached(stime);
+      if (!data) return;
+
+      var start = _this.datepicker('start'),
+          product = bta.product(data, start.attr('data-handle')),
+          variant = bta.variant(product, start.attr('data-variant')),
+          capacity = bta.capacity(product, variant),
+          allocations = bta.sharedResourceAllocations(data, product, stime),
+          bookings = jQ.grep(product.bookings.concat(allocations), function (booking, n) {
+            // booking matches if overlaps dates and is for the variant
+            return booking.start <= ftime && booking.end >= stime && bta.matchesOnCapacityType(booking, product, variant);
+          }),
+          times = [];
+
+      // capture start/finish times, state and quantity
+      for (var i = 0, len = bookings.length; i < len; i++) {
+        times.push({time: bookings[i].start, start: true, quantity: bookings[i].quantity});
+        times.push({time: bookings[i].finish, start: false,  quantity: bookings[i].quantity});
+      }
+
+      // sort times
+      times.sort(function(a, b) {
+        return (a.time > b.time) ? 1 : ((b.time > a.time) ? -1 : 0);
+      });
+
+      // loop over times keeping track of max quantity booked at any one time
+      var accumulator = 0,
+          max = 0;
+
+      for (var i = 0, len = times.length; i < len; i++) {
+        if (times[i].start) {
+          accumulator += times[i].quantity;
+        } else {
+          accumulator -= times[i].quantity;
+        }
+
+        max = Math.max(accumulator, max);
+      }
+
+      return capacity - max;
+    };
+
+    this.updateQuantity = function() {
+      var start = _this.datepicker('start'),
+          finish = _this.datepicker('finish'),
+          stime = _this.getStartDateTime(),
+          ftime = _this.getFinishDateTime(),
+          qty = _this.quantityField(),
+          party = form.find('input[name="properties[Units]"], input[name="properties[booking-units]"], select[name="properties[Units]"], select[name="properties[booking-units]"], input[name="properties[booking-party]"], select[name="properties[booking-party]"]');
+
+        if (qty.length === 0 && party.length === 0) { // no quantity or party size input found so nothing to update
+            return;
+        }
+
+        if (stime == null) {
+            return;
+        }
+
+        // if selecting a date range should automatically update quantity
+        if (_this.isRangeQuantity()) {
+            if (stime && ftime) {
+                qty.val(_this.rangeCount());
+
+                // if using booking units then set max based on number of bookings
+                _this.setQuantityMax(_this.unitsAvailableInRange(stime, ftime));
+
+                var callback = bta.listener("quantity");
+                if (callback) {
+                    callback(days);
+                }
+            }
+        } else {
+            // limit quantity field to availability.
+            // when using opening hours or schedule times widget the data-available option is the current availability.
+            var usingWidget = false,
+                available = -1;
+
+            jQ('div.bta-scheduled-times-widget select, select.bta-opening-hours', _this.form).each(function() {
+                usingWidget = true;
+
+                var select = jQ(this),
+                    option = select.find('option:selected'),
+                    widget = jQ("div.bta-scheduled-times-widget[data-datepicker='booking-start']", _this.form);
+
+                available = parseInt(option.attr('data-available'), 10);
+
+                if (available === 0) {
+                    jQ("input[type='submit']", this._form).prop('disabled', true);
+                    widget.find('.booked-out-message').fadeIn();
+                } else {
+                    jQ("input[type='submit']", this._form).removeAttr('disabled');
+                    widget.find('.booked-out-message').hide();
+                }
+            });
+
+            // check if there is a timepicker for start/finish (form 6)
+            var startTimepicker = _this.findTimepickerForDatepicker(start),
+                finishTimepicker = _this.findTimepickerForDatepicker(finish);
+
+            if (!usingWidget || (startTimepicker && finishTimepicker)) {
+                var data = bta.cached(stime);
+                if (!data) return;
+
+                var product = bta.product(data, start.attr('data-handle')),
+                    variant = bta.variant(product, start.attr('data-variant'));
+
+                if (!ftime) { // only start date exists - create a finish time by tacking on a default duration
+                    ftime = _this.defaultFinishTime(stime, product, variant);
+                }
+
+                available = _this.unitsAvailableInRange(stime, ftime);
+            }
+
+            _this.setQuantityMax(available);
+        }
+    };
+
+    this.isCountNights = function() {
+        var startDp = _this.datepicker('start'),
+            config = startDp.attr('data-bta-product-config') || startDp.attr('data-bta-config');
+
+        return (bta.config(config, 'count_nights') === 'true');
+    };
+
+    this.isCountDays = function() {
+        return !_this.isCountNights();
+    };
+
+    this.rangeBasis = function() {
+        return _this.isCountNights() ? 0 : 1;
+    };
+
+    this.rangeCount = function() {
+        var stime = _this.getStartDateTime(),
+            ftime = _this.getFinishDateTime();
+
+        if (stime && ftime) {
+            var days = Math.ceil(moment(ftime).diff(moment(stime), 'days', true));
+
+            if (_this.isCountNights() && days > 1) { // count nights
+              days -= 1;
+            }
+
+            return days;
+        } else {
+            return 0;
+        }
+    };
+
+    this.defaultFinishTime = function(start, product, variant) {
+      var duration = variant ? variant.duration : 1440; // Ticket 7431
+
+      if (!variant || !variant.allDay) {
+          return new Date(start.getTime() + ((duration + product.lag) * 60000)); // convert mins to millis
+      }
+
+      // variant is all day
+      var days = Math.floor(duration/1440);
+      if (_this.isCountDays()) {
+          days -= 1;
+      }
+
+      var result = moment(start);
+      result.add(days, 'days');
+      result.add(product.lag, 'minutes');
+      return result.endOf('day').toDate();
+    };
+
+    /*
+    Returns the capacity remaining after taking away bookings
+     */
+    this.available = function(startTime, finishTime) {
+        var data = bta.cached(startTime),
+            product = data.products[0],
+            variant = bta.variant(product, variantId),
+            capacity = bta.capacity(product, variant);
+
+        if ((capacity > 0) && startTime && finishTime) {
+            var min = capacity, // track capacity based on min available in the date range
+                days = bta.dayDelta(start, finish);
+
+            for (var day = 0; day < days; day++) {
+                bta.checkAvailability(date, jQ('#booking-start'), {
+                    availability: function(capacity, bookingCount) {
+                        var available = capacity - bookingCount;
+                        if (available < min) {
+                            min = available;
+                        }
+                    }
+                });
+
+                date.setDate(date.getDate() + 1);
+            }
+
+            capacity = min;
+        }
+
+        return Math.max(capacity, 0);
+    };
+
+    /*
+    Get the first booked out date after the from time
+     */
+    this.firstBookedOutDate = function(from) {
+        var bods = _this.bookedOutDates,
+            time = from.getTime();
+
+        for (var i = 0; i < bods.length; i++) {
+            if (bods[i] > time) {
+                return new Date(bods[i]);
+            }
+        }
+
+        return null;
+    };
+
+    // Track booked out periods when using timeslots
+    this.trackBookedOutDates = function(data) {
+      // TODO:
+      // 1. Handle variant based capacity
+      // 2. Calc the total booking count if there are multiple bookings at the same slot
+      // 3. Resources?
+      var startField = _this.datepicker("start"),
+          timeField = _this.findTimepickerForDatepicker(startField);
+
+      if (startField && timeField) {
+        var handle = startField.attr('data-handle'),
+            variantId = startField.attr('data-variant') || startField.data('variant'),
+            product = bta.product(data, handle),
+            variant = bta.variant(product, variantId);
+
+        if (!product) return;
+
+        for (var x = 0; x < product.bookings.length; x++) {
+          if (product.bookings[x].quantity >= product.capacity && product.capacity_type == 0) {
+            _this.addBookedOutDate(product.bookings[x].start);
+          }
+        }
+      }
+    };
+
+    this.addBookedOutDate = function(date) {
+        var time = date.getTime();
+
+        if (_this.bookedOutDates.indexOf(time) == -1) { // check if already tracked
+            _this.bookedOutDates.push(time);
+        }
+    };
+
+    this.loadOpeningHours = function(datepicker) {
+        if (!datepicker) return;
+
+        var timepicker = _this.findTimepickerForDatepicker(datepicker),
+            date = datepicker.datepicker("getDate");
+
+        if (!timepicker) return;
+        if (!timepicker.hasClass('bta-opening-hours')) return;
+        if (!date) return;
+
+        var data = bta.cached(date),
+            product = bta.product(data, datepicker.attr('data-handle')),
+            variant = bta.variant(product, datepicker.attr('data-variant')),
+            duration = _this.currentDuration(),
+            season = bta.seasonById(datepicker.attr('data-season')) || bta.season(date, product.handle),
+            slots = season ? season.days[date.getDay()].hours : [],
+            timeFormat = timepicker.attr('data-bta-timeformat') || timepicker.attr('data-timeformat') || 'hh:mm a',
+            slotInterval = parseInt(timepicker.attr('data-bta-slot-interval'), 10) || 0,
+            slotDurationType = timepicker.attr('data-bta-slot-type') || (slotInterval > 0 ? 'interval' : 'duration'),
+            strictDuration = (timepicker.attr('data-bta-strict-duration') || 'false') === 'true',
+            showEndTime = (timepicker.attr('data-bta-display-range') || 'false') === 'true',
+            currentVal = timepicker.val();
+
+        timepicker.empty(); // remove loading placeholder
+
+        if (season) {
+            timepicker.removeAttr('disabled');
+        } else {
+            bta.log('disabling timepicker - no season found');
+            timepicker.prop('disabled', true); // no season found for this date
+            return;
+        }
+
+        // slice timeslots using variant duration + lag if not using sliding window style
+        if (slotInterval == 0) {
+          slotInterval = duration;
+          if (product.lag < 1440) {
+            slotInterval +=  product.lag; // add intra-day lag
+          }
+        }
+
+        for (var i = 0; i < slots.length; i++) {
+          var slot = slots[i],
+              slotStart = new Date(),
+              slotFinish = new Date();
+
+          bta.setHhMm(slotStart, slot.from);
+          bta.setHhMm(slotFinish, slot.to);
+
+          // iterate over times available in this slot
+          bta.timeslice(slotStart, slotFinish, slotInterval, function(sliceStart, sliceFinish) {
+              var validSlice = true;
+
+              if (strictDuration) {
+                  // make sure duration of the event fits inside the slot
+                  var activityFinishTime = moment(sliceStart).add(duration, 'minutes');
+                  validSlice = activityFinishTime.isSameOrBefore(slotFinish, 'minute');
+              }
+
+              if (validSlice) {
+                var val = [sliceStart.getHours(), bta.pad(sliceStart.getMinutes())].join(':'),
+                    text = _this.formatTime(sliceStart, timeFormat);
+                if (showEndTime) {
+                  if (slotInterval > 0) { // use slot-duration setting when using slot-interval
+                    var customerFinish = new Date(sliceStart.getTime());
+                    customerFinish.setMinutes(customerFinish.getMinutes() + (slotDurationType === 'interval' ? slotInterval : duration));
+                  } else if (product.lag > 0) { // remove lag time from what customer sees
+                    var customerFinish = new Date(sliceFinish.getTime());
+                    customerFinish.setMinutes(customerFinish.getMinutes() - product.lag);
+                  }
+
+                  text += ' - ' + _this.formatTime(customerFinish, timeFormat);
+                }
+
+                timepicker.append(jQ('<option>').val(val).text(text));
+              }
+          });
+        }
+
+        if (timepicker.is(':empty')) {
+            timepicker.append(jQ("<option value=''>").text('No times available'));
+        }
+
+        if (currentVal) {
+            _this.setTimepickerTime(timepicker, currentVal); // preserve selected time
+        } else {
+            _this.setTimepickerTime(timepicker, timepicker.find('option:not([disabled]):first').val());
+        }
+    };
+
+    this.loadScheduledTimes = function() {
+        jQ('.bta-scheduled-times-widget', form).each(function(i, e) {
+            var datepicker = _this.datepicker("start"),
+                date = _this.getStartDate(),
+                handle = datepicker.attr('data-handle'),
+                data = bta.cached(date),
+                product = bta.product(data, handle),
+                variant = bta.variant(product, datepicker.attr('data-variant')),
+                times = jQ('select.bta-scheduled-times', _this.form),
+                schedule = jQ.grep(product.schedule, function(s, n) {
+                    return bta.dateMatches(date, s);
+                }),
+                bookings = bta.bookings(date, product, variant),
+                blackouts = jQ.grep(data.blackouts, function(b, n) {
+                    return (bta.dateMatches(date, b) && (b.handle === "" || b.handle === handle));
+                }),
+                timeFormat = times.attr('data-bta-timeformat') || times.attr('data-timeformat') || datepicker.attr('data-timeformat') || 'hh:mm a', // datepicker attr left for backward compatibility
+                showEndTime = ((times.attr('data-bta-display-range') || 'false') === 'true') || !((datepicker.attr('data-startonly') || 'false') === 'true');
+
+            times.empty(); // remove loading placeholder
+
+            for (var i = 0; i < schedule.length; i++) {
+                var slot = schedule[i],
+                    duration = (slot.duration == 0 && variant) ? variant.duration * 60 : slot.duration,
+                    start = slot.start,
+                    finish = new Date(start.getTime() + duration * 1000),
+                    val = [bta.pad(start.getHours()), bta.pad(start.getMinutes())].join(':'),
+                    slotBookings = jQ.grep(bookings, function(b, n) { // find bookings for this scheduled slot
+                        var bcompare = bta.YMDDateString(b.start),
+                            scompare = bta.YMDDateString(start);
+                        return bcompare === scompare;
+                    }),
+                    slotBlackouts = jQ.grep(blackouts, function(blackout, n) {
+                        var compareTime = new Date(slot.start.getTime());
+                        return (blackout.all_day == 1 || (blackout.start <= compareTime && compareTime < blackout.end));
+                    });
+
+                var available = bta.capacity(product, variant);
+
+                if (slotBlackouts.length > 0) { // blacked out?
+                    available = 0;
+                } else {
+                    // count up bookings for this slot
+                    for (var n = 0; n < slotBookings.length; n++) {
+                        available -= slotBookings[n].quantity;
+                    }
+                    available = available < 0 ? 0 : available;
+                }
+
+                var text = _this.formatTime(start, timeFormat);
+                if (showEndTime) {
+                    text += ' - ' + _this.formatTime(finish, timeFormat);
+                }
+
+                var option = jQ("<option/>", {"data-available": available}).val(val).text(text);
+                times.append(option);
+            }
+
+            // disable slots with 0 availability
+            times.find('option[data-available=0]').prop('disabled', true);
+
+            // select first available slot
+            var firstAvailableTime = times.find('option[data-available!=0]:first').not(':disabled').val();
+            if (firstAvailableTime) {
+                _this.setTimepickerTime(times, firstAvailableTime);
+            }
+
+            times.removeAttr('disabled');
+
+            _this.triggerTimeslotsLoaded();
+        });
+    };
+
+    /*
+     Disables hh:mm time slot options that:
+      - overlap with existing bookings
+      - don't have enough time to complete before closing time
+      - have no resource availability.
+      - are before the start time (for finish times)
+
+     Works for scheduled-time and opening-hours widgets
+    */
+    this.updateSlots = function() {
+        var rangeStartDatepicker = _this.datepicker('start');
+
+        jQ('select.bta-time', form).each(function(i, e) {
+            var timepicker = jQ(e),
+                datepicker = _this.findDatepickerForTimepicker(timepicker),
+                date = datepicker.datepicker('getDate'),
+                handle = rangeStartDatepicker.attr('data-handle'),
+                time = datepicker.attr('data-time');
+
+            if (!date) return true; // skip this timepicker
+
+            if (time) {
+                bta.setTime(date, time);
+            }
+
+            var data = bta.cached(date),
+                product = bta.product(data, handle),
+                variant = bta.variant(product, rangeStartDatepicker.attr('data-variant')),
+                bookings = bta.bookings(date, product, variant),
+                capacity = bta.capacity(product, variant),
+                blackouts = bta.blackouts(date, data, product),
+                options = timepicker.find("option"),
+                duration = parseInt(rangeStartDatepicker.attr('data-duration'), 10),
+                slotDuration = parseInt(timepicker.attr('data-bta-slot-duration') || '0', 10),
+                noslots = jQ('.bta-no-slots-available', form),
+                initialTime = timepicker.attr('data-initial-time');
+
+            options.attr('data-available', capacity);
+            timepicker.find('option:disabled').removeAttr('disabled');
+
+            // adjust duration
+            if (product.lag < 1440) { // only intra-day lag should be added to duration
+                duration += product.lag
+            }
+
+            // use slot duration if it has been configured
+            if (slotDuration > 0) {
+                duration = slotDuration;
+            }
+
+            if (noslots.length == 0) { // create a noslots element if not already created
+                noslots = jQ('<span class="bta-no-slots-available" style="display:none">No times available</span>');
+                timepicker.parent().append(noslots);
+            }
+
+            // see if any blackouts are in effect
+            var blackedout = false;
+            for (var i = 0; i < blackouts.length; i++) {
+                if (blackouts[i].variantId && blackouts[i].variantId != variant.id) {
+                  continue;
+                }
+
+                if (blackouts[i].all_day == 1) { // all day blackout
+                    break;
+                } else {
+                    var compareTime = new Date(date.getTime());
+
+                    // find options that overlap blackout period
+                    for (var n = 0; n < options.length; n++) {
+                        bta.setTime(compareTime, options[n].value);
+                        if (blackouts[i].start <= compareTime && compareTime < blackouts[i].end) {
+                            jQ(options[n]).attr('data-available', 0);
+                        }
+                    }
+                }
+            }
+
+            // *********************************************************
+            // set availability for each slot based on existing bookings
+            // *********************************************************
+
+            // add bookings for other products that use the same resource as this product
+            var resourceBookings = [],
+                resources = product.resources,
+                allocations = data.allocation;
+
+            for (var x = 0; x < resources.length; x++) {
+                for (var y = 0; y < allocations.length; y++) {
+                    if (resources[x].id == allocations[y].resource && bta.dateMatches(date, allocations[y])) {
+                        // don't double count existing bookings already found for this product
+                        var existingBookings = jQ.grep(bookings, function(booking) {
+                            return booking.buid == allocations[y].buid;
+                        });
+
+                        if (existingBookings.length == 0) {
+                            resourceBookings.push(allocations[y]);
+                        }
+                    }
+                }
+            }
+
+            bookings = bookings.concat(resourceBookings);
+
+            for (var i = 0; !blackedout && i < bookings.length; i++) {
+                var booking = bookings[i];
+                timepicker.find("option").each(function(i, e) {
+                    var option = jQ(this),
+                        available = Math.max(parseInt(option.attr('data-available'), 10) - booking.quantity, 0);
+
+                    // if this booking overlaps the slot then subtract booking quantity from capacity
+                    if (_this.overlaps(booking, {date: date, start: option.val(), duration: duration})) {
+                        option.attr('data-available', available);
+
+                        if (available == 0) {
+                            _this.addBookedOutDate(booking.start);
+                        }
+                    }
+                });
+            }
+
+            // disable slots that have already passed
+            var currentTime = new Date();
+            if (!variant.allDay && currentTime.getFullYear() == date.getFullYear() && currentTime.getMonth() == date.getMonth() && currentTime.getDate() == date.getDate()) {
+              timepicker.find("option").each(function(i, e) {
+                var option = jQ(this),
+                    slotStartTime = new Date();
+
+                bta.setTime(slotStartTime, option.val());
+
+                var slotFinishTime = new Date(slotStartTime.getTime());
+                slotFinishTime.setMinutes(slotStartTime.getMinutes() + duration);
+
+                if (slotFinishTime < currentTime) {
+                  option.attr('data-available', 0);
+                }
+              });
+            }
+
+            // disable finish time slots before start time
+            if (datepicker.hasClass('bta-range-finish')) {
+                var startTime = _this.getStartDateTime(),
+                    sameDay = _this.isSameDay(startTime, date),
+                    compareDateTime = new Date(date.getTime());
+
+                if (sameDay && startTime) { // same day and a start time is specified
+                    // figure out when next slot starts
+                    var nextSlotTime = new Date(startTime.getTime() + (duration * 60000));
+
+                    // find all slots before nextSlotTime
+                    timepicker.find("option").each(function(i, e) {
+                        var option = jQ(this);
+                        bta.setTime(compareDateTime, option.val());
+                        if (compareDateTime < nextSlotTime) {
+                            option.attr('data-available', 0);
+                        }
+                    });
+                }
+            }
+
+            // disable slots with no availability
+            timepicker.find("option[data-available='0']").attr("disabled", "disabled");
+
+            // select option corresponding to the start datetime passed as a url param from the calendar
+            if (initialTime) {
+              timepicker.find('option[value="' + initialTime + '"]').each(function(i, e) {
+                var available = parseInt(jQ(this).attr('data-available'), 10);
+                if (available > 0) {
+                  _this.setTimepickerTime(timepicker, initialTime);
+                }
+              });
+              timepicker.removeAttr('data-initial-time');
+            }
+
+            timepicker.show();
+            noslots.hide();
+
+            if (timepicker.find('option').length > 0 && timepicker.find('option:not([disabled])').length == 0) { // all times booked out
+                timepicker.hide();
+                noslots.show();
+                _this.setTimepickerTime(timepicker, '');
+            } else if (timepicker.find(":selected").length == 0 || timepicker.find(":selected").is(":disabled")) {
+                var firstAvailable = timepicker.find("option:not([disabled])").first();
+                _this.setTimepickerTime(timepicker, firstAvailable.val());
+            }
+        });
+
+        _this.triggerTimeslotsLoaded();
+    };
+
+    this.overlaps = function(booking, slot) {
+        // create date objects for comparison
+        var slotStartTime = new Date(slot.date.getTime());
+        bta.setTime(slotStartTime, slot.start);
+
+        var slotFinishTime = new Date(slotStartTime.getTime());
+        slotFinishTime.setMinutes(slotStartTime.getMinutes() + slot.duration);
+
+        return (booking.start < slotFinishTime && booking.end > slotStartTime);
+    };
+
+    /* Check date fields have date values. Does not alert if values are missing. */
+    this.isRequiredValid = function() {
+        return _this.isValidDate("start") && _this.isValidDate("finish");
+    };
+
+    /* Check fields have valid values and display a message if not */
+    this.isValid = function() {
+        jQ('div.booking-form .bta-validation-messages').hide();
+        return _this.validateDate("start") && _this.validateDate("finish") && _this.validateQuantity() && _this.validateSlots();
+    };
+
+    this.isValidDate = function(field) {
+        var dp = _this.datepicker(field);
+
+        if (dp && dp.hasClass('required') && dp.is(':visible')) {
+            var dpDate = dp.datepicker('getDate');
+
+            if (typeof(dpDate) === "undefined" || dpDate == null || (dp.hasClass('bta-inline-datepicker') && dp.attr('bta-inline-date-selected') !== "true")) {
+                return false;
+            }
+        }
+
+        return true;
+    };
+
+    this.validateDate = function(field) {
+        var valid = _this.isValidDate(field);
+        if (!valid) {
+            _this.notifyInvalidDate(field);
+        }
+        return valid;
+    };
+
+    this.notifyInvalidDate = function (field) {
+        var dp = _this.datepicker(field);
+
+        if (!dp.parents('div.booking-form').find('.bta-validation-messages').show()) {
+          alert('Please select a date');
+        }
+
+        if (!dp.hasClass('bta-inline-datepicker')) {
+          dp.focus();
+        }
+    };
+
+    this.isValidQuantity = function() {
+        var quantity = _this.quantityField();
+
+        if (quantity.length > 0 && !_this.isRangeQuantity()) {
+            var qty = quantity.val();
+            if (qty && /^\d+$/.test(qty)) {
+                qty = parseInt(qty, 10);
+            } else {
+
+            }
+        } else {
+            return true;
+        }
+    };
+
+    this.validateQuantity = function() {
+        var result = true;
+        if (!_this.isRangeQuantity()) {
+            result = _this.validateCapacityInput(_this.quantityField());
+        }
+
+        return result && _this.validateCapacityInput(_this.unitsField());
+    };
+
+    this.validateCapacityInput = function(input) {
+        if (input.length > 0) {
+            var qty = input.val();
+            if (qty && /^\d+$/.test(qty)) {
+                qty = parseInt(qty, 10);
+                var max = input.attr('max') || input.attr('data-max'),
+                    min = input.attr('min') || input.attr('data-min');
+
+                // check if over max
+                if (max && (max = parseInt(max, 10)) && (qty > max)) {
+                    _this.notifyQuantityExceeded(max);
+                    return false;
+                }
+
+                // check if under min
+                if (min && (min = parseInt(min, 10)) && (qty < min)) {
+                    _this.notifyQuantityInsufficient(min);
+                    return false;
+                }
+            } else {
+                _this.notifyQuantityInvalid();
+                return false;
+            }
+        }
+
+        return true;
+    };
+
+    this.notifyQuantityExceeded = function(max) {
+        alert("Please enter a quantity less than or equal to " + max);
+        _this.quantityField().focus();
+    };
+
+    this.notifyQuantityInsufficient = function(min) {
+        alert("Please enter a quantity greater than or equal to " + min);
+        _this.quantityField().focus();
+    };
+
+    this.notifyQuantityInvalid = function() {
+        alert("Quantity must be a number");
+        _this.quantityField().focus();
+    };
+
+    this.validateSlots = function() {
+        var valid = true;
+
+        jQ('select.bta-time', form).each(function() {
+            var timeField = jQ(this);
+            if (timeField.find('option:not([disabled])').length == 0) {
+                _this.notifySlotsFull();
+                valid = false;
+                return false; // don't iterate any more
+            }
+        });
+
+        return valid;
+    };
+
+    this.notifySlotsFull = function() {
+        alert("All times are booked out. Please choose another date.");
+    };
+
+    /*
+    Designed to be used with Ajax carts
+     */
+    this.pushProperties = function(data) {
+        var date = _this.getStartDateTime();
+        if (date) {
+            data.push(["properties[booking-start]", bta.toLocalIsoString(date, false)].join('='));
+        }
+
+        date = _this.getFinishDateTime();
+        if (date) {
+          data.push(["properties[booking-finish]", bta.toLocalIsoString(date, false)].join('='));
+        }
+    };
+
+    this.isSameDay = function(date, compareDate) {
+        return (date.getDate() == compareDate.getDate()) && (date.getMonth() == compareDate.getMonth()) && (date.getFullYear() == compareDate.getFullYear());
+    };
+
+    this.init();
+};
+
+var Loader = function () {};
+Loader.prototype = {
+    require: function (scripts, callback) {
+        this.loadCount      = 0;
+        this.totalRequired  = scripts.length;
+        this.callback       = callback;
+        for (var i = 0; i < scripts.length; i++) {
+            this.writeScript(scripts[i]);
+        }
+    },
+
+    loaded: function (evt) {
+        this.loadCount++;
+        if (this.loadCount == this.totalRequired && typeof this.callback == 'function') this.callback.call();
+    },
+
+    writeScript: function (src) {
+        var self = this, done = false, s = document.createElement('script'), head = document.getElementsByTagName('head')[0];
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = src;
+
+        s.onload = s.onreadystatechange = function() {
+            if (!done && (!this.readyState || this.readyState === "loaded" || this.readyState === "complete")) {
+                done = true;
+                self.loaded(this);
+
+                // Handle memory leak in IE
+                s.onload = s.onreadystatechange = null;
+                if (head && s.parentNode) {
+                    head.removeChild(s);
+                }
+            }
+        };
+
+        head.insertBefore(s, head.firstChild);
+    },
+
+    loadStylesheet: function(href) {
+        var ss = document.createElement('link');
+        ss.type='text/css'; ss.rel='stylesheet'; ss.href = href;
+        document.getElementsByTagName('head')[0].appendChild(ss);
+    }
+};
+
+var dependencies = [bta.base + "/javascripts/jquery.bta-2.0.js?_=<%= Rails.env.development? ? Time.now.to_i.to_s : '436' %>"];
+
+if (typeof(jQuery)==='undefined') {
+    dependencies.push("//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js");
+}
+
+if (typeof(JSON) === 'undefined') {
+    dependencies.push("//cdn.shopify.com/s/shopify/json2.js");
+}
+
+if (typeof Shopify === 'undefined' || typeof Shopify.getCart === 'undefined') {
+    dependencies.push("//cdn.shopify.com/s/shopify/api.jquery.js");
+}
+
+if (typeof window.moment === 'undefined') {
+  dependencies.push(bta.base + "/fullcalendar2/lib/moment.min.js");
+}
+
+var jquiv = "//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4";
+if (!window.jQuery || !window.jQuery.ui) {
+    dependencies.push(jquiv + (bta.debug ? "/jquery-ui.js" : "/jquery-ui.min.js"));
+    new Loader().loadStylesheet(jquiv + "/themes/" + (bta.settings.theme || "smoothness") + "/jquery-ui.css");
+}
+
+new Loader().require(dependencies, function() {
+    if (bta.initialized) return;
+
+    jQ = jQuery;
+    jQ.fn.reverse = [].reverse;
+
+    if (typeof(jQuery.cookie) === 'undefined') {
+      /**
+       * Cookie plugin
+       *
+       * Copyright (c) 2006 Klaus Hartl (stilbuero.de)
+       * Dual licensed under the MIT and GPL licenses:
+       * http://www.opensource.org/licenses/mit-license.php
+       * http://www.gnu.org/licenses/gpl.html
+       *
+       */
+      jQuery.cookie=function(b,j,m){if(typeof j!="undefined"){m=m||{};if(j===null){j="";m.expires=-1}var e="";if(m.expires&&(typeof m.expires=="number"||m.expires.toUTCString)){var f;if(typeof m.expires=="number"){f=new Date();f.setTime(f.getTime()+(m.expires*24*60*60*1000))}else{f=m.expires}e="; expires="+f.toUTCString()}var l=m.path?"; path="+(m.path):"";var g=m.domain?"; domain="+(m.domain):"";var a=m.secure?"; secure":"";document.cookie=[b,"=",encodeURIComponent(j),e,l,g,a].join("")}else{var d=null;if(document.cookie&&document.cookie!=""){var k=document.cookie.split(";");for(var h=0;h<k.length;h++){var c=jQuery.trim(k[h]);if(c.substring(0,b.length+1)==(b+"=")){d=decodeURIComponent(c.substring(b.length+1));break}}}return d}};
+    }
+
+    // fix up timber theme select styling which breaks jquery-ui styling for month/year dropdowns
+    jQ("<div />", {
+      id: 'bta-style',
+      html: '&shy;<style>.ui-datepicker select.ui-datepicker-month,.ui-datepicker select.ui-datepicker-year{display:inline-block;padding:inherit;vertical-align:inherit;height:inherit;min-height:inherit}.ui-datepicker select.ui-datepicker-month{margin-right:1px}.ui-datepicker select.ui-datepicker-year{margin-left:1px}.ui-datepicker-year{vertical-align:bottom}@media only screen and (max-width:760px){#bta-style{display:none}}</style>'
+    }).appendTo("body");
+
+    if (jQ('#booking-start[name^=attributes]').length > 0) { // old school way of installation using cookies
+        bta.syncCart();
+    }
+
+    if ((bta.settings.region || '') != '') {
+        new Loader().writeScript(jquiv + "/i18n/datepicker-" + bta.settings.region + ".js");
+    }
+
+    // for inline datepickers we create a div and hidden input for line item properties
+    jQ('.datepicker.bta-inline-datepicker').not('.hasDatepicker').each(function (n, inst) {
+        var $this = jQ(this),
+            attrs = $this.prop("attributes"),
+            div = jQ('<div>'), // create a div to hold the inline dp
+            hidden = jQ('<input type="hidden">'), // hidden alt field input for line item properties
+            lbl = jQ('label[for="' + $this.attr('id') + '"]');
+
+        // copy attributes to the new div
+        jQ.each(attrs, function() {
+            div.attr(this.name, this.value);
+        });
+        div.addClass('openDatepicker'); // makes refresh work
+
+        hidden.attr('id', $this.attr('id') + "_");
+        hidden.attr('name', $this.attr('name'));
+
+        $this.parent().prepend(div);
+        $this.parent().prepend(hidden);
+        $this.parent().prepend(lbl); // move label to the front
+        $this.removeAttr('name'); // use hidden input for value
+        $this.remove();
+    });
+
+    jQ('.bta-load-enable').prop('disabled', true);
+    jQ('#ui-datepicker-div').css('clip', 'auto'); // fix for not showing properly - see http://stackoverflow.com/questions/2682259/jquery-ui-datepicker-not-displaying
+
+    // search page behaviour
+    jQ("form[action='/apps/bookthatapp']").each(function(i, form) {
+      jQ('.datepicker', form).datepicker({
+        changeYear: true,
+        changeMonth: true
+      });
+
+      jQ('input[name="booking-start"]', form).datepicker('option', {
+        minDate: 0,
+        onClose: function (selectedDate) {
+          jQ('input[name="booking-finish"]').datepicker('option', 'minDate', selectedDate);
+        }
+      });
+
+      jQ('input[name="booking-finish"]', form).datepicker('option', {
+        onClose: function (selectedDate) {
+          jQ('input[name="booking-start"]').datepicker('option', 'maxDate', selectedDate);
+        }
+      });
+    });
+
+    // product page behaviour
+    jQ("form[action='/cart/add'], .bta-standalone-form").each(function() {
+        new bta.BookingForm(jQ(this));
+    });
+
+    // cart page behaviour
+    jQ("form[action='/cart']").each(function() {
+        new bta.BookingForm(jQ(this));
+
+        <% if @shop.created_at < Time.zone.parse("2014-08-01") %>
+        bta.cartPage(jQ(this));
+        <% end %>
+    });
+
+    <% if false %>
+    jQ('a[href*="//www.shopify.com"]').filter(function(i) {
+        var a = jQ(this), href = a.attr('href');
+        if (href.match(/\?ref=/)) {
+            a.attr('href', href.replace(/(ref=)[^\&]+/, '$1gtck'));
+        } else {
+            a.attr('href', href + '?ref=gtck');
+        }
+    });
+    <% end %>
+
+    bta.initialized = true;
+
+    var cb = window.btaLoadedCallback;
+    if (cb) {
+        cb();
+    }
+});
+
+if (bta.debug) {
+    var debugLoader = new Loader();
+    debugLoader.writeScript(bta.base + "/javascripts/bta-debug.js?_=1");
+    debugLoader.loadStylesheet(bta.base + "/stylesheets/bta-debug.css?_=1");
+}
+<% end %>

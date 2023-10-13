@@ -1,0 +1,103 @@
+<div class="content-box">
+  <div class="box-header clear">
+    <h2>Gantt</h2>
+  </div>
+
+  <div class="box-body clear">
+    <div class="clear">
+      <form action="/reports/gantt" method="get" class="no-print">
+        <table class="styled">
+          <caption>Filter</caption>
+          <tbody>
+          <tr>
+            <td class="title"><label for="start">Date Range:</label></td>
+            <td>
+              <input type="text" id="start" name="start" class="datepicker" size="15"/>
+              <label for="finish">-&nbsp;</label><input type="text" id="finish" name="finish" class="datepicker" size="15"/>
+            </td>
+          </tr>
+          <tr>
+            <td class="title"><label for="products">Product:</label></td>
+            <td>
+              <select id="products" name="products">
+                <%= display_product_search_options %>
+              </select>
+              <label for="variants">/</label>
+              <select id="variants" name="variants">
+                <option value="">Select Variant...</option>
+                <%= display_product_variants %>
+              </select>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
+        <div class="tab-footer">
+          <div style="text-align:right">
+            <input type="submit" class="submit" value="Search"/>
+          </div>
+        </div>
+      </form>
+
+      <div class="gantt_wrapper">
+        <% if @bookings.empty? %>
+            <div class="notification note-info">
+              <span class="icon"></span>
+              <p><strong>No bookings:</strong> No bookings found that match the filter criteria.</p>
+            </div>
+        <% else %>
+            <div class="gantt" ></div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% content_for :footer do -%>
+    <%= javascript_include_tag 'reports-helper.js' %>
+
+    <style>
+        .gantt_wrapper .gantt {border: 1px solid #eee; margin:0}
+    </style>
+
+    <script>
+        $('#start').datepicker('setDate', new Date('<%= @the_data.start %>'));
+        $('#finish').datepicker('setDate', new Date('<%= @the_data.finish %>'));
+        $('#products').val(<%= @the_data.product_id %>);
+        $('#variants').val(<%= @the_data.variant_id %>);
+
+        $("<link/>", { "rel": "stylesheet", "type": "text/css", "href": "http://taitems.github.io/jQuery.Gantt/css/style.css" }).appendTo("head");
+        $.getScript("http://taitems.github.io/jQuery.Gantt/js/jquery.fn.gantt.js", main);
+
+        // http://taitems.github.io/jQuery.Gantt/
+        ganttData = [
+            <% @bookings.each_with_index do |item, i| %>
+            <% booking = item.booking %>
+            {
+                name: '<%= link_to booking.name, edit_booking_path(booking) %>',
+//                desc: "Booking <%= booking.id %>",
+                values: [
+                    <% item.quantity.times do |x| %>
+                    {
+                        label: "Slot <%= x %>",
+                        from: new Date('<%= item.start.strftime("%Y-%m-%d %H:%M:%S") %>'),
+                        to: new Date('<%= item.finish.strftime("%Y-%m-%d %H:%M:%S") %>'),
+                        customClass: "ganttRed"
+                    }<% if x < item.quantity %>,<% end %>
+                    <% end %>
+                ]
+            }<% if i < @bookings.size %>,<% end %>
+            <% end %>
+        ]
+
+        function main(){
+            $(".gantt").gantt({
+                source: ganttData,
+                scale: "days",
+                minScale: "days",
+                maxScale: "months",
+                itemsPerPage: 50
+            });
+        }
+    </script>
+<% end %>

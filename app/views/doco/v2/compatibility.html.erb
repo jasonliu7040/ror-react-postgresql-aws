@@ -1,0 +1,59 @@
+<%= render partial: 'common/breadcrumbs',
+           locals: {
+               section: 'Developer Guide',
+               crumbs: [
+                   {title: 'Developer Guide', path: admin_doco_index_path},
+                   {title: 'Compatibility'}
+               ]
+           } %>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox">
+        <div class="ibox-content">
+          BookThatApp has the following Javascript library dependencies.
+        </div>
+      </div>
+
+      <div class="ibox">
+        <div class="ibox-title">
+          <h5>Javascript</h5>
+        </div>
+        <div class="ibox-content">
+          <p>The BookThatApp integration Javascript (the script that runs in the store) has the following Javascript library dependencies. These
+            libraries are automatically loaded unless they are already loaded.</p>
+
+          <table class="table table-striped">
+            <tr>
+              <td>jQuery</td>
+              <td>Version 1.7.2 or higher</td>
+            </tr>
+            <tr>
+              <td>jQuery UI</td>
+              <td>Version 1.8.2 or higher of jQuery UI. If your theme is using a custom build ensure the datepicker
+                component is included.</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="ibox">
+        <div class="ibox-title">
+          <h5>Apps</h5>
+        </div>
+        <div class="ibox-content">
+          <p>The following Apps are <strong>not compatible</strong> with BookThatApp:</p>
+          <ul>
+            <li>Bold Apps Product Builder</li>
+            <li>Tipify</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+

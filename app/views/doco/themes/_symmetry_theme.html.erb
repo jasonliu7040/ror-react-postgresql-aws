@@ -1,0 +1,10 @@
+<script>
+var ids = [];
+$("form[action='/cart/add']").each(function(i, e) {
+    ids.push($(e).attr('data-product-id'));
+})
+
+var bta = {
+    product_id: ids.join(',')
+}
+</script>

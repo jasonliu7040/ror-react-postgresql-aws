@@ -1,0 +1,31 @@
+<div class="content-box">
+  <div class="box-header">
+    <div class="button-bar fr" style="margin-top:5px">
+      <%= link_to('&laquo; Previous Booking'.html_safe, edit_booking_path(@booking.previous_booking)) if @booking.previous_booking %>
+      <%= link_to('Next Booking &raquo;'.html_safe, edit_booking_path(@booking.next_booking)) if @booking.next_booking %>
+    </div>
+
+    <h2>Edit Booking</h2>
+  </div>
+  <div class="box-body">
+    <p>
+      <small>
+        <span class="fr">
+            ID: <%= @booking.id %> / Created: <%= I18n.localize(@booking.created_at, :format => :short) %>
+          <%= "/ Updated: #{I18n.localize(@booking.updated_at, :format => :short)}" if @booking.created_at != @booking.updated_at %>
+          </span>
+
+        <%= booking_summary %>
+      </small>
+    </p>
+    <div class="tabs hidden">
+      <%= form_for @booking do |form| %>
+          <ul>
+            <li><a href="#booking-form" class="">Booking</a></li>
+            <li><%= link_to "Email Activity", email_activity_booking_path(@booking) %></li>
+          </ul>
+          <%= render :partial => "bookings/form", :locals => {:form => form} %>
+      <% end %>
+    </div>
+  </div>
+</div>

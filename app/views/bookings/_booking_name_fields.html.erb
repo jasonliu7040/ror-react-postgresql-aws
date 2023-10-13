@@ -1,0 +1,11 @@
+<tr class="nested-fields">
+  <td><%= f.hidden_field :id %><%= f.text_field :name, :size => "20", :required => 'required' %></td>
+  <td><%= f.text_field :email, :size => "15" %></td>
+  <td><%= f.text_field :phone, :size => "15" %></td>
+  <td class="table-actions">
+    <%= link_to_remove_association f do %>
+        <%= content_tag(:span, '', :class => "ui-icon ui-icon-trash") %>
+    <% end %>
+  </td>
+</tr>
+

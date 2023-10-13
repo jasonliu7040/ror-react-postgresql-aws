@@ -1,0 +1,81 @@
+<div class="content-box">
+	<div class="box-header clear">
+	    <h2>Products</h2>
+	</div>
+	
+	<div class="box-body clear">
+		<div class="side-bar clear">
+          <div class="sidebar-column clear">
+            <div id="add-products-info" class="notification note-info" <%= raw 'style="display:none"' unless @products.empty? %> >
+              <a title="Close notification" class="close" href="#"><span>close</span></a>
+              <span class="icon"></span>
+              <p>Import products from the list below to get started. Click on the
+                <span class="ui-icon ui-icon-triangle-1-w" style="display:inline-block"></span> icon to import a
+                product.</p>
+            </div>
+
+            <%= render :partial => "chooser" %>
+          </div>
+
+          <div class="main-column product-container clear">
+            <%= render :partial => "common/limited_plan" %>
+
+            <div id="product-search-box">
+              <form action="/products" method="get">
+                <input type="text" id="search" name="search" size="50" value="<%= @search_term %>" placeholder="Search title or handle" />
+                <input type="submit" value="Search" class="submit" />
+              </form>
+            </div>
+
+				<table id="product-inventory-table" class="styled">
+                  <thead>
+					<tr>
+                      <th></th>
+                      <th>Profile</th>
+                      <th>Product</th>
+                      <th>Capacity</th>
+                      <th>Variants</th>
+                      <th class="table-actions"></th>
+					</tr>
+                    </thead>
+					<tbody>
+					<% @products.each do |product| %>
+                      <tr id="inventory-row-<%= raw product.product_handle %>">
+                        <td><%= content_tag(:span, '', :class => "ui-icon #{product.hidden? ? 'ui-icon-locked' : 'ui-icon-check'}") %></td>
+                        <td><%= product.profile.capitalize %></td>
+                        <td><%= link_to product.product_title, edit_product_path(product) %></td>
+                        <td><%= product.capacities %></td>
+                        <td><%= product.variants_count %></td>
+                        <td class="table-actions"><%= link_to content_tag(:span, '', :class => "ui-icon ui-icon-trash"), product, data: {confirm: 'Are you sure you want to delete this product?'}, :method => :delete, :class => 'ajax-delete', 'data-external-id' => product.external_id %></td>
+                      </tr>
+					<% end %>
+					<% if @products.empty? %>
+						<tr id="inventory-placeholder">
+							<td colspan="6">No products</td>
+						</tr>
+					<% end %>
+                    </tbody>
+				</table>
+
+                <%= paginate @products %>
+			</div>
+		</div>
+	</div>
+</div>
+
+<% content_for :footer do -%>
+<%= javascript_include_tag '/javascripts/jquery.conciergify.productchooser.js' %>
+<script type='text/javascript'>
+    $('.product-chooser').productChooser({
+        url: '/chooser/available',
+        loaded: function() {
+            $('.product-chooser').removeClass('loading');
+        },
+        selected: function(id) {
+            document.body.style.cursor = "wait";
+            document.location.href = "/products/new?external_id=" + id;
+        }
+    });
+</script>
+<% end %>
+

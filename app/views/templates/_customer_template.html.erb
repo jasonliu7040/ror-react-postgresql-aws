@@ -1,0 +1,7 @@
+{% if shop.customer_accounts_enabled %}
+ {% if customer %}
+  <a href="/apps/bookthat/customer/{{ customer.id }}">View your bookings</a>
+ {% else %}
+  {{ "Login to see your bookings" | customer_login_link }}
+ {% endif %}
+{% endif %}

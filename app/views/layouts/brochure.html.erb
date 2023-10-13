@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="imagetoolbar" content="no" />
+	<meta name="MSSmartTagsPreventParsing" content="true" />
+	<meta name="author" content="Shopify Concierge" />
+	<meta name="keywords" content="Shopify, Booking System, Reservations, Booking Scheduling" />
+	<meta name="description" content="Booking management system for Shopify stores. Perfect for rental products, ticketed events, course bookings or hiring equipment." />
+    <meta name="robots" content="all" />
+    <meta name="robots" content="index, follow" />
+    <meta name="revisit-after" content="21 days" />
+    <meta name="version" content="1.0" />
+    <meta name="copyright" content="Shopify Concierge" />
+	<meta name="google-site-verification" content="-qflVyK6B5XuhmFMqfRIOIAzX26u0NBuZRrQabT0oCA" />
+
+	<title>BookThatApp - Shopify Booking App</title>
+
+	<%= stylesheet_link_tag "//#{request.env["HTTP_HOST"]}/stylesheets/brochure.css" %>
+	<%= stylesheet_link_tag "//#{request.env["HTTP_HOST"]}/stylesheets/fancybox.css" %>
+	<%= yield(:head) if @content_for_head %>
+	<script type="text/javascript">var ie6 = false</script>
+</head>
+
+<body>
+<!--[if lt IE 7]>
+    <div style='border: 1px solid #F7941D; background: #FEEFDA; text-align: center; clear: both; height: 75px; position: relative;'>
+    <div style='position: absolute; right: 3px; top: 3px; font-family: courier new; font-weight: bold;'><a href='#' onclick='javascript:this.parentNode.parentNode.style.display="none"; return false;'><img src='//www.ie6nomore.com/files/theme/ie6nomore-cornerx.jpg' style='border: none;' alt='Close this notice'/></a></div>
+    <div style='width: 640px; margin: 0 auto; text-align: left; padding: 0; overflow: hidden; color: black;'>
+    <div style='width: 75px; float: left;'><img src='//www.ie6nomore.com/files/theme/ie6nomore-warning.jpg' alt='Warning!'/></div>
+    <div style='width: 275px; float: left; font-family: Arial, sans-serif;'>
+    <div style='font-size: 14px; font-weight: bold; margin-top: 12px;'>You are using an outdated browser</div>
+    <div style='font-size: 12px; margin-top: 6px; line-height: 12px;'>For a better experience using this site, please upgrade to a modern web browser.</div>
+    </div>
+    <div style='width: 75px; float: left;'><a href='//www.firefox.com' target='_blank'><img src='//www.ie6nomore.com/files/theme/ie6nomore-firefox.jpg' style='border: none;' alt='Get Firefox 3.5'/></a></div>
+    <div style='width: 75px; float: left;'><a href='//www.browserforthebetter.com/download.html' target='_blank'><img src='//www.ie6nomore.com/files/theme/ie6nomore-ie8.jpg' style='border: none;' alt='Get Internet Explorer 8'/></a></div>
+    <div style='width: 73px; float: left;'><a href='//www.apple.com/safari/download/' target='_blank'><img src='//www.ie6nomore.com/files/theme/ie6nomore-safari.jpg' style='border: none;' alt='Get Safari 4'/></a></div>
+    <div style='float: left;'><a href='//www.google.com/chrome' target='_blank'><img src='//www.ie6nomore.com/files/theme/ie6nomore-chrome.jpg' style='border: none;' alt='Get Google Chrome'/></a></div>
+    </div>
+    </div>
+	<script type="text/javascript">ie6 = true</script>
+<![endif]-->
+
+	<div id="header">
+		<div class="page">
+			<a href="/" class="logo">Book That App</a>
+			<ul>
+				<li class="<%= "active" if params[:controller] == "home" && params[:action] == "index" %>"><a href="/">Home</a></li>
+				<li class="<%= "active" if params[:controller] == "login" %>"><a href="//www.bookthatapp.com/login">Sign In</a></li>
+			</ul>
+			<div class="clear"></div>
+		</div>
+	</div>
+
+	<div id="page">
+		<div class="top">
+		</div>
+		<div class="content">
+			<%= yield %>
+		</div>
+		<div class="bottom"></div>
+	</div>
+
+	<div id="footer" class="page">
+		<p>Copyright &copy; <%= current_year -%> Shopify Concierge. All rights reserved.</p>
+		<ul>
+			<li><a href="/">Home</a></li>
+			<li><a href="//www.bookthatapp.com/login">Sign In</a></li>
+		</ul>
+		<div class="clear"></div>
+	</div>
+
+	<%= javascript_include_tag "//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" %>
+	<%= javascript_include_tag "//#{request.env["HTTP_HOST"]}/javascripts/jquery.easing-1.3.pack.js" %>
+	<%= javascript_include_tag "//#{request.env["HTTP_HOST"]}/javascripts/jquery.tools.brochure.js" %>
+	<%= javascript_include_tag "//#{request.env["HTTP_HOST"]}/javascripts/jquery.mousewheel-3.0.2.pack.js" %>
+	<%= javascript_include_tag "//#{request.env["HTTP_HOST"]}/javascripts/jquery.fancybox.js" %>
+	<%= javascript_include_tag  "//#{request.env["HTTP_HOST"]}/javascripts/site.js" %>
+
+    <%= yield :footer %>
+
+    <script type="text/javascript" charset="utf-8">
+    $(document).ready(function() {
+        // Configure fancybox plugin
+        $("a.screenshot").fancybox({
+            'transitionIn'	:	'elastic',
+            'transitionOut'	:	'elastic',
+            'speedIn'		:	400,
+            'speedOut'		:	400,
+            'overlayShow'	:	false
+        });
+
+        // Configure scrollable plugin
+        $(".scrollable").scrollable({});
+    });
+
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-31033263-2', 'auto');
+    ga('send', 'pageview');
+    </script>
+</body>
+</html>

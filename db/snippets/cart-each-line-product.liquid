@@ -1,0 +1,12 @@
+{% comment %}
+BookThatApp auto installed snippet. Changes made to this file will be lost if installed again.
+{% endcomment %}
+
+{% if item.product.metafields.bookthatapp.product_id %}
+{% capture attribute %}booking-{{ item.variant.id }}-start{% endcapture %}
+<input type="hidden" id="{{ attribute }}" name="attributes[{{ attribute }}]" value="{{ cart.attributes[attribute] }}" />
+<div class="booking-dates">
+  Date: <span id="dates-{{ item.variant.id }}" class="availability"><em><noscript>Javascript must be enabled to confirm date availability</noscript></em>
+  <span class="ui-icon loading"></span></span>
+</div>
+{% endif %}

@@ -1,0 +1,453 @@
+
+<% content_for :head do -%>
+  <%= stylesheet_link_tag 'admin/google-code-prettify/prettify', media: 'screen' %>
+<% end -%>
+<% content_for :javascript do %>
+  <%= javascript_include_tag 'admin/google-code-prettify/prettify' %>
+
+  <script>
+    $(document).ready(function() {
+      window.prettyPrint && prettyPrint();
+      $('form').submitWithAjax();
+    })
+  </script>
+
+<% end %>
+
+<%= render partial: 'common/breadcrumbs',
+           locals: {
+               section: 'Developer Guide',
+               crumbs: [
+                   {title: 'Developer Guide', path: admin_doco_index_path},
+                   {title: 'Product Page'}
+               ]
+           } %>
+
+<div class="wrapper wrapper-content  animated fadeInRight">
+  <div class="row">
+
+    <div class="col-lg-3 col-lg-push-9">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Booking Form Options</h5>
+        </div>
+        <div class="ibox-content no-padding">
+          <ul class="list-group">
+            <li class="list-group-item"><a href="#one-date">Capturing a booking date</a></li>
+            <li class="list-group-item"><a href="#date-range">Capturing a date range</a></li>
+            <li class="list-group-item"><a href="#time">Capturing time</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Behaviour</h5>
+        </div>
+        <div class="ibox-content no-padding">
+          <ul class="list-group">
+            <li class="list-group-item"><a href="#quantity">Handling quantity</a></li>
+            <li class="list-group-item"><a href="#select-variant">Selecting Variants</a></li>
+            <li class="list-group-item"><a href="#ajax-cart">Ajax Add To Cart</a></li>
+            <li class="list-group-item"><a href="#booking-form-properties">Booking Form Properties</a></li>
+            <li class="list-group-item"><a href="#custom-events">Custom Events</a></li>
+            <li class="list-group-item"><a href="#shopify-product-setup">Shopify Product Setup</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Recommended Reading</h5>
+        </div>
+        <div class="ibox-content">
+          <p>The Shopify wiki article <a href="http://wiki.shopify.com/Line_Item_Properties" target="_blank">Line Item Properties</a>
+          describes how to capture line item properties. We use use this approach to capture booking properties such as dates and times.</p>
+        </div>
+      </div>
+
+      <%= render 'doco/v2/install' %>
+
+    </div>
+
+    <div class="col-lg-9 col-lg-pull-3">
+
+      <div class="ibox">
+        <div class="ibox-content">
+          <p>This page provides instructions for setting up fields on the product page to capture the booking date and/or time.</p>
+        </div>
+      </div>
+
+      <div class="ibox">
+        <div class="ibox-title">
+          <h5>Booking Form Snippet</h5>
+        </div>
+
+        <div class="ibox-content">
+          <p>We highly recommend putting the booking input fields and initialization code in a snippet. Once the snippet is installed you can include it where you would like the fields
+            to appear inside the product &lt;form> element. Typically the snippet is included just after where the variants are defined.</p>
+            <%= render_source partial: 'doco/product/booking_forms_snippet', path: 'Here is an example of how to include the snippet in <strong><em>product.liquid</em></strong> (template)'.html_safe %>
+          <div class="alert alert-info">
+            <p><strong>Note:</strong> In the examples shown in this documentation the '...' lines represent existing code. Do not copy and paste the dots :-)</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="ibox">
+        <div class="ibox-title">
+          <h5>Initialization</h5>
+        </div>
+
+        <div class="ibox-content">
+          <p>
+            BTA initialization code must be placed at the bottom of the <i>booking-form.liquid</i> snippet. Initialization sets up the product id.
+          </p>
+          <%= render_source partial: 'doco/product/initialization', path: '' %>
+          <p class="no-pad">The anatomy of the snippet is as follows:</p>
+          <ul>
+            <li>On the first line <code>{% if product.metafields.bookthatapp.config %}</code> is used to prevent the booking fields showing up for products that are not configured in BookThatApp</li>
+            <li>Some themes include the product form multiple times (e.g. for recommended products). The second line <code>{% unless bta_configured %}</code> prevents subsequent inclusions of <i>booking-form.liquid</i> overwriting this product id.</li>
+            <li>Although not strictly required, <code>&lt;div class="booking-form"></code> allows for CSS styling targeted at booking form input elements. You can also <a href="#custom-events">attach listeners</a> to this element to respond to changes in state.</li>
+            <li>Initialization of the <code>var bta</code> object identifies which product availability information to retrieve.</li>
+          </ul>
+        </div>
+      </div>
+
+
+      <div class="ibox">
+        <div class="ibox-title">
+          <h5>Booking Form Options</h5>
+        </div>
+        <div class="ibox-content">
+          <div class="alert alert-info"><span class="icon"></span>
+            <p>Clicking the "<strong>Install Snippet</strong>" button creates a '<i>booking-form.liquid</i>' snippet (in the published theme) and installs the example code (including initialization).
+          </div>
+
+          <div class="row">
+
+            <div class="col-lg-12">
+
+              <div class="panel panel-default" id="one-date">
+                <div class="panel-heading">
+                  Booking Form Option 1: Capturing a booking date
+                </div>
+                <div class="panel-body">
+                  <p class="no-pad">The simplest method of capturing a booking is via a single datepicker. This is best for rental products, such
+                    as equipment or clothing. Typically this is used with variants that specify a booking period so you don't
+                    need to provide a datepicker for the end date.</p>
+                  <p>
+                    <%= form_tag '/doco/snippet', :remote => true do -%>
+                      <%= hidden_field_tag :snippet, 'booking-form' %>
+                      <%= hidden_field_tag :source, 'one-date' %>
+                      <%= submit_tag 'Install Snippet', :class => "btn btn-sm btn-success fn" %>
+                    <% end -%>
+                  </p>
+                  <%= render_source partial: 'doco/product/booking_form_option1', path: 'booking-form.liquid (snippet)' %>
+                </div>
+              </div>
+
+              <div class="panel panel-default" id="date-range">
+                <div class="panel-heading">
+                  Booking Form Option 2: Capturing a date range
+                </div>
+                <div class="panel-body">
+                  <p class="no-pad">Capturing a date range is similar to capturing the a single date. We add an additional datepicker
+                    with the id of <em>booking-finish</em> to the booking-form snippet. BookThatApp automatically ensures that
+                    the end date is not before the start date, and that you can't create a booking that overlaps an existing booking.</p>
+                  <p>
+                    <%= form_tag '/doco/snippet' do -%>
+                      <%= hidden_field_tag :snippet, 'booking-form' %>
+                      <%= hidden_field_tag :source, 'date-range' %>
+                      <%= submit_tag 'Install Snippet', :class => "btn btn-sm btn-success fn" %>
+                    <% end -%>
+                  </p>
+                  <%= render_source partial: 'doco/product/booking_form_option2', path: 'booking-form.liquid (snippet)' %>
+                </div>
+              </div>
+
+              <div class="panel panel-default" id="time">
+                <div class="panel-heading">
+                  Booking Form Option 3: Capturing time
+                </div>
+                <div class="panel-body">
+                  <p>To capture a booking time you can use an element with a property name of 'booking-time' in conjunction with
+                    the datepicker that captures the date.</p>
+                  <p>You can specify the time slots yourself as options for the select element (ensuring
+                    the value is formatted as "hh:mm"), use our "scheduled time widget", or use a select element
+                    that shows opening hours.</p>
+
+                  <h4>Specifying your own hours</h4>
+                  <p class="hidden"> When using the times configured for the variant the 'data-variant' attribute be specified on the select element, and updated appropriately when
+                    a different variant is chosen (see the <a href="#variant-availability">Variant Availability</a> section for details)</p>
+                  <p class="hidden">When a time is chosen the associated datepicker (via the 'data-datepicker' attribute) will have its'
+                    'data-time' attribute updated with the selected time. This time will then be used for availability calculation.</p>
+                  <p class="no-pad">Here is an example using your own time slot options:</p>
+                  <p>
+                    <%= form_tag '/doco/snippet' do -%>
+                      <%= hidden_field_tag :snippet, 'booking-form' %>
+                      <%= hidden_field_tag :source, 'time' %>
+                      <%= submit_tag 'Install Snippet', :class => "btn btn-sm btn-success fn" %>
+                    <% end -%>
+                  </p>
+                  <%= render_source partial: 'doco/product/booking_form_option3', path: 'booking-form.liquid (snippet)' %>
+
+                  <div id="scheduled-time">
+                    <h4>Scheduled Time Widget</h4>
+                    <p class="no-pad">To show times available based on a product's repeating schedule you can use our scheduled time widget. The widget
+                      will show available time slots based on the schedule configured for that product. When a date is
+                      chosen the select options are updated to only show time slots available on the selected day. The widget code can go
+                      anywhere in product.liquid (inside the cart form), but is typically added just after the datepicker.</p>
+                    <p>
+                      <%= form_tag '/doco/snippet' do -%>
+                        <%= hidden_field_tag :snippet, 'booking-form' %>
+                        <%= hidden_field_tag :source, 'scheduled-time' %>
+                        <%= submit_tag 'Install Snippet', class: "btn btn-sm btn-success fn" %>
+                      <% end -%>
+                    </p>
+                    <%= render_source partial: 'doco/product/scheduled_time_widget', path: 'booking-form.liquid (snippet)' %>
+                    <p>Configuration:</p>
+                    <ul>
+                      <li><strong>class</strong>: Setting the class name of the div to 'bta-scheduled-times-widget' lets BookThatApp know about the widget</li>
+                      <li><strong>data-label</strong>: This is the label used for the dropdown</li>
+                      <li><strong>data-prompt</strong>: This is the initial prompt to use when a date hasn't been selected in the datepicker yet</li>
+                      <li><strong>data-datepicker</strong>: Specifies the datepicker to use this widget with</li>
+                      <li>The <i>p.loading</i> element will appear until the BookThatApp scripts and availability data have been loaded</li>
+                      <li>the <i>div.booked-out-message</i> element will appear when the selected time is booked out</li>
+                    </ul>
+                  </div>
+                  <div id="opening-hours-time">
+                    <h4>Opening Hours</h4>
+                    <p>To show times based on the <a href="/settings/hours">opening hours</a> of the store you can use
+                      a select element with a class name of 'bta-opening-hours'. When a date is chosen the select options are updated to only show time slots available on the selected day. The select
+                      element can go anywhere in product.liquid (inside the cart form), but is typically added just after the datepicker.</p>
+                    <p>Since you are able to set up multiple seasons BTA uses the currently selected date on the datepicker, however you can
+                      overide that by specifying a <code>data-season</code> attribute to override this. For example, you could use this to
+                      specify opening hours for a specific product by naming the season the same as the product handle then
+                      adding <code>data-season="{{ product.handle }}"</code> to the datepicker input element.</p>
+                    <p class="no-pad">You can specify the prompt for when no date has been selected yet by adding a data-prompt attribute to the select
+                      element.</p>
+                    <p>
+                      <%= form_tag '/doco/snippet' do -%>
+                        <%= hidden_field_tag :snippet, 'booking-form' %>
+                        <%= hidden_field_tag :source, 'opening-time' %>
+                        <%= submit_tag 'Install Snippet', class: "btn btn-sm btn-success fn" %>
+                      <% end -%>
+                    </p>
+                    <%= render_source partial: 'doco/product/opening_hours', path: 'booking-form.liquid (snippet)' %>
+                  </div>
+
+                  <div id="upcoming-events">
+                    <h4>Upcoming Events</h4>
+                    <p class="no-pad">Using this widget you can display upcoming scheduled times for a class in a table.</p>
+                    <p>
+                      <%= form_tag '/doco/snippet' do -%>
+                        <%= hidden_field_tag :snippet, 'booking-form' %>
+                        <%= hidden_field_tag :source, 'product-upcoming-events' %>
+                        <%= submit_tag 'Install Snippet', class: "btn btn-sm btn-success fn" %>
+                      <% end -%>
+                    </p>
+                    <%= render_source partial: 'doco/product/upcoming_events', path: 'booking-form.liquid (snippet)' %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ibox" id="quantity">
+        <div class="ibox-title">
+          <h5>Handling Quantity</h5>
+        </div>
+        <div class="ibox-content">
+          <h4>Limiting Quantity Based on Availability</h4>
+          <p>If you are using a HTML5 input number type for capturing quantity BookThatApp will automatically set the "max" attribute based on the capacity for the chosen date and time.</p>
+          <h4>Date Ranges</h4>
+          <p>If your theme's form has a quantity field and you are using a date range, BookThatApp can automatically set it to the number
+            of days in the date range. For example if the start date is Jan 1, and the finish date is Jan 8, then quantity will
+            be set to 7. To enable this feature visit the <a href="/settings">settings page</a> and select Yes for the "Date range updates quantity?" setting.
+          </p>
+        </div>
+      </div>
+
+      <div class="ibox" id="select-variant">
+        <div class="ibox-title">
+          <h5>Selecting Variants</h5>
+        </div>
+        <div class="ibox-content">
+          <p>If your product capacity is based on variant options then you need to let BookThatApp what the currently selected variant
+            id is. You can do this by calling <code>bta.setSelectedVariantId(id)</code>. This must be done after Shopify has loaded the
+            BookThatApp client script. <code>bta.setSelectedVariantId(id)</code> will update the datepicker attributes <i>data-variant</i> and
+            <i>data-duration</i> which will then be used when showing available days in the datepicker.
+          </p>
+          <div class="alert alert-info">
+            <p><strong>Note:</strong> If your theme uses  <a href="http://wiki.shopify.com/Tutorial_on_editing_existing_theme_to_use_products_with_multiple_options">option_selection.js</a>
+              then BookThatApp will automatically detect when the selected variant changes.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="ibox" id="ajax-cart">
+        <div class="ibox-title">
+          <h5>Ajax Add To Cart</h5>
+        </div>
+        <div class="ibox-content">
+          <p>If your theme is using the Shopify Javascript API or Ajax to add items to the cart you will need
+            to ensure the line item properties are being saved properly and that a start date has a value.</p>
+          <p class="no-pad">Example add to cart function call (using BTA's built in validation checking):</p>
+          <%= render_source partial: 'doco/product/add_to_cart', path: '' %>
+          <div class="alert alert-info">
+            <p><strong>Tip:</strong> If you are using the Shopify Javascript API you can check that the
+              line item properties are being saved properly by running the following function in a browser console:</p>
+            <%= render_source partial: 'doco/product/add_to_cart_tip', path: '' %>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="ibox" id="booking-form-properties">
+        <div class="ibox-title">
+          <h5>Booking Form Properties</h5>
+        </div>
+        <div class="ibox-content">
+          <p class="no-pad">Booking attributes are captured as <a href="http://wiki.shopify.com/Line_Item_Properties" target="_blank">Line Item Properties</a>.
+            These properties are then picked up by the BookThatApp order webhook and used to create the booking.<p>
+          <p class="no-pad">The following properties are supported:</p>
+          <ul>
+            <li>[<strong>Start</strong>|<strong>Date</strong>|<strong>From</strong>|</strong>|<strong>booking-start</strong>]: Booking start date. This property is mandatory. Line Items not containing a start date are ignored.</li>
+            <li>[<strong>Finish</strong>|<strong>To</strong>|<strong>booking-finish</strong>]: Booking end date (calculated based on the variant's duration if not present)</li>
+            <li>[<strong>Time</strong>|<strong>booking-time</strong>]: Booking time</li>
+            <li>[<strong>Name</strong>|<strong>booking-name</strong>]: Name to use on the booking</li>
+            <li>[<strong>Email</strong>|<strong>booking-email</strong>]: Email address of the person making the booking</li>
+            <li>[<strong>Hotel</strong>|<strong>booking-hotel</strong>]: Hotel the guest is staying at</li>
+            <li><strong>booking-units</strong>: Number of units to book (e.g to capture the number in party for group bookings, or the number of pieces of equipment)</li>
+          </ul>
+
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="panel panel-default">
+                <div class="panel-heading">Datepicker</div>
+                <div class="panel-body">
+                  <p class="no-pad">BookThatApp injects a script into the store that automatically configures input fields with
+                    a CSS class of <strong><em>bta</em></strong> and <strong><em>datepicker</em></strong>, adding the following behaviour:</p>
+                  <ul>
+                    <li>Sets up the field for use with the <a href="http://jqueryui.com/datepicker/" target="_blank">jQuery UI datepicker</a></li>
+                    <li>Only shows dates that are available based on product schedule, bookings and blackout dates.</li>
+                    <li>Enables the input field after availability data is loaded.</li>
+                    <li>For date ranges, ensures the finish date is after the start date.</li>
+                    <li>Ensures that it is not possible to overlap existing bookings.</li>
+                    <li>Sets the minimum date from today that can be selected based on the cutoff time configured for the product.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="panel panel-default">
+                <div class="panel-heading">Data Attributes</div>
+                <div class="panel-body">
+                  <p class="no-pad">For the datepicker input field the following data attributes are supported:</p>
+                  <ul>
+                    <li><strong>data-handle</strong>: This attribute represents the handle of the product. Availability checks will be limited to this product.</li>
+                    <li><strong>data-variant</strong>: The attribute represents the product variant (id). When present, the availability check will be limited to just this variant.</li>
+                    <li><strong>data-time</strong>: Adding this attribute to the booking-start text input informs the availability algorithm to take into account the time. This is handy for products that are scheduled throughout the day (such as appointments)</li>
+                    <li><strong>data-duration</strong>: This attribute informs the availability algorithm to take into account the booking duration (in minutes). When the time and duration are specified, dates that would cause an overlap in bookings are disabled.</li>
+                    <li><strong>data-bta-remember</strong>: Remember the last previously selected date and automatically apply when visiting other product pages. Default <em>true</em>.</li>
+                    <li><strong>data-bta-product-config</strong>: This attribute is populated using the BTA metafields via liquid: <code>{{ product.metafields.bookthatapp.config }}</code>. It contains
+                      fields required for availability calculation such as lead time and cutoff time (mindate).</li>
+                    <li><strong>data-bta-variant-config</strong>: This attribute is populated using the BTA metafields via liquid: <code>{{ variant.metafields.bookthatapp.config }}</code>. It contains
+                      fields required for availability calculation such as capacity and duration.</li>
+                    <li><strong>data-bta-range-partner-id</strong>: Used for date ranges. Should be set to the start or finish input id - e.g. "#booking-start".</li>
+                    <li><strong>data-bta-range-days-min</strong>: Used for date ranges. Specifies the minimum number of days allowed for the range.</li>
+                    <li><strong>data-bta-range-days-max</strong>: Used for date ranges. Specifies the maximum number of days allowed for the range.</li>
+                    <li><strong>data-bta-update-finish-date</strong>: Automatically calculate the finish date based on the current duration and update the booking-finish field. Default <em>false</em>.</li>
+                    <li><strong>data-bta-change-year</strong>: Set to 'disable' to disable changing the year.</li>
+                    <li><strong>data-bta-change-month</strong>: Set to 'disable' to disable changing the month.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="panel panel-default">
+                <div class="panel-heading">CSS Classes</div>
+                <div class="panel-body">
+                  <p class="no-pad">For the datepicker input field the following CSS classes are supported:</p>
+                  <ul>
+                    <li><strong>bta-inline-datepicker</strong>: Display the datepicker inline.</li>
+                    <li><strong>bta-range-start</strong>: Indicates this datepicker instance is the start component of a date range.</li>
+                    <li><strong>bta-range-finish</strong>: Indicates this datepicker instance is the finish component of a date range.</li>
+                    <li><strong>bta-highlight-duration</strong>: When hovering over a date highlight the duration as configured for the current variant.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="panel panel-default">
+                <div class="panel-heading">Upcoming Events Table Widget</div>
+                <div class="panel-body">
+                  <p class="no-pad">The following attributes are supported for the upcoming events widget:</p>
+                  <ul>
+                    <li><strong>data-timeformat</strong>: Specifies how to format the time of the event. <i>Default value is 'hh:mm tt'.</i></li>
+                    <li><strong>data-dateformat</strong>: Specifies how to format the date of the event. <i>Default value is 'M d, yy'.</i></li>
+                    <li><strong>data-bta-max-events</strong>: Maximum rows to show in the table. The event list is sorted by date so setting this to a larger number will show events further into the future. <i>Default value is 20.</i></li>
+                    <li><strong>data-bta-low-capacity</strong>: Determines when to show partially booked messages. <i>Default value is 4.</i></li>
+                    <li><strong>data-available-label</strong>: Text displayed when availability is above the low capacity threshold. <i>Default text is 'Space Available'.</i></li>
+                    <li><strong>data-partially-available-label</strong>: Text displayed when availability is less than or equal to the low capacity threshold and greater than 1. <i>Default text is '{available} Places Remaining'.</i> The placeholder <i>{available}</i> is substituted with the number of remaining places.</li>
+                    <li><strong>data-last-available-label</strong>: Text shown when availability is 1. <i>Default text is '1 Place Remaining'.</i></li>
+                    <li><strong>data-booked-out-label</strong>: Text shown when there is no availability. <i>Default text is 'Booked Out'.</i></li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="panel panel-default">
+                <div class="panel-heading">Time Selectors</div>
+                <div class="panel-body">
+                  <p class="no-pad">The following attributes are supported for the select.bta-time elements:</p>
+                  <ul>
+                    <li><strong>data-bta-slot-interval</strong>: Determines the duration of timeslots. By default the variant duration is used.</li>
+                    <li><strong>data-bta-display-range</strong>: Show the end time as well as the start - e.g. if set to true it will display '9:00 am - 10:00 am'.</li>
+                    <li><strong>data-bta-hide-if-duration-gte-1-day</strong>: If this setting is set to 'true' then the timepicker will be hidden when
+                      a variant is selected that has been configured to have a duration greater than or equal to 1 day.</li>
+                    <li><strong>data-bta-hide-if-duration-gte-1-day</strong>: If this setting is set to 'true' then the timepicker will be hidden when
+                      a variant is selected that has been configured to have a duration greater than or equal to 1 day.</li>
+                    <li><strong>data-bta-timeformat</strong>: How to display times. Use 'hh:mm a' for 12 hour clock, or 'HH:mm' for 24 hour clock.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="ibox" id="custom-events">
+        <div class="ibox-title">
+          <h5>Custom Events</h5>
+        </div>
+        <div class="ibox-content">
+          <p>BTA will fire events during the initialization and loading lifecycle so that you can take action such as updating
+            the DOM. Event handlers should attach to the booking-form div element.</p>
+          <%= render_source partial: 'doco/product/custom_events_datetime', path: '<strong>bta.datetimeChange</strong>: this event is fired when a change to a start or finish dates, or the selected time.</li>'.html_safe %>
+          <%= render_source partial: 'doco/product/custom_events_timeslots', path: '<strong>bta.timeslotsLoaded</strong>: this event is fired when the timeslots are loaded for the scheduled times or opening hours widget.</li>
+'.html_safe %>
+          <p>We recommend placing this code at the bottom of the booking-form.liquid snippet.</p>
+        </div>
+      </div>
+
+      <div class="ibox" id="shopify-product-setup">
+        <div class="ibox-title">
+          <h5>Shopify Product Setup</h5>
+        </div>
+        <div class="ibox-content">
+          <ul>
+            <li><strong>Inventory tracking</strong> needs to be turned off for each variant. BTA handles the inventory tracking
+              based on the date, capacity and number of bookings for each event.</li>
+            <li>If you have different rental periods available (e.g. 1-2 days, 3-5 days etc) we recommend using variants to
+              represent each period. This lets you offer different pricing depending on the length of the booking. To
+              select the correct variant depending on the number of days chosen in the date range you can use the code in
+              <a href="https://gist.github.com/gterrill/5381626" target="_blank">this gist</a></li>
+          </ul>
+        </div>
+      </div>
+
+  </div>
+</div>
+</div>
+

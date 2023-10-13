@@ -1,0 +1,19 @@
+var Shopify = Shopify || {};
+Shopify.theme = {"name":"Noddy","id":7984444};
+
+// simulate Shopify async load
+(function(){
+    function asyncLoad(){
+        var urls = ["/javascripts/bta.js", "/javascripts/tour.js"];
+        for (var i = 0; i < urls.length; i++) {
+            var s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.async = true;
+            s.src = urls[i];
+            var x = document.getElementsByTagName('script')[0];
+            x.parentNode.insertBefore(s, x);
+        }
+    }
+    window.attachEvent ? window.attachEvent('onload', asyncLoad) : window.addEventListener('load', asyncLoad, false);
+})();
+

@@ -1,0 +1,13 @@
+  <metafield>
+    <created-at type="datetime">2014-08-07T16:56:53-04:00</created-at>
+    <updated-at type="datetime">2014-08-07T16:56:53-04:00</updated-at>
+    <namespace>bookthatapp</namespace>
+    <id type="integer">233592776</id>
+    <value></value>
+    <description nil="true"></description>
+    <key>config</key>
+    <value-type>string</value-type>
+
+    <owner_id>100383216</owner_id>
+    <owner_resource>product</owner_resource>
+  </metafield>

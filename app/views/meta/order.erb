@@ -1,0 +1,22 @@
+<% if @attributes.empty? %>
+<p><strong>No attributes:</strong> This order has no note attributes.</p>
+<% end %>
+<table id="metafields-edit-table" class="styled">
+	<thead>
+		<tr>
+			<th>Item</th>
+			<th class="full">Value</th>
+			<th>Edit</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @attributes.each do |attribute| %>
+		<tr>
+			<td class="title"><%= attribute.name %></td>
+			<td id="<%= @order.id %>:<%= attribute.name %>" class="edit-field edit-textfield"><%= attribute.value %></td>
+			<td><a href="#" class="quick_edit"><%= image_tag("ico_edit_16.png", :class=>"icon16 fl", :alt=>"Edit", :title=>"Edit") %></a></td>
+		</tr>
+		<% end %>
+	</tbody>
+</table>
+ 

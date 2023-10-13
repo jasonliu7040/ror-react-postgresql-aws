@@ -1,0 +1,1 @@
+$blacklisted = Set.new ['store', 'the-triathlon-shop', 'misafety']

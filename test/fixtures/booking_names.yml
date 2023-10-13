@@ -1,0 +1,31 @@
+one:
+  name: "Jimmy Johnson"
+  email: "jimmy@johnson.com"
+  item: four
+two:
+  name: "Jonny Jimson"
+  email: "jonny@jimson.com"
+  item: three
+three:
+  name: "Some Guiy"
+  email: "guy@you.com"
+  item: six
+four:
+  name: "Somze Guiy"
+  email: "guyz@you.com"
+  item: seven
+
+five:
+  name: "Wicked Dude"
+  email: "wick@ed.com"
+  incomplete_booking: incomplete
+
+reminder_email_test:
+  name: "Forgetful Dude"
+  email: "wick@ed.com"
+  booking_id: 1 # gav
+
+class_with_enrollments_name:
+  name: "Enrolled Dude"
+  email: "enroll@ed.com"
+  booking_id: 14 # class_with_enrollments_booking

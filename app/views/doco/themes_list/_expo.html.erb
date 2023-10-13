@@ -1,0 +1,15 @@
+<% content_for :panel_head do %>
+  Expo
+<% end %>
+
+<% content_for :panel_body do %>
+  <h5>Theme</h5>
+  <p>This theme uses an older version of jQuery. Upgrade it to 1.7.2 (in theme.liquid). It also has an older version of
+    jQuery <strong>UI</strong>. Update it in theme.liquid:</p>
+  <%= render_source :partial => 'doco/themes/expo_theme', path: 'layout/theme.liquid', line: 64 %>
+
+  <h5>Product Page</h5>
+  <p>The product page shows variants differently depending on how many there are. The easiest way
+    to deal with it is to just add the booking form below all that stuff.</p>
+    <%= render_source partial: 'doco/themes/include_booking_form', path: 'snippets/product-form.liquid', line: 75 %>
+<% end %>

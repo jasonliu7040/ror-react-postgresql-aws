@@ -1,0 +1,20 @@
+{% if shop.metafields.bookthatapp.config %}
+{{ '//{{ shop.permanent_domain | split: '.' | first}}.bookthatapp.com/javascripts/bta_cart.js' | script_tag }}
+<script>
+  var cart = {{ cart | json }},
+      reservations = [];
+
+  for (var line=0; line < cart.items.length; line++) {
+    var item = cart.items[line];
+    for (prop in item.properties) {
+      // check if this item has a line item property recognized by bta
+      if ($.inArray(prop.toLowerCase(), ['date', 'start', 'from', 'booking', 'event', 'booking-start', 'from']) > -1) {
+        // disable the quantity input corresponding to this line item
+        $('input[name="updates[]"]:eq('+ line +')').prop('readonly', true);
+
+        reservations.push({variant: item.variant_id, quantity: item.quantity, properties: item.properties[prop]});
+      }
+    }
+  }
+</script>
+{% endif %}

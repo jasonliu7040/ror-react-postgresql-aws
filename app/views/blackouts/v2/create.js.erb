@@ -1,0 +1,7 @@
+$.jGrowl("<%= flash.delete(:notice) %>");
+$('#blackout-form').fadeOut('slow', function() {
+	resetBlackoutForm();
+	var blackouts = [];
+	blackouts.push(<%= raw @blackout.to_calendar_hash.to_json %>);
+	$('#calendar').fullCalendar('renderEvent', schedadly.map(blackouts)[0], true);
+})

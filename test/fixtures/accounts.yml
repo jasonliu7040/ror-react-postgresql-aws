@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+test:
+  name: test corp
+  email: me@you.com
+  subdomain: testcorp
+
+aloha:
+  name: aloha
+  email: aloha@hawaii.com
+  subdomain: aloha

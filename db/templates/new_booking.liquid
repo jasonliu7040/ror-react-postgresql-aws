@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <base target='_parent'/>
+  <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" type="text/css" href="{{ bta_home }}/stylesheets/bootstrap-responsive-form-min.css" />
+</head>
+<body id="great-success">
+<div class="container-fluid">
+<h3>Complete your booking</h3>
+<form method="post" action="{{ action }}" class="form-horizontal form-custom bta-standalone-form">
+  {% if form.posted_successfully %}
+  <div class="alert alert-success" role="alert">
+    <p>Thanks for your booking!</p>
+    <p><a href="/">Continue Shopping</a> or <a id="start-again" href="#">Make another booking</a></p>
+  </div>
+  {% else %}
+  {% if form.errors %}
+    {% comment %}
+    <div class="alert alert-danger" role="alert">
+       <p>Oops, sorry. We were unable to submit your booking because it contained {{ form.errors.size | pluralize: 'an error', 'a few errors' }}. Please correct the following and submit again:</p>
+       <ul>
+       {% for field in form.errors %}
+          <li>The {{ field | capitalize }} field {{ form.errors_messages[field] }}.</li>
+       {% endfor %}
+       </ul>
+    </div>
+    {% endcomment %}
+  {% else %}
+    <div class="alert alert-info" role="alert">
+      <p>Let's get started.</p>
+    </div>
+  {% endif %}
+  
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+          <i class="icon-calendar"></i>
+          <h3 class="panel-title">Contact Information</h3>
+        </div>
+        
+        <div class="panel-body">
+            <div class="form-group">
+              <label class="col-md-1 control-label">Name</label>
+              <div class="col-md-11">
+                <div class="row">
+                  <div class="col-xs-6{% if form.errors contains 'firstname' %} has-error{% endif %}">
+                    <input id="firstname" type="text" name="customers[][firstname]" class="form-control" placeholder="First Name" value="{{ form.customers[0].firstname }}">
+                  </div>
+                  <div class="col-xs-6{% if form.errors contains 'lastname' %} has-error{% endif %}">
+                    <input id="lastname" type="text" name="customers[][lastname]" class="form-control" placeholder="Last Name" value="{{ form.customers[0].lastname }}">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-1 control-label"></label>
+              <div class="col-md-11">
+                <div class="row">
+                  <div class="col-xs-6">
+                      <div class="input-group{% if form.errors contains 'email' %} has-error{% endif %}">
+                        <input id="email" type="email" name="customers[][email]" class="form-control" placeholder="Email address" value="{{ form.customers[0].email }}">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                      </div>
+                  </div>
+                  <div class="col-xs-6">
+                      <div class="input-group{% if form.errors contains 'phone' %} has-error{% endif %}">
+                        <input id="phone" type="text" name="customers[][phone]" class="form-control" placeholder="Phone" value="{{ form.customers[0].phone }}">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+          <i class="icon-calendar"></i>
+          <h3 class="panel-title">Choose Your Service</h3>
+        </div>
+        
+        <div class="panel-body">
+            <div class="form-group">
+              <label class="col-md-1 control-label">Product</label>
+              <div class="col-md-11">
+                <input type="hidden" name="items[][quantity]" value="1">
+                <div class="row">
+                  <div class="col-xs-6{% if form.errors contains 'product' %} has-error{% endif %}">
+                   <select id="products" class="form-control" name="items[][product]" data-selected="{{ form.items[0].product_id }}" data-filter-profile="appt">
+                   </select>
+                  </div>
+                  <div class="col-xs-6{% if form.errors contains 'variant' %} has-error{% endif %}">
+                    <select id="variants" class="form-control" name="items[][variant]" data-selected="{{ form.items[0].variant_id }}">
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+          <i class="icon-calendar"></i>
+          <h3 class="panel-title">Choose Your Appointment Time</h3>
+        </div>
+        
+        <div class="panel-body">
+            <div class="form-group">
+              <label class="col-md-1 control-label"></label>
+              <div class="col-md-11">
+                <div class="row">
+                  <div class="col-xs-6">
+                    <div class="input-group{% if form.errors contains 'date' %} has-error{% endif %}">
+                        <input id="date" type="text" name="items[][date]" class="form-control bta bta-dp-start datepicker required" placeholder="mm/dd/yy" data-selected="{{ form.items[0].date }}" data-handle="" data-variant="" data-bta-product-config="" data-bta-variant-config=""  data-time="" disabled="disabled">
+                        <span id="datepicker-icon" class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                    </div>
+                  </div>
+                  <div class="col-xs-6">
+                    <div class="input-group{% if form.errors contains 'time' %} has-error{% endif %}">
+                        <select id="time" class="form-control bta-opening-hours bta-load-enable" name="items[][time]" data-datepicker="date" data-prompt="Choose a date..." disabled="disabled" data-selected="{{ form.items[0].time | date: '%H:%M' }}">
+                        </select>
+                        <span id="timepicker-icon" class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <button type="submit" class="btn btn-primary btn-default pull-right">Book Now</button>
+    </div>
+  </div>
+  {% endif %}
+</form>
+</div>
+</body>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+<script src="{{ bta_home }}/fullcalendar2/lib/moment.min.js"></script>
+<script src="{{ bta_home }}/javascripts/iframeResizer.contentWindow.min.js"></script>
+<script src="{{ bta_home }}/javascripts/bta-form.js"></script>
+
+<script>
+var bta = {
+    productId: ''
+}
+
+BookingModule.init({
+  products: {{ products }}
+});
+
+{% if form.posted_successfully %}
+location.hash = "#great-success";
+
+$('#start-again').click(function() {
+  window.top.location.href=window.top.location.href;
+})
+{% endif %}
+</script>
+<script src="{{ bta_home }}/javascripts/bta.js"></script>
+</html>

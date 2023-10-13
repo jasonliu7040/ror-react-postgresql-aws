@@ -1,0 +1,99 @@
+<div class="header page">
+	<h1>Sign In</h1>
+</div>
+<div id="signup" class="padding">
+    <div class="left">
+		<% if flash[:error] %> <div id="flasherrors"><%= flash[:error] %></div><% end %>
+		<% if flash[:notice] %><div id="flashnotices"><%= flash[:notice] %></div><% end %>
+
+      <% if Rails.env.development? %>
+          <%= form_tag login_path do %>
+              <h2><span>Account Info</span></h2>
+              <p>
+                <label for='shop'><strong>Shop</strong></label>
+                <%= text_field_tag 'shop', nil, {:size => 45, :class => 'text_field'} %><b>.myshopify.com</b>
+              </p>
+              <div class="clear margin"></div>
+              <p>
+                <label><strong>Email</strong></label>
+                <input type="email">
+              </p>
+              <p>
+                <label><strong>Pass</strong></label>
+                <input type="password">
+              </p>
+              <p>
+              <div class="send_form">
+                <%= submit_tag 'Sign Up', :class => 'button submit' %> or
+                <a href="#">Existing User? Log In Here</a>
+              </div>
+              </p>
+          <% end %>
+      <hr>
+      <% end %>
+
+	    <%= form_tag login_path do %>
+			<h2><span>Shopify Account Info</span></h2>
+		    <p>
+	            <label for='shop'><strong>Shop</strong></label>
+	            <%= text_field_tag 'shop', nil, {:size => 45, :class => 'text_field'} %><b>.myshopify.com</b>
+				<div class="clear margin"></div>
+				<div class="send_form">
+                  <%= submit_tag 'Sign In', :class => 'button submit' %>
+				</div>
+		    </p>
+	    <% end %>
+      <div class="clear margin"></div>
+      <h2><span>Don't have a Shopify Account?</span></h2>
+      <a href="https://www.shopify.com/services/signup?ref=gtck" target="_blank"><img src="/images/brochure/Shopify-Buttons-250x250-green.png" alt="Sign up for Shopify" style="float: left;margin: 0 20px;"/></a>
+      <div style="margin-left:20px; margin-top:20px;">
+        <p>
+          Shopify is the easiest way to sell online, and we think it is one of the best hosted ecommerce systems out there. Since
+          Shopify is hosted you don't need to worry about installation and maintenance of servers and software, allowing you to
+          focus on running your business.
+        </p>
+        <p><a href="https://www.shopify.com/services/signup?ref=gtck" target="_blank">Sign up here to get started with Shopify.</a></p>
+      </div>
+	</div>
+    <div class="right">
+        <div class="sidebar_box">
+            <h4>Signup Instructions</h4>
+          <p>
+            <strong>New Stores</strong><br/>
+            Enter your Shopify store name to signup and begin your <b>free</b> trial.
+          </p>
+          <p>
+            <strong>Existing BookThatApp Users</strong><br/>
+            Enter your Shopify store name to access BookThatApp.
+          </p>
+        </div>
+        <div class="sidebar_box">
+            <h4>Compatible Browsers</h4>
+            <ul>
+                <li>
+                    Firefox 2 or later
+                </li>
+                <li>
+                    IE 7 or later
+                </li>
+                <li>
+                    Safari 3 or later
+                </li>
+                <li>
+                    Chrome 2 or later
+                </li>
+                <li>
+                    Opera 8 or later
+                </li>
+            </ul>
+        </div>
+        <div class="sidebar_box">
+            <h4>Contact Us</h4>
+            <p>
+                Still have questions? <a href="mailto:info@shopifyconcierge.com?subject=BookThatApp Inquiry">Contact us</a>.
+            </p>
+        </div>
+    </div>
+    <div class="clear">
+    </div>
+</div>

@@ -1,0 +1,17 @@
+<recurring_application_charge type="hash">
+  <activated_on>2016-07-17</activated_on>
+  <api_client_id>755357713</api_client_id>
+  <billing_on>"2014-10-23T00:00:00+00:00"</billing_on>
+  <cancelled_on>null</cancelled_on>
+  <created_at>"2014-10-24T10:35:57-04:00"</created_at>
+  <id>455696195</id>
+  <name>"Super Mega Plan"</name>
+  <price>"15.00"</price>
+  <return_url>"http://legros-parker-and-harris6290.bookthatapp.dev:3002/charges/confirm"</return_url>
+  <status>"active"</status>
+  <test>true</test>
+  <trial_days>0</trial_days>
+  <trial_ends_on>2016-07-17</trial_ends_on>
+  <updated_at>"2014-10-24T10:36:42-04:00"</updated_at>
+  <decorated_return_url>"http://legros-parker-and-harris6290.bookthatapp.dev:3002/charges/confirm?charge_id=2565009"</decorated_return_url>
+</recurring_application_charge>

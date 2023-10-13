@@ -1,0 +1,7 @@
+$.jGrowl("<%= flash.delete(:notice) %>");
+$('#booking-form').fadeOut('slow', function() {
+	resetBookingForm();
+	var bookings = [];
+	bookings.push(<%= raw @booking.to_calendar_hash.to_json %>);
+	$('#calendar').fullCalendar('renderEvent', schedadly.map(bookings)[0], true);
+})

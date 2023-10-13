@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+          xmlns:o="urn:schemas-microsoft-com:office:office"
+          xmlns:x="urn:schemas-microsoft-com:office:excel"
+          xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+          xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">ID</Data></Cell>
+        <Cell><Data ss:Type="String">Start</Data></Cell>
+        <Cell><Data ss:Type="String">Finish</Data></Cell>
+        <Cell><Data ss:Type="String">Customer</Data></Cell>
+        <Cell><Data ss:Type="String">Email</Data></Cell>
+        <Cell><Data ss:Type="String">Phone</Data></Cell>
+        <Cell><Data ss:Type="String">Product</Data></Cell>
+        <Cell><Data ss:Type="String">Variant</Data></Cell>
+        <Cell><Data ss:Type="String">Order</Data></Cell>
+        <Cell><Data ss:Type="String">Status</Data></Cell>
+        <Cell><Data ss:Type="String">Units</Data></Cell>
+        <Cell><Data ss:Type="String">SKU</Data></Cell>
+        <Cell><Data ss:Type="String">Notes</Data></Cell>
+        <Cell><Data ss:Type="String">Booking Item ID</Data></Cell>
+      </Row>
+      <% @bookings.each do |item| %>
+          <% booking = item.booking %>
+          <Row>
+            <Cell><Data ss:Type="Number"><%= booking.id %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= item.start.strftime('%F %I:%M %P') %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= item.finish.strftime('%F %I:%M %P') %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= booking.name %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= booking.email %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= booking.phone %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= item.product.product_title %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= item.variant.title %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= booking.order_name %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= booking.status == 2 ? "Confirmed" : "Reserved" %></Data></Cell>
+            <Cell><Data ss:Type="Number"><%= item.quantity %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= item.sku %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= booking.notes %></Data></Cell>
+            <Cell><Data ss:Type="Number"><%= item.id %></Data></Cell>
+          </Row>
+      <% end %>
+      <Row>
+        <Cell></Cell>
+        <Cell></Cell>
+        <Cell></Cell>
+        <Cell></Cell>
+        <Cell></Cell>
+        <Cell></Cell>
+        <Cell></Cell>
+        <Cell></Cell>
+        <Cell></Cell>
+        <Cell><Data ss:Type="String">Total</Data></Cell>
+        <Cell><Data ss:Type="Number"><%= @total %></Data></Cell>
+        <Cell></Cell>
+        <Cell></Cell>
+        <Cell></Cell>
+      </Row>
+    </Table>
+  </Worksheet>
+</Workbook>

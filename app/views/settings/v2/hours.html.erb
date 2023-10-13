@@ -1,0 +1,29 @@
+<% content_for :head do %>
+<style>
+  .ui-datepicker-year{
+      display:none;
+  }
+</style>
+<% end %>
+
+<% content_for :javascript do %>
+    <%= javascript_include_tag '/javascripts/opening_hours_v2.js' %>
+<% end %>
+
+<%= render partial: 'common/breadcrumbs',
+           locals: {
+               section: 'Configuration',
+               crumbs: [
+                   {title: 'Configuration', path: ''},
+                   {title: 'Opening Hours'}
+               ]
+           } %>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <%= render :partial => "settings/v2/opening_hours" %>
+    </div>
+  </div>
+</div>
+

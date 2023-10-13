@@ -1,0 +1,10 @@
+<% content_for :panel_head do %>
+    Sunrise
+<% end %>
+<% content_for :panel_body do %>
+    <p>The Sunrise theme includes the jQuery UI library in shop.js.liquid but it doesn't
+      include the datepicker component.</p>
+    <p>First delete it from shop.js.liquid: lines 351 - 360.</p>
+    <p>Then add it to theme.liquid:</p>
+    <%= render_source partial: 'doco/themes/sunrise_theme', path: 'layout/theme.liquid', line: 49 %>
+<% end %>

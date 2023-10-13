@@ -1,0 +1,10 @@
+<webhook type="hash">
+  <address>http://apple.com</address>
+  <created_at>2014-08-12T12:08:41-04:00</created_at>
+  <fields></fields>
+  <format>xml</format>
+  <id>4759306</id>
+  <metafield_namespaces></metafield_namespaces>
+  <topic>orders/create</topic>
+  <updated_at>2014-08-12T12:08:41-04:00</updated_at>
+</webhook>

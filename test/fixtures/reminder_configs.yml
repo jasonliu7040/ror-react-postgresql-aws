@@ -1,0 +1,44 @@
+DEFAULTS: &DEFAULTS
+  shop_id: 1
+  cc_location: false
+  duration: 4320
+
+before_start_reminder_email:
+  <<: *DEFAULTS
+  liquid_template_id: 2
+  trigger_type: 'before_start'
+
+before_end_reminder_email:
+  <<: *DEFAULTS
+  liquid_template_id: 2
+  trigger_type: 'before_end'
+
+after_start_reminder_email:
+  <<: *DEFAULTS
+  liquid_template_id: 4
+  trigger_type: 'after_start'
+
+after_end_reminder_email:
+  <<: *DEFAULTS
+  liquid_template_id: 4
+  trigger_type: 'after_end'
+
+after_end_reminder_sms:
+  <<: *DEFAULTS
+  liquid_template_id: 5
+  trigger_type: 'after_end'
+
+after_start_reminder_sms:
+  <<: *DEFAULTS
+  liquid_template_id: 5
+  trigger_type: 'after_start'
+
+after_end_reminder_email_for_shop4:
+  cc_location: false
+  shop_id: 11
+  duration: 4320
+  liquid_template_id: 6
+  trigger_type: 'after_end'
+
+
+

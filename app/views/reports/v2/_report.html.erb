@@ -1,0 +1,8 @@
+<tr>
+  <td><%= report.name %></td>
+  <td><%= report.fields.map{ |field| Report::FIELDS[field][:text]}.join(', ') %></td>
+  <td>
+    <%= link_to content_tag(:i, '', :class => "fa fa-pencil"), edit_admin_report_path(report) %>
+    <%= link_to content_tag(:i, '', :class => "fa fa-remove"), report, :data => {:confirm => 'Are you sure?'}, :class => 'ajax-delete' %>
+  </td>
+</tr>

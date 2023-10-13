@@ -1,0 +1,14 @@
+<%= render partial: 'common/breadcrumbs',
+           locals: {
+               section: 'Configuration',
+               crumbs: [
+                   {title: 'Configuration', path: ''},
+                   {title: 'Locations', path: admin_locations_path },
+                   {title: 'Edit'}
+               ]
+           } %>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <%= render partial: 'locations/v2/form', locals: { title: 'Edit Location' } %>
+</div>
+

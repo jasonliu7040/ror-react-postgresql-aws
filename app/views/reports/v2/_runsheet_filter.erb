@@ -1,0 +1,200 @@
+<form action="/reports/runsheet" method="get" class="no-print form-horizontal">
+  <div class="panel panel-default">
+    <div class="panel-heading">Report</div>
+    <div class="panel-body">
+      <div class="form-group col-xs-6">
+        <label class="col-sm-2 control-label" for="resource">Report</label>
+        <div class="col-sm-10">
+          <%=select_tag 'report_id', options_from_collection_for_select(@reports, "id", "name", @the_data.report_id), :include_blank => "Please select", class: 'form-control' %>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="pull-right">
+          <%= button_tag 'Create Report', class:'add_report btn btn-primary' %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ibox float-e-margins no-print">
+    <div class="ibox-title">
+      <h5>Filter</h5>
+    </div>
+    <div class="ibox-content">
+        <div class="form-group">
+
+          <div class="col-sm-3 col-sm-offset-2 ">
+            <select id="date_type" name="date_type" class="form-control">
+              <option value="start">Booking Starts</option>
+              <option value="finish" <%= 'selected=selected' if @the_data.date_type == "finish" %>>Booking Ends</option>
+            </select>
+          </div>
+
+          <div class="col-sm-7">
+            <div class="form-group">
+              <div class="input-daterange input-group">
+                <span class="input-group-addon">between</span>
+                <input type="text" id="start" name="start" class="form-control datepicker"/>
+                <span class="input-group-addon">and</span>
+                <input type="text" id="finish" name="finish" class="form-control datepicker"/>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="products">Product</label>
+          <div class="col-sm-10">
+              <div class="input-daterange input-group">
+                <select id="products" name="products" class="form-control">
+                  <%= display_product_search_options %>
+                </select>
+                <span class="input-group-addon">/</span>
+                <select id="variants" name="variants" class="form-control">
+                  <option value="">Select Variant...</option>
+                  <%= display_product_variants %>
+                </select>
+              </div>
+          </div>
+        </div>
+
+        <% unless @available_resources.empty? %>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="resource">Resource</label>
+            <div class="col-sm-10">
+              <select id="resources" name="resources" class="form-control">
+                <%= display_resources %>
+              </select>
+            </div>
+          </div>
+        <% end %>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="order_name">Order #</label>
+          <div class="col-sm-10">
+            <input type="text" id="order_name" name="order_name" class="form-control" size="15" value="<%= @the_data.order_name %>"/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="name">Customer</label>
+          <div class="col-sm-10">
+            <input type="text" id="name" name="name" size="50" class="form-control" value="<%= @the_data.name %>"/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="order_by">Sort</label>
+          <div class="col-sm-5">
+            <select id="order_by" name="order_by" class="form-control">
+              <option value="start" <%= 'selected=selected' if @the_data.order_by == 'start' %>>Start Date</option>
+              <option value="finish" <%= 'selected=selected' if @the_data.order_by == 'finish' %>>Finish Date</option>
+              <option value="order_name" <%= 'selected=selected' if @the_data.order_by == 'order_name' %>>Order #</option>
+              <option value="name" <%= 'selected=selected' if @the_data.order_by == 'name' %>>Customer</option>
+              <option value="products.product_title" <%= 'selected=selected' if @the_data.order_by == 'products.product_title' %>>Product</option>
+            </select>
+          </div>
+          <div class="col-sm-5">
+            <select id="order_type" name="order_type" class="form-control">
+              <option value="DESC" <%= 'selected=selected' if @the_data.order_type == 'DESC' %>></option>
+              <option value="ASC" <%= 'selected=selected' if @the_data.order_type == 'ASC' %>></option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-4 col-sm-offset-2">
+            <input type="submit" class="submit btn btn-primary" value="Search"/>
+          </div>
+        </div>
+
+    </div>
+  </div>
+</form>
+
+<div class="modal fade no-print" id="reportModal"  tabIndex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Create Report</h4>
+      </div>
+      <%= form_tag('/admin/reports', class:"no-print form-horizontal", id: 'new_report') do%>
+
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="products">Report Name</label>
+            <div class="col-sm-10">
+              <%= text_field_tag 'report[name]', nil, class: 'form-control' %>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="products">Select Fields</label>
+            <div class="col-sm-10">
+              <%= select_tag 'report[fields]', options_for_select(fields_for_select), class: 'form-control chosen-select', multiple: true,  tabindex: "4"  %>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+          <%= submit_tag("Create report", class:'btn btn-primary', id: 'create_report') %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+
+<% content_for :javascript do %>
+
+  <script>
+
+    $( document ).ready(function() {
+      $('.add_report').click(function (event) {
+        $('#reportModal').modal({
+          keyboard: false,   // don't close modal on ESC
+          backdrop: 'static' // don't close modal on click outside of it
+        });
+        return false;
+      });
+
+      $(".chosen-select").chosen({width: "550px"});
+
+
+      var validation = $("#new_report").validate({
+        rules: {
+          'report[name]': {
+            required: true
+          }
+        }
+      });
+
+      $("#new_report").on("submit", function(e) {
+        if (validation.errorList.length == 0) {
+          $('#reportModal').modal('toggle');
+          $.ajax({
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            type: "POST",
+            dataType: "json",
+            success: function (response) {
+              $('#report_id').append($("<option></option>")
+                  .attr("value", response.report.id)
+                  .text(response.report.name));
+              $('#report_name').val('');
+              $('.chosen-select').val('').trigger("chosen:updated");
+            },
+            error: function (xhr, textStatus, errorThrown) {
+              var responseText = jQuery.parseJSON(xhr.responseText);
+              toastr.clear();
+              toastr.error(responseText.message);
+            }
+          });
+        }
+        e.preventDefault(); //THIS IS VERY IMPORTANT
+      });
+
+    });
+
+  </script>
+<% end %>
+

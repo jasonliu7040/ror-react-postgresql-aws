@@ -1,0 +1,33 @@
+{% comment %}
+BookThatApp auto installed snippet. Changes made to this file will be lost if installed again.
+{% endcomment %}
+
+{% if product.metafields.bookthatapp.config %}
+<div class="booking-form">
+    <div>
+        {% capture attribute %}booking-start{% endcapture %}
+        <label for="{{ attribute }}-{{ product.handle }}">From:</label>
+        <input id="{{ attribute }}-{{ product.handle }}" type="text" name="properties[From]" size="12" class="datepicker bta required bta-load-enable bta-dp-start" disabled="disabled"
+               data-handle="{{ product.handle }}" data-variant="{{ product.selected_or_first_available_variant.id }}"
+               data-bta-product-config="{{ product.metafields.bookthatapp.config }}"
+               data-bta-variant-config="{% for variant in product.variants %}{{ variant.id }}:{{ variant.metafields.bookthatapp.config }}{% unless forloop.last %},{% endunless %}{% endfor %}"
+               data-bta-range-partner-id="#booking-finish-{{ product.handle }}"
+               data-bta-range-days-max="0" data-bta-range-days-min="0" />
+    </div>
+    <div>
+        {% capture attribute %}booking-finish{% endcapture %}
+        <label for="{{ attribute }}-{{ product.handle }}">To:</label>
+        <input id="{{ attribute }}-{{ product.handle }}" type="text" name="properties[To]" size="12" class="datepicker bta required bta-load-enable bta-dp-finish" disabled="disabled"
+               data-bta-range-partner-id="#booking-start-{{ product.handle }}" />
+    </div>
+    <div class="bta-validation-messages" style="display:none">
+      <p class="bta-validation-date-missing">Please select a date</p>
+    </div>
+</div>
+
+<script>
+var bta = {
+    productId: {{ product.id }}
+}
+</script>
+{% endif %}

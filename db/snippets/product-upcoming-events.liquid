@@ -1,0 +1,33 @@
+{% comment %}
+BookThatApp auto installed snippet. Changes made to this file will be lost if installed again.
+{% endcomment %}
+
+{% if product.metafields.bookthatapp.config %}
+{% unless bta_configured %}
+
+<div id="booking-form">
+  <table id="events" class="bta-upcoming-events-table" style="width:100%"
+    data-handle="{{ product.handle }}"
+    data-name="Date"
+    data-bta-max-events="12"
+    data-bta-product-config="{{ product.metafields.bookthatapp.config }}"
+    data-bta-variant-config="{% for variant in product.variants %}{{ variant.id }}:{{ variant.metafields.bookthatapp.config }}{% unless forloop.last %},{% endunless %}{% endfor %}">
+  	<tr><td colspan="3" class="loading">Loading...</td></tr>
+  </table>
+</div>
+
+<script>
+  $('form[action="/cart/add"]').on('bta.upcomingEventsLoaded', function(event, form) {
+    if ($('#events tr').length == 0) {
+      $('#events').append("<tr><td colspan='3'><i>No events are scheduled at this time. Please check back later.</i></td></tr>");
+    }
+
+    if ($('#events tr').length == 0 || $('#events input[type=radio]').not(':disabled').length == 0) {
+      // no scheduled events are available - disable the add to cart button
+      $('form[action="/cart/add"] :submit').prop('disabled', true);
+    }
+  });
+</script>
+{% assign bta_configured = true %}
+{% endunless %}
+{% endif %}

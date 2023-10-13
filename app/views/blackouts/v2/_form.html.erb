@@ -1,0 +1,12 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <%= react_component('BlackoutContainer',
+                          blackout: BlackoutSerializer.new(@blackout, root: false).as_json,
+                          variants: @variants.as_json,
+                          products: @products.as_json) %>
+    </div>
+  </div>
+</div>
+
+

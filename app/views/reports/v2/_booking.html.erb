@@ -1,0 +1,8 @@
+<% booking = item.booking %>
+<tr>
+  <td ><%= check_box_tag "booking_ids[]", booking.id, false, class: 'bookings_ids' %></td>
+  <% @fields.each do |field|%>
+    <td><%= field_render(field, item) %></td>
+  <% end %>
+</tr>
+

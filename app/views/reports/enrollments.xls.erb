@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+          xmlns:o="urn:schemas-microsoft-com:office:office"
+          xmlns:x="urn:schemas-microsoft-com:office:excel"
+          xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+          xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name=<%= "Enrollments" %>>
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">Booking</Data></Cell>
+        <Cell><Data ss:Type="String">Customer</Data></Cell>
+        <Cell><Data ss:Type="String">Email</Data></Cell>
+        <Cell><Data ss:Type="String">Phone</Data></Cell>
+      </Row>
+      <% @enrollments.each do |enrollment| %>
+          <Row>
+            <Cell><Data ss:Type="Number"><%= enrollment.booking_id %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= enrollment.name %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= enrollment.email %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= enrollment.phone %></Data></Cell>
+          </Row>
+      <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>

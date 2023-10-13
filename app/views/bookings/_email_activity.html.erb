@@ -1,0 +1,32 @@
+<% if @email_events.empty? %>
+    <div class="notification note-info" >
+    <span class="icon"></span>
+    <% if @booking.created_at < DateTime.new(2015, 12, 11, 19) %>
+        <p>Email activity is not available for bookings created prior
+          to <%= I18n.localize(Date.new(2015, 12, 11), :format => :long) %>.</p>
+    <% else %>
+        <p>No activity</p>
+    <% end %>
+    </div>
+<% else %>
+    <table class="styled">
+      <thead>
+      <tr>
+        <th>Time</th>
+        <th>Event</th>
+        <th>Email</th>
+        <th>Message</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @email_events.each do |event| %>
+          <tr>
+            <td width="1%" style="white-space: nowrap"><%= I18n.localize(event.occurred_at, :format => :short) %></td>
+            <td width="1%" style="white-space: nowrap"><%= event.event %></td>
+            <td width="1%" style="white-space: nowrap"><%= event.email %></td>
+            <td><%= event.response %></td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+<% end %>

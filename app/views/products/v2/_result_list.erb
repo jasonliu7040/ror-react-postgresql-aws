@@ -1,0 +1,26 @@
+<% if @products.blank? %>
+<div class="notification note-info">
+    <a title="Close notification" class="close" href="#"><span>close</span></a>
+    <span class="icon"></span>
+    <p><strong>No products:</strong> You currently have no products in your store.</p>
+</div>
+<% else %>
+
+  <p><small><%= page_entries_info @page_results, :entry_name => 'product' %></small></p>
+
+  <table id="product-chooser-list" class="table table-striped table-bordered table-hover ">
+  <% @page_results.each do |product| %>
+      <tr class="product-chooser-row">
+        <td>
+          <a class="product-chooser-href ui-state-default <%= raw 'ui-state-disabled' if existing(product) %>" href="#<%= raw product.handle %>" data-product-id="<%= raw product.id %>" title="<%= product.title %>" style="border:0px">
+              <span class="fl fa <%= existing(product) ? 'fa-check' : 'fa-caret-left' %>"></span>
+              <span class="ellipsis title"><%= product.title %></span>
+              <span class="fr pico pull-right"><%= image_tag product.images.first.pico rescue '' %></span>
+          </a>
+        </td>
+      </tr>
+  <% end %>
+  </table>
+  <%= paginate @page_results, :theme => 'v2'  %>
+
+<% end %>

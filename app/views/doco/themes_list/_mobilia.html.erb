@@ -1,0 +1,19 @@
+<% content_for :panel_head do %>
+    Mobilia
+<% end %>
+<% content_for :panel_body do %>
+    <p>We recommend the following theme setting changes for Mobilia.</p>
+    <ul>
+      <li>Disable the "quick view" feature on collection listings (under the "Collection Page" section) so that the
+        booking form works correctly.
+      </li>
+      <li>Disable Style Tables (under the "Layout Colors and Background" section) so that the calendar layout works.
+      </li>
+    </ul>
+
+    <p>Note that in Mobilia the product add to cart form is in the <strong><i>product-form</i> snippet</strong>.</p>
+    <%= render_source partial: 'doco/themes/mobilia_product', path: 'snippets/product-form.liquid', line: 25 %>
+
+    <p>The cart page is straight forward but you should update the cart template so quantity can't be changed.</p>
+    <%= render_source partial: 'doco/themes/mobilia_cart', path: 'templates/cart.liquid', line: 94 %>
+<% end %>

@@ -1,0 +1,81 @@
+<% content_for :head do -%>
+<%= stylesheet_link_tag 'mono-blue' %>
+<% end -%>
+
+<% content_for :footer do -%>
+<script>
+	jQuery(document).ready(function($) {
+		$('.datepicker').datepicker({minDate:0});
+	});
+</script>
+<% end -%>
+
+<h1>Installation Guide</h1>
+<p>Instructions on how to integrate with BookThatApp.</p>
+
+<div class="content-box">
+	<div class="box-header clear">
+	    <h2>Datepicker</h2>
+	</div>
+	<div class="box-body clear">
+	    <div class="side-bar clear">
+		    <div class="sidebar-column clear">
+		        <div class="side-menu">
+			    	<h3>Resources</h3>
+		            <ul class="list">
+						<li><a href="http://jqueryui.com/demos/datepicker/" target="_blank">jQuery UI Datepicker</a></li>
+						<li><a href="http://jqueryui.com/themeroller/" target="_blank">jQuery UI ThemeRoller</a></li>
+						<li><a href="http://trentrichardson.com/examples/timepicker/" target="_blank">Timepicker Addon</a></li>
+						<li><a href="https://github.com/jzaefferer/jquery-validation" target="_blank">jQuery Validation Plugin</a></li>
+		            </ul>
+			    	<h3>Sample Datepicker</h3>
+			    	<p><input type="text" class="datepicker"/></p>
+		        </div>
+		    </div>
+		    <div class="main-column clear">
+                <%= render 'install' %>
+
+				<p>BookThatApp has been designed to work with the jQuery UI Datepicker. The following instructions describe how to install the datepicker
+				widget into your Shopify store.</p>
+		    	<h3>Installing the Datepicker</h3>
+		    	<p>The following code goes in the &lt;head> section of <i>theme.liquid</i>, assuming jQuery is already installed. Add it just before the closing &lt;/head> tag (the '...' show existing code, please don't paste them as well):</p>
+				<pre><code>
+&lt;head>
+...
+  {{ '//ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/themes/smoothness/jquery-ui.css' | stylesheet_tag }}
+&lt;/head>
+				</code></pre>
+				<p>The above example is using the Smoothness UI theme. There are several other themes available that may suit your theme better - explore them at
+				the <a href="http://jqueryui.com/themeroller/" target="_blank">jQuery UI ThemeRoller</a> site.</p>
+		    	<p>At the bottom of <i>theme.liquid</i> add the following just before the &lt;/body> tag</p>
+			<pre><code>
+&lt;body>
+...
+{{ '//ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js' | script_tag }}
+&lt;script type="text/javascript">
+    $('.datepicker').datepicker({minDate:0});
+    $('#ui-datepicker-div').css('clip', 'auto'); // fix for not showing properly - see http://stackoverflow.com/questions/2682259/jquery-ui-datepicker-not-displaying
+&lt;/script>
+&lt;/body>
+				</code></pre>
+				<p>This instructs jQuery to apply the <a href="/doco/picker">jQuery UI Datepicker</a> widget to anything with a class of 'datepicker', only allowing 
+				dates from today onwards. For more information about datepicker options refer to the <a href="http://jqueryui.com/demos/datepicker/#options">jQuery UI documentation page</a>.</p>
+              <p><strong>Note:</strong> If you are customizing the available days using the <a href="http://jqueryui.com/demos/datepicker/#event-beforeShowDay">beforeShowDay</a> callback function, BookThatApp
+                will call it before checking availability. If the function returns false then real-time availability checks will be skipped.</p>
+              <p>Now that your datepicker has been set up you can use it on the <a href="/doco/cart">cart</a> or <a href="/doco/product">product</a> pages.</p>
+              <div class="notification note-info">
+                  <span class="icon"></span>
+                  <p>If your datepicker doesn't show up, check for javascript errors using a tool like <a href="http://getfirebug.com/">Firebug</a>.</p>
+              </div>
+
+              <!--
+		    	<h3>Installing a Date/Time picker</h3>
+		    	<p>We recommend the timepicker addon for the datepicker if you want to be able to choose a time as well as the date: <a href="http://trentrichardson.com/examples/timepicker/">timepicker addon</a></p>
+
+		    	<h3>Validation</h3>
+				<p>required</i> is used with the jQuery validation plug-in.</p>				
+-->
+		    </div>
+		</div>
+	</div>
+</div>

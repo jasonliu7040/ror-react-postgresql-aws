@@ -1,0 +1,21 @@
+function addToCart(e){
+  if (typeof e !== 'undefined') e.preventDefault();
+
+  var form = $(this).parents('form'),
+  btaForm = form.data('bta.bookingForm');
+
+  if (btaForm && !btaForm.isValid()) {
+    return;
+  }
+
+  $.ajax({
+    type: 'POST',
+    url: '/cart/add.js',
+    async: false,
+    data: form.serialize(),
+    dataType: 'json',
+    error: addToCartFail,
+    success: addToCartSuccess,
+    cache: false
+  });
+}

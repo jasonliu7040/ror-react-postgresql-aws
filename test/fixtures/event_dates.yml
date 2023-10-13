@@ -1,0 +1,177 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+blackout_one:
+  start: <%= DateTime.now.midnight + 35.days %>
+  finish: <%= DateTime.now.midnight + 36.days %>
+  shop_id: 1
+  product:
+  variant:
+  quantity: 1
+  type: Blackout
+
+blackout_future:
+  start: <%= DateTime.now.midnight + 135.days %>
+  finish: <%= DateTime.now.midnight + 136.days %>
+  shop_id: 1
+  product:
+  variant:
+  quantity: 1
+  type: Blackout
+
+blackout_variant:
+  shop_id: 1
+  start: <%= DateTime.now.midnight + 1.day %>
+  finish: <%= DateTime.now.midnight + 2.days %>
+  type: Blackout
+  product:
+  variant_id: 14 # blackout_variant
+  quantity: 1
+
+blackout_deuce_close_by:
+  start: <%= DateTime.now.midnight + 15.days %>
+  finish: <%= DateTime.now.midnight + 16.days %>
+  shop_id: 1
+  product:
+  variant:
+  quantity: 1
+  type: Blackout
+
+two:
+  start: <%= DateTime.now.midnight + 36.days %>
+  finish: <%= DateTime.now.midnight + 37.days %>
+  shop_id: 1
+  product: blackout_product
+  variant_id:
+  quantity: 1
+  type: Blackout
+
+
+blackout_three:
+  start: <%= DateTime.now.midnight + 33.days %>
+  finish: <%= DateTime.now.midnight + 34.days %>
+  shop_id: 1
+  product_id: 4
+  variant_id: 3
+  quantity: 1
+  type: Blackout
+
+#three:
+#  start: <%= DateTime.now.midnight + 3.days %>
+#  finish: <%= DateTime.now.midnight + 4.days %>
+#  shop_id: 1
+#  product_id: 1
+#  variant_id: 1
+#  quantity: 1
+#  type: Item
+#  event: reservation_two
+#
+#four:
+#  start: <%= DateTime.now.midnight + 4.days %>
+#  finish: <%= DateTime.now.midnight + 5.days %>
+#  shop_id: 1
+#  product: reservation_one
+#  variant_id: 10
+#  quantity: 1
+#  type: Item
+#  event_id: 10
+#  external_variant_id: 1000
+#  external_product_id: 10
+#
+#five:
+#  start: <%= DateTime.now.midnight + 5.days %>
+#  finish: <%= DateTime.now.midnight + 6.days %>
+#  shop_id: 1
+#  product_id: 1
+#  variant_id: 1
+#  quantity: 1
+#  type: Item
+#  event: reservation_three
+#
+#six:
+#  start: <%= DateTime.now.midnight + 1.days %>
+#  finish: <%= DateTime.now.midnight + 2.days %>
+#  shop_id: 1
+#  product_id: 2
+#  variant_id: 2
+#  quantity: 1
+#  type: Item
+#  event: reservation_four
+#
+#seven:
+#  start: <%= DateTime.now.midnight + 7.days %>
+#  finish: <%= DateTime.now.midnight + 7.days %>
+#  shop_id: 1
+#  product_id: 1
+#  variant_id: 1
+#  quantity: 1
+#  type: Item
+#  event: reservation_four
+#
+#eight:
+#  start: <%= DateTime.now.midnight + 8.days %>
+#  finish: <%= DateTime.now.midnight + 9.days %>
+#  shop_id: 1
+#  product_id: 1
+#  variant_id: 1
+#  quantity: 1
+#  type: Item
+#  event: waitlist_one
+#nine:
+#  start: <%= DateTime.now.midnight + 39.days %>
+#  finish: <%= DateTime.now.midnight + 49.days %>
+#  shop_id: 1
+#  product: has_all_four_types
+#  variant_id: 11
+#  quantity: 1
+#  type: Item
+#  event: waitlist_all_four
+#ten:
+#  start: <%= DateTime.now.midnight + 10.days %>
+#  finish: <%= DateTime.now.midnight + 11.days %>
+#  shop_id: 1
+#  product: has_all_four_types
+#  variant_id: 11
+#  quantity: 1
+#  type: Item
+#  event: reservation_all_four
+#eleven:
+#  start: <%= DateTime.now.midnight + 12.days %>
+#  finish: <%= DateTime.now.midnight + 13.days %>
+#  shop_id: 1
+#  product: has_all_four_types
+#  variant_id: 11
+#  quantity: 1
+#  type: Item
+#  event: order_all_four
+#
+#tweleve:
+#  start: <%= DateTime.now.midnight + 1.day %>
+#  finish: <%= DateTime.now.midnight + 2.days %>
+#  shop_id: 1
+#  product: reservation_one
+#  variant_id: 10
+#  quantity: 1
+#  type: Item
+#  event_id: 10
+#  external_variant_id: 1000
+#  external_product_id: 10
+#
+#thirteen:
+#  start: <%= DateTime.now.midnight + 5.days %>
+#  finish: <%= DateTime.now.midnight + 6.days %>
+#  shop_id: 1
+#  product_id: 7
+#  variant_id: 3
+#  quantity: 1
+#  type: Item
+#  event: tomorrow_for_scheduled_daily_product_booking_item
+#
+#api_availability_test_blackout:
+#  start: <%= (Time.now + 2.weeks).beginning_of_day %>
+#  finish: <%= (Time.now + 2.weeks).beginning_of_day + 1.hour %>
+#  shop_id: 1
+#  product_id: 5
+#  variant_id: 5
+#  external_variant_id: 666
+#  external_product_id: 1003832167
+#  type: Blackout

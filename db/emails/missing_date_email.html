@@ -1,0 +1,21 @@
+<html>
+<body>
+<img src="http://www.bookthatapp.com/assets/bta_logo.png" align="right"/>
+<p>Hi <strong>{{ shop.name }}</strong>,</p>
+<p>We are letting you know that there was a problem processing order <a href="{{ order_url }}">{{ order.name }}</a>. We were
+    unable to find a valid date associated with one or more line items in the order so no booking could be created.</p>
+<p>Next steps:</p>
+<p>
+1. We recommend you <a href="{{ bta_url }}">create a booking manually in BTA</a> for this order so that the availability is accurate.<br/>
+2.Check the order and ensure the date is shown as a line item property and is a valid date. A missing or
+    invalid date indicates a problem with the BookThatApp installation. Please feel free to <a href="http://support.shopifyconcierge.com/tickets/new">contact us</a> for
+    help troubleshooting installation issues.
+</p>
+<p>
+    Kind Regards,<br/>
+    Shopify Concierge
+</p>
+<p><small>Order id: {{ order_id }}</small></p>
+<p><a href="http://www.shopifyconcierge.com/"><img src="http://cdn.shopify.com/s/files/1/0030/4682/assets/shopifyconcierge_logo_300.png" alt="Shopify Concierge" /></a></p>
+</body>
+</html>

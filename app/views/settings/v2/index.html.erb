@@ -1,0 +1,23 @@
+<%= render partial: 'common/breadcrumbs',
+           locals: {
+               section: 'Configuration',
+               crumbs: [
+                   {title: 'Configuration', path: ''},
+                   {title: 'Site Settings'}
+               ]
+           } %>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <%= render :partial => "settings/v2/settings" %>
+    </div>
+  </div>
+</div>
+
+<% content_for :footer do %>
+    <script type="text/javascript">
+        <%= render :partial => 'common/async_bta' %>
+    </script>
+<% end %>
+

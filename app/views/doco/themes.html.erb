@@ -1,0 +1,439 @@
+<% content_for :head do %>
+    <%= stylesheet_link_tag 'mono-blue' %>
+<% end %>
+
+<h1>Developer Guide</h1>
+<p>Instructions on how to integrate with BookThatApp.</p>
+
+<div class="content-box">
+  <div class="box-header clear">
+    <h2>Themes</h2>
+  </div>
+  <div class="box-body clear">
+    <div class="side-bar clear">
+      <div class="sidebar-column clear">
+        <div class="side-menu">
+          <h3>Theme Index</h3>
+          <ul class="list">
+            <li><a href="#blockshop">Blockshop</a></li>
+            <li><a href="#bootstrapify">Bootstrapify</a></li>
+            <li><a href="#expo">Expo</a></li>
+            <li><a href="#launchpad">Launchpad</a></li>
+            <li><a href="#launchpad-star">Launchpad Star</a></li>
+            <li><a href="#lookbook">Lookbook</a></li>
+            <li><a href="#minimal">Minimal</a></li>
+            <li><a href="#mobilia">Mobilia</a></li>
+            <li><a href="#new-standard">New Standard</a></li>
+            <li><a href="#parallax">Parallax</a></li>
+            <li><a href="#providence">Providence</a></li>
+            <li><a href="#retina">Retina</a></li>
+            <li><a href="#seasons">Seasons</a></li>
+            <li><a href="#simple">Simple</a></li>
+            <li><a href="#solo">Solo</a></li>
+            <li><a href="#startup">Startup</a></li>
+            <li><a href="#sunrise">Sunrise</a></li>
+            <li><a href="#supply">Supply</a></li>
+            <li><a href="#symmetry">Symmetry</a></li>
+            <li><a href="#testament">Testament</a></li>
+            <li><a href="#threadify">Threadify</a></li>
+            <li><a href="#vantage">Vantage</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="main-column clear">
+        <h2>Instructions</h2>
+        <p>Information on installation for specific themes is provided below. Each code example has the name of the asset
+          and line number, and the type of asset. For example, this translates to saying <em>the change should be made at
+          line 38 in a snippet called 'product-add-to-cart-form'</em>.</p>
+        <p><span style="padding: 5px; border: 1px solid #333"><strong><em>product-add-to-cart-form.liquid:38</em></strong> (snippet)</span></p>
+        <br>
+        <p><strong>Note:</strong></p>
+        <ul>
+          <li>Please remember to take a backup of your theme before adding any customizations.</li>
+          <li>These instructions assume that <strong>no customizations have been made to the original
+            theme</strong>. If the theme has been modified the line numbers won't match the ones provided
+          here.</li>
+          <li>Themes are constantly being updated. If there are discrepancies please let us know.</li>
+        </ul>
+
+        <h2>Documented Themes</h2>
+
+        <div id="blockshop">
+          <h3>Blockshop</h3>
+          <h5>Product Page</h5>
+          <p>This theme uses foundation.js so the select boxes have styling applied. BookThatApp
+            select boxes update dynamically so the following Javascript needs to be added.</p>
+          <p class="no-pad"><strong><em>booking-form.liquid</em></strong> (snippet) - before:</p>
+          <%= render_source :partial => 'doco/themes/blockshop_product_a' %>
+          <p class="no-pad"><strong><em>booking-form.liquid</em></strong> (snippet) - after:</p>
+          <%= render_source :partial => 'doco/themes/blockshop_product_b' %>
+        </div>
+        <hr/>
+
+        <div id="bootstrapify">
+          <h3>Bootstrapify</h3>
+          <h5>Product Page</h5>
+          <p>The booking form should be included in a snippet called <em>product-add-to-cart-form.liquid</em>.</p>
+          <p class="no-pad"><strong><em>product-add-to-cart-form.liquid:38</em></strong> (snippet):</p>
+          <%= render_source :partial => 'doco/themes/include_booking_form' %>
+        </div>
+        <hr/>
+
+        <div id="expo">
+          <h3>Expo</h3>
+          <h5>Theme</h5>
+          <p>This theme uses an old version of jQuery. Upgrade it to 1.7.2 (in theme.liquid).</p>
+          <p>It also has an older version of jQuery UI. Replace line 64 with:</p>
+          <p class="no-pad"><strong><em>theme.liquid:64</em></strong> (template):</p>
+          <%= render_source :partial => 'doco/themes/expo_theme' %>
+
+          <h5>Product Page</h5>
+          <p>The product page shows variants differently depending on how many there are. The easiest way
+            to deal with it is to just add the booking form below all that stuff.</p>
+          <p class="no-pad"><strong><em>product-form.liquid:75</em></strong> (snippet):</p>
+          <%= render_source :partial => 'doco/themes/include_booking_form' %>
+        </div>
+        <hr/>
+
+        <div id="launchpad">
+          <h3>Launchpad</h3>
+          <h5>Product Page</h5>
+          <p>The product page hides the variant dropdown if there is only 1 with a title of 'Default' so the booking
+            form should be outside the variant select. The easiest way to handle it is to create a new div just underneath.</p>
+          <p class="no-pad"><strong><em>product.liquid:108</em></strong> (template):</p>
+          <%= render_source :partial => 'doco/themes/launchpad_product' %>
+          <h5>Cart Page</h5>
+          <p>The theme doesn't have line item properties installed so you need to add it yourself. Add the code below.</p>
+          <p class="no-pad"><strong><em>cart.liquid:47</em></strong> (template):</p>
+          <%= render_source :partial => 'doco/themes/launchpad_cart' %>
+        </div>
+        <hr/>
+
+        <div id="launchpad-star">
+          <h3>Launchpad Star</h3>
+          <h5>Product Page</h5>
+          <p>The code for the product page is in a snippet called <em>product</em>.</p>
+          <p class="no-pad"><strong><em>product.liquid:100</em></strong> (snippet):</p>
+          <%= render_source :partial => 'doco/themes/launchpad_product' %>
+          <h5>Cart Page</h5>
+          <p>The theme doesn't have line item properties installed so you need to add it yourself. Add the code below.</p>
+          <p class="no-pad"><strong><em>cart.liquid:47</em></strong> (template):</p>
+          <%= render_source :partial => 'doco/themes/launchpad_cart' %>
+          <p>Find where the quantity is displayed. It should look as follows.</p>
+          <p class="no-pad"><strong><em>cart.liquid:57</em></strong> (template):</p>
+          <%= render_source :partial => 'doco/themes/launchpad_star_cart_a' %>
+          <p>Replace it with the following.</p>
+          <p class="no-pad"><strong><em>cart.liquid:57</em></strong> (template):</p>
+          <%= render_source :partial => 'doco/themes/launchpad_star_cart_b' %>
+        </div>
+        <hr/>
+
+        <div id="lookbook">
+          <h3>Lookbook</h3>
+          <p class="no-pad"><strong><em>product.liquid:74</em></strong> (snippet):</p>
+          <%= render_source :partial => 'doco/themes/include_booking_form' %>
+          <p class="no-pad"><strong><em>cart.liquid:68</em></strong> (template):</p>
+          <%= render_source :partial => 'doco/themes/lookbook_cart_a' %>
+          <p>Update the cart template so quantity can't be changed, and add a remove button. Replace the <em>form__qty</em> div
+            element with the following.</p>
+          <p class="no-pad"><strong><em>cart.liquid:83</em></strong> (template):</p>
+          <%= render_source :partial => 'doco/themes/lookbook_cart_b' %>
+          <p>Changes to the theme's CSS need to be made for the new remove button and for the calendar to scroll properly. Add
+            the following to the bottom of the file.</p>
+          <p class="no-pad"><strong><em>style.scss.liquid:4935</em></strong> (template):</p>
+          <%= render_source :partial => 'doco/themes/lookbook_style' %>
+        </div>
+        <hr/>
+
+        <div id="minimal">
+          <h3>Minimal</h3>
+          <p class="no-pad"><strong><em>product.liquid:119</em></strong> (template):</p>
+          <%= render_source :partial => 'doco/themes/include_booking_form' %>
+          <p>Prevent the quantity being changed on the cart page. The quantity section should look like this:</p>
+          <p class="no-pad"><strong><em>cart.liquid:55</em></strong> (template):</p>
+          <%= render_source :partial => 'doco/themes/minimal_cart_b1' %>
+          <p>With this:</p>
+          <p class="no-pad"><strong><em>cart.liquid:55</em></strong> (template):</p>
+          <%= render_source :partial => 'doco/themes/minimal_cart_b2' %>
+        </div>
+        <hr/>
+
+        <div id="mobilia">
+          <h3>Mobilia</h3>
+          <p>We recommend the following theme setting changes for Mobilia.</p>
+          <ul>
+            <li>Disable the "quick view" feature on collection listings (under the "Collection Page" section) so that the booking
+              form works correctly.</li>
+            <li>Disable Style Tables (under the "Layout Colors and Background" section) so that the calendar layout works.</li>
+          </ul>
+          <p>Note that in Mobilia the product add to cart form is in the <strong><i>product-form</i> snippet</strong>.</p>
+          <p class="no-pad"><strong><em>product-form.liquid:25</em></strong> (snippet):</p>
+          <%= render_source :partial => 'doco/themes/mobilia_product' %>
+          <p>The cart page is straight forward but you should update the cart template so quantity can't be changed.</p>
+          <p class="no-pad"><strong><em>cart.liquid:94</em></strong> (template):</p>
+          <%= render_source :partial => 'doco/themes/mobilia_cart' %>
+        </div>
+        <hr/>
+
+        <div id="new-standard">
+          <h3>New Standard</h3>
+          <h5>Product Page</h5>
+          <p>Place the booking form in product.liquid under the product-variants div.</p>
+          <p class="no-pad"><strong><em>product.liquid:69</em></strong> (template):</p>
+          <%= render_source :partial => 'doco/themes/new_standard_product' %>
+        </div>
+        <hr/>
+
+        <div id="parallax">
+          <h3>Parallax</h3>
+          <h5>Theme</h5>
+          <p>The code for the dynamic cart popup is in theme.liquid.</p>
+          <p class="no-pad">Replace the following code from <strong><em>theme.liquid:142</em></strong>:</p>
+          <%= render_source :partial => 'doco/themes/parallax_theme_a' %>
+          <p class="no-pad">With the following:</p>
+          <%= render_source :partial => 'doco/themes/parallax_theme_b' %>
+          <h5>Product Page</h5>
+          <p>Include the booking form in the product-form.liquid snippet.</p>
+          <p class="no-pad"><strong><em>product-form.liquid:49</em></strong> (snippet):</p>
+          <%= render_source :partial => 'doco/themes/parallax_product' %>
+          <h5 id="parallax-quick-view">Quick View</h5>
+          <p>If Quick View is turned on in theme settings add the following to the bottom of <strong><em>theme.liquid</em></strong> just
+            before the closing body tag (<code>&lt;/body></code>):</p>
+          <%= render_source :partial => 'doco/themes/parallax_theme_c' %>
+          <h5 id="parallax-ajax">Ajax Add To Cart</h5>
+          <p>When a product is added to the cart this theme recreates the cart using Javascript in <strong><em>apps.js.liquid</em></strong>.</p>
+          <p class="no-pad">Replace the following code from <strong><em>app.js.liquid:431</em></strong> so that the date/time properties are displayed:</p>
+          <%= render_source :partial => 'doco/themes/parallax_app_a' %>
+          <p class="no-pad">With the following:</p>
+          <%= render_source :partial => 'doco/themes/parallax_app_b' %>
+        </div>
+        <hr/>
+
+        <div id="providence">
+          <h3>Providence</h3>
+          <p>This theme is snippet crazy! Oh well, who are we to complain when we are adding another one (booking-form).</p>
+          <h5>Product Page</h5>
+          <p class="no-pad">You will find the product form element in the <strong><i>product-variants</i> snippet</strong>. Look for
+          the 'form-actions' div near line 65:</p>
+          <%= render_source :partial => 'doco/themes/providence_product_a' %>
+          <p>Insert the booking-form snippet just above it. In the example below I've also wrapped the booking
+          form with a couple of divs (<i>row</i> and <i>large-4 columns</i>) that will make the form match the theme.</p>
+          <p class="no-pad"><strong><em>product-variants:65</em></strong> (snippet):</p>
+          <%= render_source :partial => 'doco/themes/providence_product_b' %>
+          <p>Finally, this theme uses Foundation to modify select elements. If you are using time pickers you
+          will need to let Foundation know the options have changed after a date is selected.</p>
+          <p class="no-pad"><strong><em>booking-form:22</em></strong> (snippet):</p>
+          <%= render_source :partial => 'doco/themes/providence_product_c' %>
+          <h5>Cart Page</h5>
+          <p>This theme does not have line item properties installed so you will need to add that. Again you
+          will be adding code to a snippet (<i>line-item-variants</i>). In the example below I've made the date/time match the theme. Insert the
+          following code at line 31.</p>
+          <p class="no-pad"><strong><em>line-item-variants:31</em></strong> (snippet):</p>
+          <%= render_source :partial => 'doco/themes/providence_cart' %>
+        </div>
+        <hr/>
+
+        <div id="retina">
+          <h3>Retina</h3>
+          <h5>Product Page</h5>
+          <p class="no-pad">Include the booking form snippet just after where the variants are defined in
+            <strong><em>product-form.liquid:40</em></strong> (snippet):</p>
+          <%= render_source :partial => 'doco/themes/retina_product' %>
+          <h5>Cart Page</h5>
+          <p class="no-pad">The theme already has line item properties set up so you just need to have it display
+            user friendly labels for the booking properties in <strong><em>cart.liquid:58</em></strong> (template):</p>
+          <%= render_source :partial => 'doco/themes/retina_cart' %>
+          <p>Don't forget to make the update field changes as per <a href="/doco/install#step-3">the install steps</a>.</p>
+        </div>
+        <hr/>
+
+        <div id="seasons">
+          <h3>Seasons</h3>
+          <p>This theme requires a fair bit of customization to work with BookThatApp. The main issue is that is uses a
+            select element replacement that needs to be disabled in order for BTA to work properly when different
+            variants are selected.</p>
+
+          <h5>Theme</h5>
+          <p>Include the jQuery UI CSS in theme.liquid so that it displays the datepicker properly.</p>
+          <p class="no-pad"><strong><em>theme.liquid:66</em></strong> (theme):</p>
+          <%= render_source :partial => 'doco/themes/seasons_theme' %>
+
+          <h5>Product Page</h5>
+          <p>The include for the booking-form normally done on the product page needs to go in a snippet called 'add-to-cart-code'.</p>
+          <p class="no-pad"><strong><em>add-to-cart-code:25</em></strong> (snippet):</p>
+          <%= render_source :partial => 'doco/themes/seasons_add_to_cart_code' %>
+
+          <h5>Custom Select Element</h5>
+          <p>Disable the custom select element code because it prevents BTA from detecting the current variant.</p>
+          <p class="no-pad"><strong><em>init.js.liquid:504</em></strong> (assets):</p>
+          <%= render_source :partial => 'doco/themes/seasons_init_js' %>
+
+          <h5>CSS</h5>
+          <p>We recommend you add the following to <em>styles.css.liquid</em> so that the form layout looks better.</p>
+          <p class="no-pad"><strong><em>styles.css.liquid:end of file</em></strong> (assets):</p>
+          <%= render_source :partial => 'doco/themes/seasons_style_css' %>
+          <p>The styling for select elements needs to be commented out.</p>
+          <p class="no-pad"><strong><em>styles.css.liquid:920</em></strong> (assets):</p>
+          <%= render_source :partial => 'doco/themes/seasons_style_css_b' %>
+        </div>
+        <hr/>
+
+        <div id="simple">
+          <h3>Simple</h3>
+          <h4>Date Validation</h4>
+          <p>The Simple theme uses an Ajax add to cart. To ensure a date is entered you will need to modify the file
+            jquery.theme.js in 2 places (the code is the same for each) - around line 560 and 758. Below are the before and after code snippets.</p>
+          <p class="no-pad"><strong><em>jquery.theme.js:560 - before</em></strong> (asset):</p>
+          <%= render_source :partial => 'doco/themes/simple_jquery_theme_a' %>
+          <p class="no-pad"><strong><em>jquery.theme.js:560 - after</em></strong> (asset):</p>
+          <%= render_source :partial => 'doco/themes/simple_jquery_theme_b' %>
+          <p class="no-pad"><strong><em>jquery.theme.js:758 - before</em></strong> (asset):</p>
+          <%= render_source :partial => 'doco/themes/simple_jquery_theme_c' %>
+          <p class="no-pad"><strong><em>jquery.theme.js:758 - after</em></strong> (asset):</p>
+          <%= render_source :partial => 'doco/themes/simple_jquery_theme_d' %>
+
+          <h4>Displaying dates & times in the cart drawer</h4>
+          <p>The complicated thing about the Simple theme is the way the cart drawer works. Unfortunately the developers
+            of this theme have a) ignored line item properties, b) have multiple places where
+            the cart is defined and c) define it using a different technique (via HTML or Javascript). This
+            means the code needs to be changed in multiple places and in different ways.</p>
+
+          <p>To display the dates in the slide down cart after a product is added to the cart:</p>
+          <p class="no-pad"><strong><em>jquery.theme.js:688 - before</em></strong> (asset):</p>
+          <%= render_source :partial => 'doco/themes/simple_jquery_theme_e' %>
+          <p class="no-pad"><strong><em>jquery.theme.js:688 - after</em></strong> (asset):</p>
+          <%= render_source :partial => 'doco/themes/simple_jquery_theme_f' %>
+
+          <p>To display the dates for existing products in the slide down cart:</p>
+          <p class="no-pad"><strong><em>theme.liquid:101 - before</em></strong> (template):</p>
+          <%= render_source :partial => 'doco/themes/simple_jquery_theme_g' %>
+          <p class="no-pad"><strong><em>theme.liquid:101 - after</em></strong> (template):</p>
+          <%= render_source :partial => 'doco/themes/simple_jquery_theme_h' %>
+        </div>
+        <hr/>
+
+        <div id="solo">
+          <h3>Solo</h3>
+          <p class="no-pad">The booking form input fields (datepicker and timepicker) on the product page
+            (<strong><em>single-product.liquid</em></strong> snippet) need additional CSS styling. The
+            following CSS should be added to the end of <strong><em>timber.scss.liquid</em></strong> (asset):</p>
+          <%= render_source :partial => 'doco/themes/solo_timber_scss_liquid' %>
+          <p class="no-pad">The quantity filed on the cart page should be changed to the following
+            in <strong><em>cart.liquid:76</em></strong> (template):</p>
+          <%= render_source :partial => 'doco/themes/solo_cart' %>
+        </div>
+        <hr/>
+
+        <div id="startup">
+          <h3>Startup</h3>
+          <p>The Startup theme uses an Ajax add to cart. To ensure the date is captured on the product page you will
+            need to add an id attribute to the product form with value 'product-form', then change site.js (line 450) so
+            that it uses <code>return Shopify.addItemFromForm('product-form', function(cartItem) {</code>.</p>
+          <p>If you are updating the variant dynamically (e.g. selecting a variant depending on number of days in
+            a date range) use the following Javascript in booking-form.snippet:</p>
+          <p class="no-pad"><strong><em>booking-form.liquid</em></strong> (snippet):</p>
+          <%= render_source :partial => 'doco/themes/startup_booking_form' %>
+        </div>
+        <hr/>
+
+        <div id="sunrise">
+          <h3>Sunrise</h3>
+          <p>The Sunrise theme includes the jQuery UI library in shop.js.liquid (assets). Unfortunately it doesn't
+            include the datepicker component so you'll need to fix that. First delete it from shop.js.liquid: lines 351 - 360. Now
+            add it to theme.liquid.</p>
+          <p class="no-pad"><strong><em>theme.liquid:49</em></strong> (template):</p>
+          <%= render_source :partial => 'doco/themes/sunrise_theme' %>
+        </div>
+        <hr/>
+
+        <div id="supply">
+          <h3>Supply</h3>
+          <h5>Product Page</h5>
+          <p class="no-pad">Include the booking form in <strong><em>product.liquid:89</em></strong> (template):</p>
+          <%= render_source :partial => 'doco/themes/include_booking_form' %>
+          <h5>CSS</h5>
+          <p class="no-pad">Change the width of the datepicker (so it isn't so wide) by pasting the following
+            at the bottom of <strong><em>timber.scss.liquid</em></strong> (asset):</p>
+          <%= render_source :partial => 'doco/themes/supply_css' %>
+          <h5>Cart Page</h5>
+          <p>In <em>cart.liquid</em> locate where the quantity is displayed.</p>
+          <p class="no-pad">It should look like this - <strong><em>cart.liquid:54</em></strong> (template):</p>
+          <%= render_source :partial => 'doco/themes/supply_cart_a' %>
+          <p class="no-pad">Replace with the following - <strong><em>cart.liquid:57</em></strong> (template):</p>
+          <%= render_source :partial => 'doco/themes/supply_cart_b' %>
+        </div>
+        <hr/>
+
+        <div id="symmetry">
+          <h3>Symmetry</h3>
+          <p>This theme has a quickview form on the home and collection pages that includes the ability to add products
+            to the cart. There are few customizations needed to support this. First, the booking-form snippet should be included
+            in the product-detail snippet. This snippet is used across the home, collection and product pages.</p>
+          <p class="no-pad"><strong><em>product-detail:31</em></strong> (snippet):</p>
+          <%= render_source :partial => 'doco/themes/symmetry_product' %>
+          <p>In the booking-form snippet remove the &lt;script> element containing the product id. To capture the product
+            ids paste the following at the bottom of theme.liquid.</p>
+          <%= render_source :partial => 'doco/themes/symmetry_theme' %>
+        </div>
+        <hr/>
+
+        <div id="testament">
+          <h3>Testament</h3>
+          <p>With Testament the booking form should be included in the <em>short-form</em> snippet. There are several Javascript
+            changes that need to be made for the quantity input field to account for min/max being updated based on capacity and Ajax
+            add to cart functionality. There are also CSS changes required in order to see the booking fields.</p>
+
+          <h5>Product Page</h5>
+          <p>Include the booking form just above </p>
+          <p class="no-pad">In the <em>short-form.liquid</em> snippet include the booking form just above
+            where it says "product.available" which should be on or near line 39:</p>
+          <%= render_source :partial => 'doco/themes/testament_product_a' %>
+          <p class="no-pad">Replace that line of code with the following:</p>
+          <%= render_source :partial => 'doco/themes/testament_product_b' %>
+
+          <h5>Stylesheet</h5>
+          <p class="no-pad">Add the following CSS to the bottom of the stylesheet. <strong><em>stylesheet.css.liquid</em></strong> (asset):</p>
+          <%= render_source :partial => 'doco/themes/testament_stylesheet' %>
+
+          <h5>Javascript</h5>
+          <p class="no-pad">In <strong><em>theme.js.liquid</em></strong> (asset) find the code for managing the quantity around
+            line 6. It should look like this:</p>
+          <%= render_source :partial => 'doco/themes/testament_product_c' %>
+          <p class="no-pad">Replace that block of code with the following:</p>
+          <%= render_source :partial => 'doco/themes/testament_product_d' %>
+          </p>
+
+          <p>If Ajax Add To Cart is configured in the theme settings then you need to modify the addToCart function.
+          This is in <em>theme.js</em> on or near line 209.</p>
+          <p class="no-pad"><strong><em>theme.js.liquid</em></strong> (asset):</p>
+          <%= render_source :partial => 'doco/themes/testament_theme_js_a' %>
+          <p class="no-pad">Replace the above code with the following:</p>
+          <%= render_source :partial => 'doco/themes/testament_theme_js_b' %>
+          <h5>Quick View</h5>
+          <p>See the instructions for <a href="#parallax-quick-view">Parallax</a> if you are using the Quick View feature.</p>
+        </div>
+        <hr/>
+
+        <div id="threadify">
+          <h3>Threadify</h3>
+          <p>This theme it has two different places where the booking form should be included.</p>
+          <p class="no-pad"><strong><em>product.liquid</em></strong> (template):</p>
+          <%= render_source :partial => 'doco/themes/threadify_product' %>
+        </div>
+        <hr/>
+
+        <div id="vantage">
+          <h3>Vantage</h3>
+          <p>After following the standard install add the following CSS to the bottom of the stylesheet.</p>
+          <p class="no-pad"><strong><em>stylesheet.css.liquid</em></strong> (asset):</p>
+          <%= render_source :partial => 'doco/themes/vantage_stylesheet' %>
+          <p>To prevent the quantity increment buttons going over capacity modify theme.js.</p>
+          <p class="no-pad">Replace this line: <strong><em>theme.js.liquid:16</em></strong> (asset):</p>
+          <%= render_source :partial => 'doco/themes/vantage_theme_js_a' %>
+          <p class="no-pad">With this: <strong><em>theme.js.liquid:16</em></strong> (asset):</p>
+          <%= render_source :partial => 'doco/themes/vantage_theme_js_b' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

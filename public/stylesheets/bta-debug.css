@@ -1,0 +1,58 @@
+#bta-debug {
+    position: fixed;
+    display: block;
+    top: 0px;
+    right: -534px;
+    width: 600px;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+#bta-debug span.error {
+    color: orangered;
+    font-style: italic;
+}
+
+#bta-debug img {
+    width:60px;
+    border:none;
+    float:left;
+    padding:4px 10px 0px 4px;
+    background: #333;
+    -moz-border-radius: 5px 0px 0px 5px;
+    -webkit-border-bottom-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+#bta-debug-panel {
+    margin-left: 74px;
+    padding: 10px;
+    overflow: auto;
+    height: 400px;
+    background: #333;
+    color:#DDDDDD;
+    -moz-border-radius: 5px 0px 0px 5px;
+    -webkit-border-bottom-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+#bta-debug-panel h4 {
+    margin: 10px 0;
+    border: 0 none;
+}
+
+#bta-debug-panel table {
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding:0;
+    height: 315px;
+    overflow-y: scroll;
+    background: #555;
+}
+
+#bta-debug-panel table td {
+    padding: 5px;
+}
+

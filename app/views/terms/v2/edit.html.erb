@@ -1,0 +1,21 @@
+<%= render partial: 'common/breadcrumbs',
+           locals: {
+               section: 'Configuration',
+               crumbs: [
+                   {title: 'Configuration', path: ''},
+                   {title: 'Product', path: admin_product_path(@term.product)},
+                   {title: 'Edit Term'}
+               ]
+           } %>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <%= react_component('TermContainer', TermSerializer.new(@term).as_json) %>
+    </div>
+  </div>
+</div>
+
+<% content_for :javascript do -%>
+  <link rel="stylesheet" media="all" href="//www.fuelcdn.com/fuelux/3.0.0/css/fuelux.min.css" data-turbolinks-track="true">
+<% end %>

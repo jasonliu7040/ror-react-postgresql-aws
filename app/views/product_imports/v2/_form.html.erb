@@ -1,0 +1,237 @@
+  <%= render 'common/v2/error_messages', :object => form.object %>
+
+  <%= form.hidden_field :id %>
+  <%= hidden_field_tag 'ga_client_id', '', :class => 'ga-client-id' %>
+
+  <div class="ibox float-e-margins">
+    <div class="ibox-title">CSV File</div>
+    <div class="ibox-content">
+
+      <div class="alert alert-info alert-dismissable">
+        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+        <p><strong>CSV file format</strong>: The upload file must be a .csv file with the 1st row having a column called 'handle'. Subsequent
+          rows should list the product handles to import (in the same column). Please note that currently you can only upload up to 100 products.</p>
+        <p><strong>Tip</strong>: you can create an upload file using <a href="http://docs.shopify.com/manual/your-store/products/export-products">products exported from Shopify</a>.</p>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :file, class: "col-sm-2 control-label" %>
+        <div class="col-sm-10">
+          <%= form.file_field :file, :accept => '.csv', :required => true, :onchange => 'checkFileType(this)', class:"form-control" %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="ibox float-e-margins">
+    <div class="ibox-title">Product Values</div>
+    <div class="ibox-content">
+      <div class="alert alert-info alert-dismissable">
+        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+        <p>The values specified here will be applied to each imported product.</p>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :profile, class: "col-sm-2 control-label" %>
+        <div class="col-sm-10">
+          <%=  form.select :profile, options_for_select(@types, form.object.profile), {}, { class:"form-control" } %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :mindate, "Cutoff Date", class: "col-sm-2 control-label" %>
+        <div class="col-sm-10">
+          <%= form.number_field :mindate, :size => 5, class:"form-control" %>
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <%= form.label :lead_time, "Lead Time (days)", class: "col-sm-2 control-label" %>
+        <div class="col-sm-10">
+          <%= form.number_field :lead_time, :min => 0, :size => 3, :required => true, class:"form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :lag_time, "Lag Time", class: "col-sm-2 control-label" %>
+        <div class="col-sm-3">
+          <input id="lag-input" type="number" value="0" min="0" max="59" class="form-control" />
+        </div>
+        <div class="col-sm-7">
+          <select id="lag-input-units" class="form-control">
+            <option value="minutes" selected="selected">Minutes</option>
+            <option value="hours">Hours</option>
+            <option value="days">Days</option>
+          </select>
+          <%= form.hidden_field :lag_time %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :range_basis, "Date Range Count", class: "col-sm-2 control-label" %>
+        <div class="col-sm-10">
+          <%= form.select :range_basis, options_for_select([['Days', 0], ['Nights', 1]]), {}, { class:"form-control" } %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :range_min, "Date Range Min", class: "col-sm-2 control-label" %>
+        <div class="col-sm-10">
+          <%= form.number_field :range_min, :min => 0, :size => 3, class:"form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :range_max, "Date Range Max", class: "col-sm-2 control-label" %>
+        <div class="col-sm-10">
+          <%= form.number_field :range_max, :min => 0, :size => 3, class:"form-control" %>
+        </div>
+      </div>
+      <% if $flipper[:duration_v2].enabled?(current_account) %>
+        <hr/>
+        <div class="form-group">
+          <%= form.label :capacity, "Duration options", class: "col-sm-2 control-label" %>
+          <div class="col-sm-10">
+
+            <div class="form-group">
+              <%= form.label :capacity, "Base duration on", class: "col-sm-2 control-label" %>
+              <div class="col-sm-10">
+                <%= form.select :duration_type, options_for_select([['Product', '0'], ['Variant Options', '1']], form.object.duration_type), {}, class:"form-control" %>
+              </div>
+            </div>
+
+            <div class="form-group capacity">
+
+            </div>
+
+
+
+          </div>
+
+        </div>
+      <% end %>
+
+      <hr/>
+
+      <div class="form-group">
+        <%= form.label :capacity, "Capacity options", class: "col-sm-2 control-label" %>
+        <div class="col-sm-10">
+
+          <div class="form-group">
+            <%= form.label :capacity, "Base capacity on", class: "col-sm-2 control-label" %>
+            <div class="col-sm-10">
+              <%= form.select :capacity_type, options_for_select([['Product', '0'], ['Variant Options', '1']], form.object.capacity_type), {}, class:"form-control" %>
+            </div>
+          </div>
+
+          <div class="form-group capacity">
+            <%= form.label nil, "Capacity", class: "col-sm-2 control-label" %>
+            <div class="col-sm-10">
+              <%= form.number_field :capacity, class:"form-control" %>
+            </div>
+          </div>
+
+          <div class="form-group capacity-options" style="display: none;">
+            <%= form.label nil, "Variant Options", class: "col-sm-2 control-label" %>
+            <div class="col-sm-10">
+              <ul class="form-control capacity_options"></ul>
+            </div>
+          </div>
+
+
+        </div>
+
+      </div>
+
+      <div class="hr-line-dashed"></div>
+      <div class="form-group">
+        <div class="col-sm-4 col-sm-offset-2">
+          <%= link_to "Close", admin_products_path, class: "btn btn-white" %>
+          <%= form.submit "Save", class: "btn btn-primary submit", :id=>"save" %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+
+
+<% content_for :javascript do -%>
+<script>
+  $(document).ready(function() {
+    $(".capacity_options").tagit();
+    $(".capacity_options").tagit({
+      fieldName: "product_import[capacity_options][]",
+      placeholderText: "Enter variant options",
+      availableTags: ["Size", "Color", "Material", "Title"]
+    });
+
+    <% @import.capacity_options.each do |option| %>
+      $(".capacity_options").tagit("createTag", <%= option%>);
+    <% end %>
+
+    $('#product_import_capacity_type').on('change', function() {
+      if (this.value == '0' ) {
+        $('.capacity-options').hide();
+      } else {
+        $('.capacity-options').show();
+      }
+    });
+
+      // === lag time ===
+    $('#lag-input-units').change(function () {
+        switch ($('#lag-input-units option:selected').val()) {
+            case 'minutes':
+                $('#lag-input').attr('max', 59);
+                break;
+            case 'hours':
+                $('#lag-input').attr('max', 23);
+                break;
+            case 'days':
+                $('#lag-input').attr('max', 14);
+                break;
+        }
+    });
+
+    var lag = <%= form.object.lag_time || 0 %>
+    if (lag < 60) {
+        $('#lag-input').val(lag);
+        $('#lag-input-units').val('minutes');
+    } else if (lag < (60 * 24)) {
+        $('#lag-input').val(lag / 60);
+        $('#lag-input-units').val('hours');
+    } else {
+        $('#lag-input').val(lag / 60 / 24);
+        $('#lag-input-units').val('days');
+    }
+
+    $('form[action="/product_imports"]').submit(function () {
+        var lag = $('#lag-input').val(), units = $('#lag-input-units option:selected').val();
+        if (units == "hours") {
+            lag = lag * 60;
+        }
+        if (units == "days") {
+            lag = lag * 60 * 24;
+        }
+        $('#product_import_lag_time').val(lag);
+    });
+
+    function checkFileType(element) {
+      var validExts = new Array('.csv'),
+          fileExt = element.value;
+
+      fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
+
+      if (validExts.indexOf(fileExt) < 0) {
+        alert('Please use a .cvs file');
+        element.value = '';
+        return false;
+      } else {
+        return true;
+      }
+    }
+  });
+</script>
+<% end %>

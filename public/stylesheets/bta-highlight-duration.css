@@ -1,0 +1,29 @@
+.ui-datepicker tbody td {
+    padding: 0 !important;
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    text-align: center;
+}
+
+.ui-state-default {
+    border: none !important;
+}
+
+input[type="text"]:focus, input[type="search"]:focus, input[type="password"]:focus, input[type="email"]:focus, input[type="file"]:focus, input[type="number"]:focus, input[type="tel"]:focus, textarea:focus, select:focus {
+    outline: none;
+}
+
+.ui-datepicker-calendar td a.ui-state-default.ui-state-hover {
+    background: #333 !important;
+    border-color: #fafafa !important;
+    color: #FFF !important;
+}
+
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
+    border-color: transparent !important;
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    text-align: center;
+}

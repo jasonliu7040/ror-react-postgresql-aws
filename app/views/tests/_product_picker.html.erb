@@ -1,0 +1,54 @@
+<p>
+  <label for="product_id">Product:</label>
+  <select id="product_id" class="product-picker">
+    <% @products.each do |product| %>
+        <option value="<%= product.id %>"
+                data-handle="<%= product.product_handle %>"
+                data-external-id="<%= product.external_id %>"
+                data-config="<%= product.metafield_config %>">
+          <%= product.product_title %>
+        </option>
+    <% end %>
+  </select>
+</p>
+
+<p>
+  <label for="variant_id">Variant:</label>
+  <select id="variant_id" class="product-picker-variants">
+  </select>
+</p>
+
+<hr/>
+
+<% content_for :foot do %>
+    <script>
+        $('#product_id').change(function() {
+            $('input.datepicker').attr('data-bta-product-config', $('#product_id option:selected').attr('data-config'));
+        });
+
+        $('input.datepicker').attr('data-bta-product-config', $('#product_id option:selected').attr('data-config'));
+        $('input.datepicker').attr('data-handle', $('#product_id option:selected').attr('data-handle'));
+
+        $('#variant_id').change(function () {
+            var variant = $('#variant_id option:selected').attr('data-external-id');
+            $('#add').data('bta.bookingForm').setSelectedVariantId(variant);
+        });
+
+        $('#product_id').productVariantPicker({
+            variantElement: $('#variant_id'),
+            productSelectedCallback: function(data) {
+                var selected = $('#product_id option:selected');
+                $('#add input.datepicker').attr('data-handle', selected.attr('data-handle'));
+
+                var config = [];
+                for (var i = 0; i < data.variants.length; i++) {
+                    config.push(data.variants[i].external_id + ":" + data.variants[i].metafield_config);
+                }
+
+                $('#add input.datepicker').attr('data-bta-variant-config', config.join(','));
+                $('#add input.datepicker').attr('data-variant', $('#variant_id option:selected').val());
+            }
+        });
+        $('#product_id').trigger('change');
+    </script>
+<% end %>

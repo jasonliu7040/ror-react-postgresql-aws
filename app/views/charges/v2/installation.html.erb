@@ -1,0 +1,143 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-12">
+    <h2>Billing</h2>
+    <ol class="breadcrumb">
+      <li><i class="fa fa-home"></i><%= link_to 'Home', admin_dashboard_path %></li>
+      <li>My Account</li>
+      <li class="active"><strong>Purchase Installation</strong></li>
+    </ol>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Purchase Installation</h5>
+        </div>
+        <div class="ibox-content">
+          <p>For a one time installation fee of <strong>$US <%= sprintf('%.2f', Bookthatapp::Application.config.install_price) %></strong> we
+            can install BookThatApp into your current theme for you. Installation includes:</p>
+          <ul>
+            <li>adding one of the supported date and/or time picker widgets to your product page</li>
+            <li>updating the cart page to show selected dates</li>
+            <li>modifying the customer and order notification email templates</li>
+          </ul>
+          <div class="alert alert-warning">
+            Purchasing an installation applies to 1 theme only. If you change your theme BookThatApp will need to be reinstalled.
+          </div>
+
+          <% if false # stripe disabled %>
+            <% if current_account.stripe_customer_id.nil?  %>
+              <p>
+                <%= form_for current_account, :url => {:action => "stripe_install"} do |form| %>
+                  <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                          data-key="<%= Bookthatapp::Application.config.stripe_publish_key %>"
+                          data-amount="<%= (Bookthatapp::Application.config.install_price * 100).to_i %>"
+                          data-name="BookThatApp"
+                          data-description="BookThatApp Installation ($<%= sprintf('%.2f', Bookthatapp::Application.config.install_price) %>)"
+                          data-image="/128x128.png">
+                  </script>
+                <% end %>
+              </p>
+            <% else %>
+              <p>
+                <%= form_for current_account, :url => {:action => "stripe_delete_customer"} do |form| %>
+                  <%= form.submit "Remove Card (ending in #{@customer_card.cards.first.values[2] })", :class => "submit fr" %>
+                <% end %>
+
+                <%= form_for current_account, :url => {:action => "stripe_repeat_install"} do |form| %>
+                  <%= form.submit 'Purchase Another Installation', :class => "submit" %>
+                <% end %>
+              </p>
+            <% end %>
+          <% end %>
+
+          <p>
+            <%= form_for current_account, :url => {:action => "approve_install"}, :class => "fr" do |form| %>
+              <%= form.submit 'Purchase BookThatApp Installation', :class => "btn btn-sm btn-primary" %>
+            <% end %>
+          </p>
+          <p>
+            The purchase charge will be automatically appear in your next Shopify invoice.
+          </p>
+
+          <% unless only_admin %>
+            <p>We will contact you after your installation request and confirm how BookThatApp will work with your products.</p>
+            <div class="alert alert-warning"><span class="icon"></span>
+              <p>Please invite <strong>support@shopifyconcierge.com</strong> to your store after you have completed purchase.</p>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Purchase History</h5>
+        </div>
+        <div class="ibox-content inspinia-timeline">
+          <% if false # stripe section hidden for now %>
+            <% if @stripe_charges.count == 0 %>
+              <div class="alert alert-info">
+                <p>Your purchase history will appear here after you have made a payment.</p>
+              </div>
+            <% else %>
+              <table class="table">
+                <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Card</th>
+                  <th>Price</th>
+                  <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% @stripe_charges.each do |charge| %>
+                  <tr>
+                    <% time = DateTime.strptime(charge.created.to_s, '%s') %>
+                    <td><%= l time, :format => :short %><br>(<%= time_ago_in_words(time) %>  ago)</td>
+                    <td><%= charge.card.brand %> **** ****
+                      **** <%= charge.card.last4 %> <%= charge.card.exp_month %>/<%= charge.card.exp_year %></td>
+                    <td>
+                      <% if charge.refunded %><strike>
+                      <% end %>$<%= sprintf('%.2f', (charge.amount / 100).round(2)) %>
+                      <% if charge.refunded %></strike>
+                      <% end %>
+                    </td>
+                    <td><%= charge.description %></td>
+                  </tr>
+                <% end %>
+                </tbody>
+              </table>
+            <% end %>
+          <% end %>
+
+          <% if @charges.count > 0 %>
+            <% @charges.each do |charge| %>
+              <div class="timeline-item">
+                <div class="row">
+                  <div class="col-xs-3 date">
+                    <i class="fa fa-money"></i>
+                    <% time = to_time(charge.created_at) %><%= l time, :format => :long %><br>
+                    <small class="text-navy"><%= time_ago_in_words(time) %>  ago</small>
+                  </div>
+                  <div class="col-xs-7 content no-top-border">
+                    <p class="m-b-xs"><strong>Purchase</strong></p>
+                    <p>$<%= charge.price %> <%= charge.status.capitalize %></p>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          <% else %>
+            <div class="alert alert-info">
+              <p>Your purchase history will appear here after you have made a payment.</p>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+<div class="selector-wrapper">
+  {% capture attribute %}booking-start{% endcapture %}
+  <label for="{{ attribute }}">Date:</label>
+  <input id="{{ attribute }}"
+         type="text"
+         name="properties[{{ attribute }}]"
+         class="datepicker bta" size="12"
+         data-handle="{{ product.handle }}"
+         data-bta-product-config="{{ product.metafields.bookthatapp.config }}"
+         data-bta-variant-config="{% for variant in product.variants %}{{ variant.id }}:{{ variant.metafields.bookthatapp.config }}{% unless forloop.last %},{% endunless %}{% endfor %}"
+         disabled="disabled" />
+
+  <!-- scheduled times widget -->
+  <div class="bta-scheduled-times-widget"
+       data-label="Class Time:"
+       data-prompt="Choose a date..."
+       data-datepicker="{{ attribute }}">
+    <p class="loading">Loading class schedule...</p>
+    <div class="booked-out-message" style="display:none">
+      Sorry, that class is full.
+    </div>
+  </div>
+</div>

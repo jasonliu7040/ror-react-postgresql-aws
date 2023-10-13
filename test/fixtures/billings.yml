@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  vendor_string: MyStringhere
+  vendor_name: Stripe
+  account: test
+
+two:
+  vendor_string: 1
+  vendor_name: Shopify
+  account: aloha

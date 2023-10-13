@@ -1,0 +1,138 @@
+<div class="content-box">
+  <div class="box-header">
+    <span id="item-summary"><%= @item.product.product_title %> on <%= @item.all_day? ? I18n.localize(@item.start.to_date, :format => :short) : I18n.localize(Time.at(@item.start.to_i), :format => :short) %> - Contact Email: <%= @item.event.email %></span>
+    <h2>Edit Item</h2>
+  </div>
+  <div class="box-body">
+    <div class="tabs hidden">
+      <%= nested_form_for @item do |item| %>
+          <ul>
+            <li><a href="#item-form" class="">Item</a></li>
+            <!-- <li><%#= link_to "Email Activity", email_activity_item_path(@item) %></li> -->
+          </ul>
+          <%#= render :partial => "bookings/form", :locals => {:form => form} %>
+	  <div id="booking-form" class="clear">
+
+	    <div class="half fl">
+	      <table class="styled">
+		<tbody>
+
+		    <tr>
+		      <td class="title"><%= item.label :start, "Date/Time" %></td>
+		      <td>
+			<%= item.check_box(:all_day, {:class => "all_day_toggle"}, 1, 0) %><%= item.label :all_day, "All Day" %>
+
+			<br/>
+			<%= item.text_field :start,
+			:size => 20,
+			:value => scheduled_at(@item.start, @item.all_day),
+		:autocomplete => "off", :class => "bta", :required => true %>
+		  <span class="no-wrap"> - </span>
+		  <%= item.text_field :finish, :size => 20, :value => scheduled_at(@item.finish, @item.all_day), :autocomplete => "off", :class => "bta" %>
+	      </td>
+	  </tr>
+	</tbody>
+      </table>
+    </div>
+    <div class="half fr">
+      <table id="booking-names" class="styled">
+        <tbody>
+		<tr>
+		  <td class="title"><%= item.label :quantity, "Number in Party" %></td>
+		    <td><%= item.number_field :quantity %></td>
+		</tr>
+		<tr>
+		  <td class="title" colspan="2" style="border-bottom: 0 none;"><label>Booking names</label></td>
+		</tr>
+		<tr>
+		  <td class="title" colspan="2" style="border-bottom: 0 none;">
+                    <table class="nested-form-table plain styled">
+                      <thead>
+			<tr>
+			  <th>Name</th>
+			  <th>Email</th>
+			  <th></th>
+			</tr>
+                      </thead>
+                      <tbody>
+			<%= item.fields_for :booking_names, :wrapper => false %>
+			<tr class="nested-form-actions">
+                          <td colspan="3">
+                            <%= item.link_to_add "Add Name", :booking_names, :class => 'submit' %>
+                          </td>
+			</tr>
+                      </tbody>
+                    </table>
+		  </td>
+		</tr>
+
+
+        </tbody>
+      </table>
+    </div>
+</div>
+
+<div class="button-bar">
+  <%= item.submit 'Save', :id => "save" %>
+	<%= link_to 'iCalendar', item_path(@item, :format => :ics) unless @account.subdomain == "columbusinternational" %>
+</div>
+
+<% content_for :footer do %>
+  <%= javascript_include_tag '/javascripts/schedadly-event-form.js' %>
+
+  <script type="text/javascript">
+   <%= render :partial => 'common/async_bta' %>
+
+   $('a[href*="/reminder/"], a[href*="/sms/"]').click(function() {
+     if ($(this).hasClass('disabled')) {
+       return false;
+     }
+
+     $.jGrowl($(this).text().replace('Send', 'Sending'));
+
+     var href = $(this).attr('href');
+     $.ajax({
+       url: href,
+       error:function(request, textStatus, errorThrown) {
+         $.jGrowl('Send Failure: ' + request.responseText);
+       }
+     });
+
+     return false;
+   });
+
+   $('.tabs').tabs({cache: false}).show();
+
+   $('.all_day_toggle').data('start_element', $('#item_start'));
+   $('.all_day_toggle').data('finish_element', $('#item_finish'));
+
+   $('#order_items_attributes_0_product_id').productVariantPicker({
+     variantElement:$('#order_items_attributes_0_variant_id'),
+     productSelectedCallback:function (data) {
+       if (data.profile == '') {
+         $('.profiled').fadeIn();
+       } else {
+         $('.profiled').fadeOut(function () {
+           $('.profile-' + data.profile).fadeIn();
+         });
+       }
+     }
+   });
+
+   $(document).ready(function(){
+     window.NestedFormEvents.prototype.insertFields = function(content, assoc, link) {
+       var $tr = $(link).parents('.nested-form-table').find('tbody tr:last').not('.nested-form-actions');
+       if ($tr.length > 0) {
+         $tr.remove();
+       }
+       $tr = $(link).parents('.nested-form-table').find('tbody tr:last');
+       return $(content).insertBefore($tr);
+     }
+   })
+  </script>
+<% end %>
+
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,118 @@
+<order>
+  <source-name>web</source-name>
+  <buyer-accepts-marketing type="boolean">false</buyer-accepts-marketing>
+  <closed-at type="datetime" nil="true"></closed-at>
+  <currency>AUD</currency>
+  <email>gavin@shopifyconcierge.com</email>
+  <financial-status>paid</financial-status>
+  <fulfillment-status nil="true"></fulfillment-status>
+  <gateway nil="true"></gateway>
+  <id type="integer">7025</id>
+  <name>#7025</name>
+  <note nil="true"></note>
+  <number type="integer">7025</number>
+  <subtotal-price type="decimal">0.0</subtotal-price>
+  <taxes-included type="boolean">true</taxes-included>
+  <total-discounts type="decimal">0.0</total-discounts>
+  <total-line-items-price type="decimal">0.0</total-line-items-price>
+  <total-price type="decimal">0.0</total-price>
+  <total-price-usd type="decimal">0.0</total-price-usd>
+  <total-tax type="decimal">0.0</total-tax>
+  <total-weight type="integer">0</total-weight>
+  <updated-at type="datetime">2012-11-01T15:46:10-04:00</updated-at>
+  <created-at type="datetime">2012-11-01T15:45:53-04:00</created-at>
+  <token>c4f7603809235a9f5cba35c6ec2ccbbc</token>
+  <landing-site>/services/apps/liquid</landing-site>
+  <referring-site>http://vanessaleong.com.au/collections/classes/products/candle-making-class</referring-site>
+  <cancelled-at type="datetime" nil="true"></cancelled-at>
+  <cancel-reason nil="true"></cancel-reason>
+  <cart-token>3354notarealonetotallyfake34</cart-token>
+  <browser-ip nil="true"></browser-ip>
+  <landing-site-ref nil="true">
+  </landing-site-ref>
+  <order-number type="integer">19019201239123</order-number>
+  <discount-codes type="array"/>
+  <note-attributes type="array">
+  </note-attributes>
+  <processing-method nil="true"></processing-method>
+  <line-items type="array">
+    <line-item>
+      <id type="integer">235997326</id>
+      <requires-shipping type="boolean">false</requires-shipping>
+      <fulfillment-service>manual</fulfillment-service>
+      <grams type="integer">0</grams>
+      <price type="decimal">0.0</price>
+      <quantity type="integer">1</quantity>
+      <sku></sku>
+      <title>Candle Making Class</title>
+      <product-id type="integer">27763452</product-id>
+      <variant-id type="integer">65985862</variant-id>
+      <vendor>Vanessa Leong</vendor>
+      <variant-title nil="true"></variant-title>
+      <fulfillment-status nil="true"></fulfillment-status>
+      <name>Candle Making Class</name>
+      <variant-inventory-management></variant-inventory-management>
+      <properties type="array">
+        <property>
+          <name>booking-start</name>
+          <value>30/07/2015</value>
+        </property>
+        <property>
+          <name>start-time</name>
+          <value>6:00</value>
+        </property>
+        <property>
+          <name>booking-finish</name>
+          <value>31/07/2015</value>
+        </property>
+        <property>
+          <name>finish-time</name>
+          <value>12:00</value>
+        </property>
+      </properties>
+    </line-item>
+  </line-items>
+
+  <shipping-lines type="array"/>
+  <tax-lines type="array">
+    <tax-line>
+      <title>GST</title>
+      <price type="decimal">0.0</price>
+      <rate type="float">0.1</rate>
+    </tax-line>
+  </tax-lines>
+  <billing-address>
+    <first-name>Gavin</first-name>
+    <last-name>Terrill</last-name>
+    <address1>10/3 Werambie St</address1>
+    <address2></address2>
+    <city>Woolwich</city>
+    <company></company>
+    <country>Australia</country>
+    <phone></phone>
+    <province>New South Wales</province>
+    <zip>2110</zip>
+    <latitude type="decimal" nil="true"></latitude>
+    <longitude type="decimal" nil="true"></longitude>
+    <name>Gavin Terrill</name>
+    <country-code>AU</country-code>
+    <province-code>NSW</province-code>
+  </billing-address>
+  <fulfillments type="array"/>
+  <customer>
+    <id type="integer">101558230</id>
+    <email>gavin@shopifyconcierge.com</email>
+    <accepts-marketing type="boolean">false</accepts-marketing>
+    <first-name>Gavin</first-name>
+    <last-name>Terrill</last-name>
+    <orders-count type="integer">0</orders-count>
+    <total-spent type="decimal">0.0</total-spent>
+    <note nil="true"></note>
+    <created-at type="datetime">2012-11-01T15:45:54-04:00</created-at>
+    <updated-at type="datetime">2012-11-01T15:46:10-04:00</updated-at>
+    <state>disabled</state>
+    <last-order-id type="integer" nil="true"></last-order-id>
+    <tags></tags>
+    <last-order-name nil="true"></last-order-name>
+  </customer>
+</order>

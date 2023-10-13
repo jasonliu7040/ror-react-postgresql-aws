@@ -1,0 +1,183 @@
+product1:
+  id: 1
+  shop_id: 1
+  external_id: 1
+  capacity_type: 0
+  capacity: 1
+  profile: appt
+  product_title: one_product
+  scheduled: true
+  hidden: false
+
+product2:
+  id: 2
+  profile: class
+  shop_id: 1
+  external_id: 2
+  capacity_type: 0
+  capacity: 10000
+  product_title: two_one_product
+  hidden: false
+
+product3:
+  id: 3
+  profile: class
+  shop_id: 1
+  external_id: 3
+  capacity_type: 0
+  capacity: 0
+  product_title: three_one_product
+  hidden: false
+
+hook_product:
+  id: 4
+  shop_id: 1
+  profile: class
+  product_handle: hook-product
+  capacity_type: 1
+  capacity: 9999
+  external_id: 27763452
+  product_title: four_one_product
+  hidden: false
+  duration_option_external_id: 119934308
+  duration_option: Color
+  duration_option_position: 1
+
+update_hook_product:
+  id: 5
+  shop_id: 1
+  profile: class
+  product_handle: update-hook-product
+  capacity_type: 0
+  capacity: 9999
+  product_title: five_one_product
+  external_id: 1003832167
+  hidden: false
+
+
+one_off_date_product:
+  id: 6
+  shop_id: 1
+  profile: class
+  product_handle: one-off-date-product
+  capacity_type: 0
+  capacity: 10
+  scheduled: true
+  product_title: six_one_product
+  external_id: 100383216
+  hidden: false
+
+
+scheduled_daily_product:
+  id: 7
+  shop_id: 1
+  product_handle: scheduled-daily-product
+  external_id: 7
+  profile: class
+  product_title: seven_one_product
+  capacity_type: 0
+  capacity: 1
+  scheduled: true
+  product_image_url: muck/tuck.jpg
+  hidden: false
+
+blackout_product:
+  shop_id: 1
+  product_handle: blackout-product
+  external_id: 9
+  profile: class
+  capacity_type: 0
+  product_title: eight_one_product
+  capacity: 1
+  hidden: false
+
+
+aloha_product:
+  id: 8
+  shop_id: 2
+  profile: class
+  product_title: nine_one_product
+  external_id: 114781334
+  capacity: 1
+  hidden: false
+
+
+appt:
+  shop_id: 2
+  product_title: then_one_product
+  external_id: 114781334
+  profile: appt
+  hidden: false
+
+
+reservation_one:
+  shop_id: 1
+  external_id: 10
+  capacity_type: 0
+  capacity: 20
+  profile: appt
+  product_title: reservation_one
+  product_handle: reservation-one
+  scheduled: true
+  hidden: false
+
+
+aloha_reservation_one:
+  shop_id: 2
+  external_id: 10
+  capacity_type: 0
+  capacity: 20
+  profile: appt
+  product_title: alhoa_reservation_one
+  product_handle: alhoa-reservation-one
+  scheduled: true
+  hidden: false
+
+has_all_four_types:
+  shop_id: 1
+  external_id: 1009
+  capacity_type: 0
+  capacity: 20
+  profile: appt
+  product_title: reservation_one
+  scheduled: true
+  hidden: false
+
+resource_one:
+  shop_id: 1
+  external_id: 1098
+  capacity_type: 2
+  profile: appt
+  product_title: resource_one
+  product_handle: resource-one
+  hidden: false
+
+deleted_product:
+  id: 333333
+  shop_id: 1
+  external_id: 333333
+  capacity_type: 0
+  profile: appt
+  product_title: deleted_one
+  product_handle: deleted-one
+  hidden: false
+  deleted_at: <%= Time.now %>
+
+class_with_enrollments_product:
+  id: 15
+  profile: class
+  shop_id: 1
+  product_handle: class_with_enrollments_product
+  capacity_type: 0
+  capacity: 10
+  external_id: 27763452
+  product_title: class_with_enrollments_product
+
+course:
+  id: 16
+  profile: course
+  shop_id: 1
+  product_handle: course
+  product_title: "Candle Making Course"
+  external_id: 16
+  product_title: with_course

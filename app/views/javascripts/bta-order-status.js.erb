@@ -1,0 +1,71 @@
+<% cache(@shop) do %>
+;(function() {
+  var BookThatAppOrderStatusPage = function() {
+    this.init = function() {
+      this.loadStyleSheet('//addtocalendar.com/atc/1.5/atc-style-blue.css');
+      this.loadJs('//addtocalendar.com/atc/1.5/atc.min.js');
+
+      for (var i = 0, itemCount = Shopify.checkout.line_items.length; i < itemCount; i++) {
+        this.addContent(Shopify.checkout.line_items[i]);
+      }
+    };
+
+    this.loadStyleSheet = function(stylesheet) {
+      var ss = document.createElement('link');
+      ss.type='text/css'; ss.rel='stylesheet'; ss.href = stylesheet;
+      document.getElementsByTagName('head')[0].appendChild(ss);
+    };
+
+    this.loadJs = function(js) {
+        var d = document,
+            s = d.createElement('script'),
+            g = 'getElementsByTagName';
+        s.type = 'text/javascript';
+        s.charset = 'UTF-8';
+        s.async = true;
+        s.src = js;
+        var h = d[g]('body')[0];
+        h.appendChild(s);
+    };
+
+    this.addContent = function(item) {
+      if (item.properties.length == 0) return;
+
+      if (this.itemHasProperty(item, 'From') && this.itemHasProperty(item, 'To')) {
+        var template = [];
+        template.push("<span class='addtocalendar atc-style-blue'>");
+        template.push("<var class='atc_event'>");
+        template.push("<var class='atc_date_start'>__date__</var>".replace('__date__', this.formatDate(item.properties['From'])));
+        template.push("<var class='atc_date_end'>__date__</var>".replace('__date__', this.formatDate(item.properties['To'])));
+        template.push("<var class='atc_timezone'><%= store_iana_timezone %></var>");
+        template.push("<var class='atc_title'>__title__</var>".replace('__title__', item.title));
+        template.push("<var class='atc_location'><%= store_location %></var>");
+        template.push("<var class='atc_organizer'><%= store_name %></var>");
+        template.push("<var class='atc_organizer_email'><%= store_email %></var>");
+        template.push("</var>");
+        template.push("</span>");
+
+        Shopify.Checkout.OrderStatus.addContentBox(
+            '<h2>Booking Reminder</h2>',
+            template.join('')
+        )
+      }
+    };
+
+    this.itemHasProperty = function(item, property) {
+      return item.properties.hasOwnProperty(property);
+    };
+
+    this.formatDate = function(dateStr) {
+      var parts = dateStr.split('/');
+      return [this.pad(parts[2]), this.pad(parts[0]), this.pad(parts[1])].join('-');
+    };
+
+    this.pad = function(n) {
+      return ("0" + n).slice(-2);
+    };
+  };
+
+//  new BookThatAppOrderStatusPage().init();
+})();
+<% end %>

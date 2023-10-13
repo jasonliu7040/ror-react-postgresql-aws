@@ -1,0 +1,16 @@
+<div class="content-box">
+  <div class="box-header">
+    <span id="booking-summary"><%= @incomplete_booking.product_title %> Booking to Convert to a Booking with a Start Date - Contact Email: <%= @incomplete_booking.email %></span>
+    <h2>Find out the Dates they would like and Select them in the Booking below and Save.</h2>
+  </div>
+  <div class="box-body">
+    <div class="tabs hidden">
+      <%= nested_form_for @incomplete_booking do |form| %>
+          <ul>
+            <li><a href="#booking-form" class="">Incomplete Booking - </a></li>
+          </ul>
+          <%= render :partial => "form", :locals => {:form => form} %>
+      <% end %>
+    </div>
+  </div>
+</div>

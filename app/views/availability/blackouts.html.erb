@@ -1,0 +1,137 @@
+<% content_for :footer do -%>
+<script type='text/javascript'>
+
+blackoutEvent = function(d) {
+	var date = $.fullCalendar.parseISO8601(d.start);
+	return {"id": $.fullCalendar.formatDate(date, "yyyyMMdd"), "start": date, "title": "Blacked Out", "allDay": true, "blackout": d.id}
+}
+
+blackoutDates = function(start, end, callback) {
+	var close = false;
+	jQuery.jGrowl("Retrieving blackout dates", {beforeClose: function() {return close;}});
+	$.getJSON("/availability/blackouts", {start: schedadly.formatYMD(start), finish:schedadly.formatYMD(end)}, function (data) {
+		callback(jQuery.map(data.blackouts, function(d, i) {
+			return blackoutEvent(d.blackout); 
+		}))
+		close = true;
+	})
+}
+
+addDate = function(date) {
+	var id = $.fullCalendar.formatDate(date, "yyyyMMdd");
+	var existing = $('#calendar').fullCalendar('clientEvents', id);
+	if (existing.length == 0) {
+		var close = false;
+		$.jGrowl("Adding new blackout date " + $.fullCalendar.formatDate(date, "MMM dd"));
+		$.ajax({
+			url: "/availability/blackouts", dataType: "jsonp", type:"post",
+			data: {date:schedadly.formatYMD(date)},
+			success: function(data) {
+				$('#calendar').fullCalendar('renderEvent', blackoutEvent(data.blackout), true);
+				bta.refreshBlackoutDates(date.getFullYear(), date.getMonth() + 1);
+				close = true;
+			}    
+		})
+	}
+}
+
+removeDate = function(event, jsEvent, view) {
+	if (event.blackout) {
+		var close = false;
+		$.jGrowl("Removing blackout date " + $.fullCalendar.formatDate(event.start, "MMM dd"));
+		$.ajax({
+			url: "/availability/blackouts/" + event.blackout, dataType: "jsonp", type:"delete",
+			success: function(data) {
+				$('#calendar').fullCalendar('removeEvents', event.id);
+				var date = $('#datepicker').datepicker('getDate');
+				bta.refreshBlackoutDates(date.getFullYear(), date.getMonth() + 1);
+				close = true;
+			}    
+		})
+	}
+}
+
+jQuery(document).ready(function($) {
+	$('#calendar').fullCalendar({
+	    droppable: false, editable: false, theme: true,
+	    events: blackoutDates,
+		eventRender: function(event, element) {
+			element.append($('<span class="fr ui-icon ui-icon-trash"/>'));
+			element.addClass('ui-state-default');
+			element.hover(function(){
+					$(this).addClass('ui-state-default').addClass("ui-state-hover"); 
+				}, function(){ 
+					$(this).removeClass("ui-state-hover").removeClass("ui-state-active");; 
+				}
+			);
+		},
+	    eventClick: function(start, end, callback) {
+			$( "#dialog-confirm-delete" ).dialog({
+				resizable: false,
+				height:150,
+				modal: true,
+				buttons: {
+					"Cancel": function() {
+						$(this).dialog("close");
+					},
+					"Delete": function() {
+						$(this).dialog("close");
+						removeDate(start, end, callback);
+					}
+				}
+			})
+		},
+	    eventDrop: function(booking, dayDelta, minuteDelta, allDay, revertFunc) {
+//			schedadly.reschedule(booking, revertFunc);
+	    },
+		eventResize: function(booking, dayDelta, minuteDelta, revertFunc) {
+//			schedadly.reschedule(booking, revertFunc);
+		},
+	    dayClick: function(date, allDay, jsEvent, view) {
+			if (allDay) {
+				addDate(date)
+			}
+		}
+    })
+	
+	$('.fc-header-right table tr').prepend('<td><span class="fc-header-space"></span></td>');
+	
+	$('#calendar').fullCalendar('gotoDate', new Date());
+	
+	$('#views a').click(function(){
+		$('#calendar').fullCalendar('changeView', $(this).attr('href').substring(1));
+		return false;
+	})
+	
+	$('#add-date').click(function() {
+		addDate($('#datepicker').datepicker('getDate'));
+	})
+})
+</script>
+
+<script type="text/javascript">
+<%= render :partial => 'common/async_bta' %>
+</script>
+
+<% end -%>
+
+<div class="content-box">
+	<div class="box-header clear">
+		<ul id="views" class="tabs clear">
+			<li><a href="#month">Month</a></li>
+			<li><a href="#agendaWeek">Week</a></li>
+			<li><a href="#agendaDay">Day</a></li>
+		</ul>
+		<div id="add-blackout-date-form" class="form-field clear fr">
+			<label class="form-label fl-space" for="datepicker">New:</label><input id="datepicker" type="text" class="fl-space2 datepicker blackedout"/><input id="add-date" type="submit" value="Add" class="submit">
+		</div>
+		<h2>Black Out Dates</h2>
+	</div>
+	
+	<div class="box-body clear">
+		<div id="calendar"></div>
+	</div>
+</div>
+<div id="dialog-confirm-delete" title="Delete blackout date?">
+	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>This item will be permanently deleted and cannot be recovered. Are you sure?</p>
+</div>

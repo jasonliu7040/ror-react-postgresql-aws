@@ -1,0 +1,6 @@
+<% if reminder_templates_for_select.size > 0 %>
+<div class="fr">
+  <%= select_tag "reminder_template", options_for_select(reminder_templates_for_select),  :class => 'fl-space' %>
+  <%= link_to "Send Reminder", send_reminders_bookings_path, :class => 'fl-space submit', id: 'send_reminders' %>
+</div>
+<% end %>

@@ -1,0 +1,24 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <%= react_component('ProductContainer', ProductSerializer.new(@product).as_json.merge(
+                                   legacy_variant_times: @legacy_variant_times,
+                                   duration_enabled: !$flipper[:duration_v2].enabled?(current_account),
+                                   term_events: @events.as_json,
+                                   variant_options: load_options.as_json,
+                                   profileOptions: product_profiles_for_select.as_json,
+                                   resourceOptions: resources_for_select.as_json,
+                                   locationOptions: locations_for_select.as_json,
+                                   colorOptions: get_colors.as_json,
+                                   durationUnitOptions: duration_units_for_select.as_json,
+                                   rangeCountBasisOptions: range_count_basis_for_select.as_json,
+                                   capacityOptions: capacities_for_select.as_json,
+                                   variantOptionNameOptions: variant_option_names_for_select.as_json,
+                               )) %>
+    </div>
+  </div>
+</div>
+
+<% content_for :javascript do -%>
+  <link rel="stylesheet" media="all" href="//www.fuelcdn.com/fuelux/3.0.0/css/fuelux.min.css" data-turbolinks-track="true">
+<% end %>

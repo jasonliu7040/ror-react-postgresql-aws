@@ -1,0 +1,6 @@
+one:
+  id: 1
+  start_date: <%= Time.new(2016,01,01,11,00) %>
+  finish_date: <%= Time.new(2016,02,01,20,00) %>
+  name: 'Super course'
+  product_id: 16

@@ -1,0 +1,28 @@
+<div id="booking-form">
+  <table id="events"
+         class="bta-upcoming-events-table"
+         style="width:100%"
+         data-handle="{{ product.handle }}"
+         data-variant="{{ product.variants.first.id }}">
+    <tr>
+      <td colspan="3" class="loading">Loading...</td>
+    </tr>
+  </table>
+</div>
+
+<script>
+  $('form[action="/cart/add"]').on('bta.upcomingEventsLoaded', function(event, form) {
+      if ($('#events tr').length == 0) {
+        $('#events').append("<tr><td colspan='3'><i>No classes scheduled at this time. Please check back later.</i></td></tr>");
+      }
+
+      if ($('#events tr').length == 0 || $('#events input[type=radio]').not(':disabled').length == 0) {
+      // no scheduled events are available - consider disabling the add to cart button here - e.g. $('#product-add').hide();
+      }
+  }).on('submit', function() {
+      if ($('#events tr').length == 0 || $('#events input[type=radio]').not(':disabled').length == 0) {
+        alert('No classes available');
+      return false;
+    }
+  });
+</script>

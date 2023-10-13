@@ -1,0 +1,165 @@
+<div>
+  <%= render 'common/error_messages', :object => form.object %>
+  <%= form.hidden_field :id %>
+  <%= hidden_field_tag 'ga_client_id', '', :class => 'ga-client-id' %>
+
+  <table class="styled">
+    <caption>CSV File</caption>
+    <tbody>
+    <tr><td colspan="2">
+      <div class="notification note-info">
+        <a title="Close notification" class="close" href="#"><span>close</span></a>
+        <span class="icon"></span>
+        <p><strong>CSV file format</strong>: The upload file must be a .csv file with the 1st row having a column called 'handle'. Subsequent
+          rows should list the product handles to import (in the same column). Please note that currently you can only upload up to 100 products.</p>
+        <p><strong>Tip</strong>: you can create an upload file using <a href="http://docs.shopify.com/manual/your-store/products/export-products">products exported from Shopify</a>.</p>
+      </div>
+    </td> </tr>
+    <tr>
+      <td class="title">
+        <%= form.label :file %>
+      </td>
+      <td>
+        <%= form.file_field :file, :accept => '.csv', :required => true, :onchange => 'checkFileType(this)' %>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <table class="styled">
+    <caption>Product Values</caption>
+    <tbody>
+    <tr><td colspan="2">
+      <div class="notification note-info">
+        <a title="Close notification" class="close" href="#"><span>close</span></a>
+        <span class="icon"></span>
+        <p>The values specified here will be applied to each imported product.</p>
+      </div>
+    </td> </tr>
+    <tr>
+      <td class="title">
+        <%= form.label :profile %>
+      </td>
+      <td>
+        <%= form.select :profile, options_for_select(@types, form.object.profile) %>
+      </td>
+    </tr>
+    <tr>
+      <td class="title">
+        <%= form.label :mindate, "Cutoff Date" %>
+      </td>
+      <td>
+        <%= form.text_field :mindate, :size => 5 %>
+      </td>
+    </tr>
+    <tr>
+      <td class="title">
+        <%= form.label :lead_time, "Lead Time (days)" %>
+      </td>
+      <td>
+        <%= form.number_field :lead_time, :min => 0, :size => 3, :required => true %>
+      </td>
+    </tr>
+    <tr class="">
+      <td class="title">
+        <%= form.label :lag_time, "Lag Time" %>
+      </td>
+      <td>
+        <input id="lag-input" type="number" value="0" min="0" max="59" />
+        <select id="lag-input-units">
+          <option value="minutes" selected="selected">Minutes</option>
+          <option value="hours">Hours</option>
+          <option value="days">Days</option>
+        </select>
+        <%= form.hidden_field :lag_time %>
+      </td>
+    </tr>
+    <tr>
+      <td class="title">
+        <%= form.label :range_basis, "Date Range Count" %>
+      </td>
+      <td>
+        <%= form.select :range_basis, options_for_select([['Days', 0], ['Nights', 1]]) %>
+      </td>
+    </tr>
+    <tr>
+      <td class="title">
+        <%= form.label :range_min, "Date Range Min" %>
+      </td>
+      <td>
+        <%= form.number_field :range_min, :min => 0, :size => 3 %>
+      </td>
+    </tr>
+    <tr>
+      <td class="title">
+        <%= form.label :range_max, "Date Range Max" %>
+      </td>
+      <td>
+        <%= form.number_field :range_max, :min => 0, :size => 3 %>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="tab-footer">
+    <div style="text-align:right">
+      <%= form.submit 'Save', :id=>"save", :class=>"submit" %>
+      <%= link_to 'Cancel', products_path %>
+    </div>
+  </div>
+</div>
+
+<% content_for :footer do -%>
+<script>
+    // === lag time ===
+    $('#lag-input-units').change(function () {
+        switch ($('#lag-input-units option:selected').val()) {
+            case 'minutes':
+                $('#lag-input').attr('max', 59);
+                break;
+            case 'hours':
+                $('#lag-input').attr('max', 23);
+                break;
+            case 'days':
+                $('#lag-input').attr('max', 14);
+                break;
+        }
+    });
+
+    var lag = <%= form.object.lag_time || 0 %>
+    if (lag < 60) {
+        $('#lag-input').val(lag);
+        $('#lag-input-units').val('minutes');
+    } else if (lag < (60 * 24)) {
+        $('#lag-input').val(lag / 60);
+        $('#lag-input-units').val('hours');
+    } else {
+        $('#lag-input').val(lag / 60 / 24);
+        $('#lag-input-units').val('days');
+    }
+
+    $('form[action="/product_imports"]').submit(function () {
+        var lag = $('#lag-input').val(), units = $('#lag-input-units option:selected').val();
+        if (units == "hours") {
+            lag = lag * 60;
+        }
+        if (units == "days") {
+            lag = lag * 60 * 24;
+        }
+        $('#product_import_lag_time').val(lag);
+    });
+
+    function checkFileType (element) {
+      var validExts = new Array('.csv');
+      var fileExt = element.value;
+      fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
+
+      if (validExts.indexOf(fileExt) < 0) {
+        alert('Invalid file selected, valid files are of ' + validExts.toString() + ' types.');
+        element.value = '';
+        return false;
+      }
+      else return true;
+    }
+</script>
+<% end %>

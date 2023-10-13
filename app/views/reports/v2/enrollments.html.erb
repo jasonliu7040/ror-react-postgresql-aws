@@ -1,0 +1,160 @@
+<%= render partial: 'common/breadcrumbs',
+           locals: {
+               section: 'Bookings',
+               crumbs: [
+                   {title: 'Bookings', path: admin_events_path},
+                   {title: 'Enrollments'}
+               ]
+           } %>
+
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <%= render '/reports/v2/enrollments_filter' %>
+
+
+      <div class="dataTables_wrapper">
+        <% if @enrollments.empty? && @filter.present? %>
+          <div class="alert alert-info">
+            <span class="icon"></span>
+            <p><strong>No bookings:</strong> There are no enrollments for this class.</p>
+          </div>
+        <% end %>
+
+        <% unless @enrollments.empty? %>
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th>Booking</th>
+              <th>Customer</th>
+              <th>Phone</th>
+              <th>Attended?</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @enrollments.each do |enrollment| %>
+              <%= render partial: 'reports/v2/enrollment', locals: { enrollment: enrollment } %>
+            <% end %>
+            </tbody>
+          </table>
+          <div class="no-print">
+            <%= paginate @enrollments, theme: 'v2'%>
+          </div>
+
+          <div class="tab-footer clear no-print">
+            <div class="fl">
+              <a href="#" onClick="window.print(); return false;" class="btn btn-default submit">Print Page</a>
+              <%= link_to "PDF", enrollments_path(request.parameters.symbolize_keys.merge({:format => :pdf})), :class => 'btn btn-default submit' %>
+              <%= link_to "Excel", enrollments_path(request.parameters.symbolize_keys.merge({:format => :xls})), :class => 'btn btn-default submit' %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<script id="schedule-template" type="text/html">
+  <tr>
+    <td><input type="radio" value="" name="event" data-start='${ moment(start).format("YYYY-MM-DDTHH:mm") }'  data-finish='${ moment(end).format("YYYY-MM-DDTHH:mm") }'></td>
+    <td>${ moment(start).format('YYYY-MM-DD HH:mm') }</td>
+    <td>${ bookingCount }</td>
+    <td>${ capacity }</td>
+  </tr>
+</script>
+
+<% content_for :javascript do -%>
+<%= javascript_include_tag 'reports-helper.js' %>
+
+<script>
+    $('.attendance-check').bind('change', function () {
+        $.ajax({
+            url: '/bookings/' + this.value + '/attendance',
+            type: 'POST',
+            data: {"attended": this.checked}
+        });
+    });
+
+    function selectDates() {
+      var start = $('#start'),
+          selected = $('input[type="radio"][name="event"]:checked');
+
+      if (selected.length > 0) {
+        start.val(selected.attr('data-start'));
+      }
+    }
+
+    function getParameterByName(name) {
+        var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+        return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+    }
+
+    function loadSchedule() {
+        var external_product_id = $('#products option:selected').attr('data-external-id'),
+            external_variant_id = $('#variants option:selected').attr('data-external-id');
+
+        if (external_product_id) {
+            $('#event-instructions').hide();
+
+            $.getJSON("/availability/schedule.json?callback=?", {
+                products: external_product_id || '',
+                variants: external_variant_id || '',
+                start: moment(new Date()).format('YYYY-MM-DD'),
+                finish: moment(new Date()).add(6, 'months').format('YYYY-MM-DD')
+            }, function (data) {
+                var table = $('#upcoming-classes').find('tbody'),
+                    events = $.map(data.schedule, function(event) {
+                        event.start = new Date(event.start[0], event.start[1] - 1, event.start[2], event.start[3], event.start[4], event.start[5]);
+                        event.end = new Date(event.end[0], event.end[1] - 1, event.end[2], event.end[3], event.end[4], event.end[5]);
+                        return event;
+                    });
+
+                table.empty();
+
+                for (var i = 0; i < events.length && i <= 30; i++) { // display up to the next 30 events
+                    $('#schedule-template').tmpl(events[i]).appendTo(table);
+                }
+
+                var startParam = getParameterByName('start');
+                if (startParam) {
+                    $('input[type="radio"][name="event"][data-start="' + unescape(startParam) + '"]').prop('checked', 'true');
+                } else {
+                    $('input[type="radio"][name="event"]:first').prop('checked', 'true');
+                }
+
+                selectDates();
+
+                if (events.length == 0) {
+                    $('#no-events').show();
+                    $('#upcoming-classes').hide();
+                } else {
+                    $('#no-events').hide();
+                    $('#upcoming-classes').show();
+                }
+            });
+        } else {
+            $('#event-instructions').show();
+            $('#upcoming-classes').hide();
+            $('#no-events').hide();
+            $('.dataTables_wrapper').hide(); // hide results from previous search
+        }
+    }
+
+    $('#products, #variants').bind('change', function() {
+        loadSchedule();
+    });
+
+    loadSchedule();
+
+    $('#upcoming-classes').on('change', 'input[type="radio"][name="event"]', function() {
+        selectDates();
+    });
+
+    <% if @filter.present? %>
+    $('#start').datepicker('setDate', new Date('<%= @filter.start %>'));
+    <% end %>
+</script>
+<% end %>

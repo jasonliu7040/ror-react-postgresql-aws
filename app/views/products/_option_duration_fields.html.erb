@@ -1,0 +1,32 @@
+<tr>
+  <td>
+    <%= f.hidden_field :option_external_id %>
+    <%= f.text_field :value, readonly: true %>
+  </td>
+  <td class="duration-container">
+    <%= f.hidden_field :duration %>
+    <input type="number" class="short_number duration" value="0" min="0">
+    <select class="duration-units">
+      <option value="mins">Minutes</option>
+      <option value="hours">Hours</option>
+      <option value="days">Days</option>
+      <option value="weeks">Weeks</option>
+    </select>
+  </td>
+  <td class="duration-container variant-range-duration" style="display:none">
+    <%= f.hidden_field :low_range %>
+    <input type="number" class="short_number duration" value="0" min="0">
+    <select class="duration-units">
+      <option value="days">Days</option>
+      <option value="weeks">Weeks</option>
+    </select>
+  </td>
+  <td class="duration-container variant-range-duration" style="display:none">
+    <%= f.hidden_field :high_range %>
+    <input type="number" class="short_number duration" value="0" min="0">
+    <select class="duration-units">
+      <option value="days">Days</option>
+      <option value="weeks">Weeks</option>
+    </select>
+  </td>
+</tr>

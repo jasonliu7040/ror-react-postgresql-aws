@@ -1,0 +1,9 @@
+<tr>
+  <td><%= location.name %></td>
+  <td><%= location.address %></td>
+  <td><%= location.email %></td>
+  <td>
+    <%= link_to content_tag(:i, '', :class => "fa fa-pencil"), edit_admin_location_path(location) %>
+    <%= link_to content_tag(:i, '', :class => "fa fa-remove"), location, :data => {:confirm => 'Are you sure?'}, :class => 'ajax-delete' %>
+  </td>
+</tr>

@@ -1,0 +1,14 @@
+<%= nested_form_for(@incomplete_booking) do |f| %>
+  <% if @incomplete_booking.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@incomplete_booking.errors.count, "error") %> prohibited this incomplete_booking from being saved:</h2>
+
+      <ul>
+      <% @incomplete_booking.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%= render :partial => "bookings/form", :locals => {:form => f } %>
+<% end %>

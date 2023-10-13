@@ -1,0 +1,15 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-12">
+    <h2><%= section %></h2>
+    <ol class="breadcrumb">
+      <li><i class="fa fa-home"></i><%= link_to 'Home', admin_dashboard_path %></li>
+      <% crumbs.each_with_index do |crumb, i| %>
+        <% if i < crumbs.size - 1 %>
+          <li><%= link_to crumb[:title], crumb[:path] %></li>
+        <% else %>
+          <li class="active"><strong><%= crumb[:title] %></strong></li>
+        <% end %>
+      <% end %>
+    </ol>
+  </div>
+</div>

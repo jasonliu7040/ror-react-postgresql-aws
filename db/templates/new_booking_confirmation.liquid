@@ -1,0 +1,10 @@
+<p>Hi {{ booking.name }},</p>
+<p>This is confirmation from {{ shop.name }} that we have created a new booking for you.</p>
+<p>You booked:</p>
+<ul>
+{% for item in booking.items %}
+<li>{{ item.quantity }} x {{ item.product.title }} - {{ item.variant.title }}{% unless item.sku == blank %} (sku: {{ item.sku }}){% endunless %}</li>
+{% endfor %}
+</ul>
+<p>See you then!</p>
+<p>{{ shop.name }}</p>

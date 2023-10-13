@@ -1,0 +1,37 @@
+<tr class="nested-fields">
+  <td>
+    <%= f.hidden_field :id %>
+    <%= f.hidden_field :shop_id %>
+    <%= f.select :product_id, @products.collect {|p| [p.product_title, p.id, {:'data-resource-count' => p.resources.count, :'data-location-count' => p.locations.count}]}, {:prompt => "Select product..."}, {:class => 'product-picker', :required => true} %>
+  </td>
+  <td>
+    <%= f.select :variant_id, @variants.collect {|v| [v.title, v.id]}, {:prompt => "Select variant..."}, {:class => 'product-picker-variant', :required => true, :data_variant_id => id_if_not_nil(f.object.variant)} %>
+  </td>
+  <td width="1%">
+    <%= f.text_field :start, :size => 20, :value => date_or_datetime(f.object.variant, f.object.start), :autocomplete => "off", :class => "bta range-start", :required => true, :readonly => true %>
+  </td>
+  <td width="1%">
+    <%= f.text_field :finish, :size => 20, :value => date_or_datetime(f.object.variant, f.object.finish), :autocomplete => "off", :class => "bta range-finish", :required => true, :readonly => true %>
+  </td>
+  <td width="1%">
+    <%= f.number_field :quantity, :min => 1, :class => "short_number", :required => true %>
+  </td>
+  <td class="ra-col">
+    <%= f.fields_for :resource_allocations, :wrapper => false do |resource_allocation_builder| %>
+        <%= render "resource_allocation_fields", :f => resource_allocation_builder %>
+    <% end %>
+  </td>
+  <td>
+    <%= f.select :location_id, [],
+                 {:prompt => 'Select location...',
+                  :multiple => false},
+                 {:class => 'location-picker',
+                  :data_location_id => f.object.location_id,
+                  :style => 'display:none'} %>
+  </td>
+  <td class="table-actions">
+    <%= link_to_remove_association f do %>
+        <%= content_tag(:span, '', :class => "ui-icon ui-icon-trash") %>
+    <% end %>
+  </td>
+</tr>

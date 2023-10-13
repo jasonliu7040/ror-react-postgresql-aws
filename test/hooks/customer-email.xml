@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<order>
+  <number type="integer">3</number>
+  <name>#1003</name>
+  <created-at type="datetime">2011-09-11T02:45:44-04:00</created-at>
+  <total-discounts type="decimal">0.0</total-discounts>
+  <cancel-reason nil="true"></cancel-reason>
+  <token>bdbadc8a03579f9fadec785faeba679a</token>
+  <updated-at type="datetime">2011-09-11T02:45:55-04:00</updated-at>
+  <total-price type="decimal">62000.0</total-price>
+  <landing-site>/</landing-site>
+  <taxes-included type="boolean">false</taxes-included>
+  <cancelled-at type="datetime" nil="true"></cancelled-at>
+  <id type="integer">52425152</id>
+  <referring-site></referring-site>
+  <total-line-items-price type="decimal">62000.0</total-line-items-price>
+  <subtotal-price type="decimal">62000.0</subtotal-price>
+  <note></note>
+  <gateway>bogus</gateway>
+  <fulfillment-status nil="true"></fulfillment-status>
+  <financial-status>authorized</financial-status>
+  <currency>THB</currency>
+  <closed-at type="datetime" nil="true"></closed-at>
+  <buyer-accepts-marketing type="boolean">false</buyer-accepts-marketing>
+  <total-tax type="decimal">0.0</total-tax>
+  <total-weight type="integer">0</total-weight>
+  <email>gavin@shopifyconcierge.com</email>
+  <browser-ip>124.184.246.22</browser-ip>
+  <landing-site-ref nil="true"></landing-site-ref>
+  <order-number type="integer">1003</order-number>
+  <shipping-lines type="array"/>
+  <customer>
+    <accepts-marketing type="boolean">false</accepts-marketing>
+    <orders-count type="integer">0</orders-count>
+    <id type="integer">56390682</id>
+    <note nil="true"></note>
+    <last-name>Blow</last-name>
+    <total-spent type="decimal">0.0</total-spent>
+    <first-name>Joe</first-name>
+    <email>gavin@shopifyconcierge.com</email>
+    <tags></tags>
+  </customer>
+  <billing-address>
+    <company></company>
+    <city>Woolwich</city>
+    <address1>10/3 Werambie St.</address1>
+    <latitude type="decimal">-33.836002</latitude>
+    <zip>2110</zip>
+    <address2></address2>
+    <country>Australia</country>
+    <phone></phone>
+    <last-name>Terrill</last-name>
+    <longitude type="decimal">151.177536</longitude>
+    <province>New South Wales</province>
+    <first-name>Gavin</first-name>
+    <name>Gavin Terrill</name>
+    <country-code>AU</country-code>
+    <province-code>NSW</province-code>
+  </billing-address>
+  <line-items type="array">
+    <line-item>
+      <price type="decimal">62000.0</price>
+      <product-id type="integer">27763452</product-id>
+      <title>Order with a customer email</title>
+      <quantity type="integer">1</quantity>
+      <requires-shipping type="boolean">false</requires-shipping>
+      <id type="integer">9775252</id>
+      <grams type="integer">0</grams>
+      <sku></sku>
+      <fulfillment-status nil="true"></fulfillment-status>
+      <variant-title>One week package 1</variant-title>
+      <vendor>Traverse Thailand</vendor>
+      <fulfillment-service>manual</fulfillment-service>
+      <variant-id type="integer">65985862</variant-id>
+      <name>Test package - One week package 1</name>
+    </line-item>
+  </line-items>
+  <tax-lines type="array"/>
+  <payment-details>
+    <credit-card-number>XXXX-XXXX-XXXX-1</credit-card-number>
+    <credit-card-company>Bogus</credit-card-company>
+  </payment-details>
+  <note-attributes type="array">
+    <note-attribute>
+      <name>booking-65985862-start</name>
+      <value>09/25/2011</value>
+    </note-attribute>
+  </note-attributes>
+</order>

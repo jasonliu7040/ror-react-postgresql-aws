@@ -1,0 +1,66 @@
+<% content_for :head do -%>
+  <%= stylesheet_link_tag 'mono-blue' %>
+<% end -%>
+
+<% content_for :footer do -%>
+<script>
+    $("form").submitWithAjax();
+</script>
+<% end -%>
+
+<h1>Installation Guide</h1>
+<p>Instructions on how to integrate with BookThatApp.</p>
+
+<div class="content-box">
+	<div class="box-header clear">
+	    <h2>Widgets</h2>
+	</div>
+	<div class="box-body clear">
+      <div class="side-bar clear">
+        <div class="sidebar-column clear">
+          <div class="side-menu">
+            <h3>Index</h3>
+            <ul class="list">
+              <li><a href="#widget1">Date &amp; Time based on Product Schedule</a></li>
+            </ul>
+          </div>
+          <%= render 'install' %>
+        </div>
+        <div class="main-column clear">
+          <div id="widget1">
+                   <h3>Date &amp; Time based on Product Schedule</h3>
+                   <p>This widget works with a datepicker and shows times available based on the schedule configured for that product. When a date is
+                     chosen the dropdown updates to only show time slots available on the selected day.</p>
+            <p>The widget code looks like this:</p>
+<pre><code>  &lt;div class="bta-scheduled-times-widget" data-label="Class Time:" data-prompt="Choose a date..." data-datepicker="{{ attribute }}">
+    &lt;p class="loading">Loading class schedule...&lt;/p>
+    &lt;div class="booked-out-message" style="display:none">Sorry, that class is full.&lt;/div>
+  &lt;/div>
+</code></pre>
+            <p>Note:</p>
+            <ul>
+              <li><strong>class</strong>: Setting the class name of the div to 'bta-scheduled-times-widget' lets BookThatApp know about the widget</li>
+              <li><strong>data-label</strong>: This is the label used for the dropdown</li>
+              <li><strong>data-prompt</strong>: This is the initial prompt to use when a date hasn't been selected in the datepicker yet</li>
+              <li><strong>data-datepicker</strong>: Specifies the datepicker to use this widget with</li>
+              <li>The <i>p.loading</i> element will appear until the BookThatApp scripts and availability data have been loaded</li>
+              <li>the <i>div.booked-out-message</i> element will appear when the selected time is booked out</li>
+            </ul>
+            <p>We recommend pasting the widget code under the datepicker. Here is an example using the <i>booking-form.snippet</i> that was generated for the <a href="/doco/product#one-date">product page</a>:</p>
+<pre><code>{% if product.metafields.bookthatapp.product_id %}
+&lt;div class="selector-wrapper">
+    {% capture attribute %}booking-start{% endcapture %}
+    &lt;label for="{{ attribute }}">Date:&lt;/label>
+    &lt;input id="{{ attribute }}" type="text" name="{{ attribute }}" class="datepicker bta" autocomplete="off" size="10" data-handle="{{ product.handle }}" disabled="disabled" />
+    &lt;!-- scheduled times widget code -->
+    &lt;div class="bta-scheduled-times-widget" data-label="Class Time:" data-prompt="Choose a date..." data-datepicker="{{ attribute }}">
+      &lt;p class="loading">Loading class schedule...&lt;/p>
+      &lt;div class="booked-out-message" style="display:none">Sorry, that class is full.&lt;/div>
+    &lt;/div>
+&lt;/div>
+{% endif %}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

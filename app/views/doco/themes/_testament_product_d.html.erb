@@ -1,0 +1,38 @@
+    // Quantity values
+    $('.up').click(function (e) {
+        e.preventDefault();
+
+        // Get its current value
+        var qtyField = $('input[name=' + $(this).attr('field') + ']'),
+            currentVal = parseInt(qtyField.val(), 10),
+            max = qtyField.attr('data-max') || 999;
+
+        // If is not undefined
+        if (!isNaN(currentVal)) {
+            // Increment
+            if (currentVal < max) {
+                qtyField.val(currentVal + 1);
+            }
+        } else {
+            // Otherwise put a 1 there
+            qtyField.val(1);
+        }
+    });
+
+    $(".down").click(function (e) {
+        e.preventDefault();
+
+        // Get its current value
+        var qtyField = $('input[name=' + $(this).attr('field') + ']'),
+            currentVal = parseInt(qtyField.val(), 10),
+            min = qtyField.attr('data-min') || 1;
+
+        // If it isn't undefined or its greater than 0
+        if (!isNaN(currentVal) && currentVal > Math.max(1, min)) {
+            // Decrement one
+            qtyField.val(currentVal - 1);
+        } else {
+            // Otherwise put a 1 there
+            qtyField.val(1);
+        }
+    });

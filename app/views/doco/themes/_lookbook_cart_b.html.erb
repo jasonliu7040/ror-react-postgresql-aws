@@ -1,0 +1,13 @@
+{% if item.product.metafields.bookthatapp.config %}
+<div class="form__qty_bta">
+    <span class="qty__num">{{ item.quantity }}</span>
+    <input type="hidden" value="{{ item.quantity }}" data-id="{{ item.id }}">
+    <span class="remove_bta"><a href="#" onclick="Shopify.changeItem({{ forloop.index }}, 0, function() {location.reload();}); return false;">X</a></span>
+</div>
+{% else %}
+<div class="form__qty">
+    <a class="qty__sub" data-id="{{ item.id }}"><span class="icon__minus"></span></a>
+    <input type="text" class="qty__num" value="{{ item.quantity }}" data-id="{{ item.id }}">
+    <a class="qty__add" data-id="{{ item.id }}"><span class="icon__plus"></span></a>
+</div>
+{% endif %}

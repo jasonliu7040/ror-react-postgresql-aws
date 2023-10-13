@@ -1,0 +1,16 @@
+{% for item in cart.items %}
+<li class="cart_item {% if forloop.last %}last_cart_item{% endif %}">
+  <p class="mm-counter">
+    <span class="ss-icon minus">&#x002D;</span><input type="number" min="0" class="quantity" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}" /><span class="ss-icon plus">&#x002B;</span>
+  </p>
+  <a href="{{ item.url }}">
+    {% if item.image %}
+    <div class="cart_image">
+      <img src="{{ item | img_url: 'medium' }}" alt="{{ item.title | escape }}" />
+    </div>
+    {% endif %}
+    <div class="item_title">{{ item.title }}</div>
+    <strong class="price">{{ item.price | money }}</strong>
+  </a>
+</li>
+{% endfor %}

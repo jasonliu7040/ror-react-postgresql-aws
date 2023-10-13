@@ -1,0 +1,182 @@
+<div id="booking-form" class="clear">
+  <% if @account.charge_id == -1 %>
+      <%= render :partial => "common/limited_plan" %>
+  <% end %>
+
+  <%= render 'common/error_messages', :object => form.object %>
+  <%= form.hidden_field :id %>
+  <%= hidden_field_tag 'ga_client_id', '', :class => 'ga-client-id' %>
+
+  <div class="clear">
+    <div class="content-box half fl">
+      <div class="box-header">
+        <h2>Contact Info/Names</h2>
+      </div>
+      <div class="box-body">
+        <table id="booking-names" class="styled">
+          <tbody>
+          <tr>
+            <td class="title"><%= form.label :name, "Name" %></td>
+            <td><%= form.text_field :name, :required => true %></td>
+          </tr>
+          <tr>
+            <td class="title">
+              <%= form.label :email %>
+            </td>
+            <td>
+              <%= form.text_field :email, :required => true %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <%= form.label :phone %>
+            </td>
+            <td>
+              <%= form.text_field :phone %>
+              <%= image_tag("help.png", :class => "help icon", data: {tooltip: "Country code required when sending SMS messages outside of North America."}) %>
+            </td>
+          </tr>
+          <tr>
+            <td class="title"><%= form.label :hotel %></td>
+            <td><%= form.text_field :hotel %></td>
+          </tr>
+
+          <tr>
+            <td colspan="2" style="border-bottom: 0 none;">
+              <h5>Customers</h5>
+              <table class="nested-form-table plain styled">
+                <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th></th>
+                </tr>
+                </thead>
+                <tbody id="booking_name_builder" class="nested-fields">
+                <%= form.fields_for :booking_names, :wrapper => false do |booking_name_builder| %>
+                    <%= render "booking_name_fields", :f => booking_name_builder %>
+                <% end %>
+                </tbody>
+                <tfoot>
+                <tr class="nested-form-actions">
+                  <td colspan="3">
+                    <%= link_to_add_association 'Add Person', form, :booking_names, :class => 'submit', :data => {:association_insertion_node => '#booking_name_builder', :association_insertion_method => 'append'} %>
+                  </td>
+                </tr>
+                </tfoot>
+              </table>
+            </td>
+          </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="content-box half fr">
+      <div class="box-header">
+        <h2>Booking Details</h2>
+      </div>
+      <div class="box-body">
+        <table class="styled">
+          <tbody>
+          <tr>
+            <td class="title">
+              <%= form.label :order_name, 'Order' %>
+            </td>
+            <td>
+              <%= form.text_field :order_name %>
+              <%= link_to image_tag('Shopify_Green_16x16.png', :class => "icon fr", :alt => "View Order in Shopify"), "//#{current_account.subdomain}.myshopify.com/admin/orders/#{@booking.order_id}", target: "_blank" unless @booking.order_id.blank? %>
+              <% if form.object.order_name.present? && !@account.consolidate_bookings? %>
+                  &nbsp;
+                  <a href="<%= "/reports/runsheet?order_name=#{url_encode(form.object.order_name)}" %>">Related Bookings</a>
+              <% end %>
+            </td>
+          </tr>
+          <tr>
+            <td class="title"><%= form.label :status, "Status" %></td>
+            <td class=""><%= form.select :status, options_for_select([['Reserved', '1'], ['Confirmed', '2']], form.object.status.to_s) %></td>
+          </tr>
+          <tr>
+            <td class="title"><%= form.label :notes %></td>
+            <td>
+              <%= form.text_area :notes, :rows => 10, :cols => 50 %>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="clear">
+    <div class="content-box">
+      <div class="box-header">
+        <h2>Products</h2>
+      </div>
+      <div class="box-body">
+        <table class="nested-form-table plain styled">
+          <thead>
+          <tr>
+            <th>Product</th>
+            <th>Variant</th>
+            <th width="1%">From</th>
+            <th width="1%">To</th>
+            <th width="1%">Qty</th>
+            <th>Resource</th>
+            <th>Location</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody id="booking_item_builder">
+          <%= form.fields_for :booking_items, :wrapper => false do |booking_item_builder| %>
+              <%= render "booking_item_fields", :f => booking_item_builder %>
+          <% end %>
+          </tbody>
+          <tfoot>
+          <tr class="nested-form-actions">
+            <td colspan="3">
+              <%= link_to_add_association 'Add Product', form, :booking_items, :class => 'submit', :data => {:association_insertion_node => '#booking_item_builder', :association_insertion_method => 'append'} %>
+            </td>
+          </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="box-body clear">
+  <div class="button-bar">
+    <%= form.submit 'Save', :id => "save" %>
+    <% unless form.object.new_record? %>
+        <%= form.submit 'Delete', :id => "delete", :name => 'delete', :confirm => "Are you sure you want to delete this booking?" %>
+        <%= link_to 'Download Ticket', ticket_booking_path(@booking, :format => 'pdf', :pp => 'disable') %>
+    <% end %>
+    <%= link_to 'Close', events_path %>
+    <%= render "common/reminder_widget" %>
+  </div>
+</div>
+
+<% content_for :footer do %>
+    <%= javascript_include_tag :cocoon %>
+
+    <%= javascript_include_tag '/javascripts/bta.js' %>
+    <%= javascript_include_tag '/fullcalendar2/lib/moment.min.js' %>
+    <%= javascript_include_tag '/javascripts/schedadly-booking-form.js' %>
+
+    <script type="text/javascript">
+        <%= render :partial => 'common/async_bta' %>
+
+        $('.tabs').tabs({cache: false}).show();
+
+        $('#booking_name_builder tr:first a.remove_fields').hide(); // prevent removing the last name
+        $('#booking_item_builder tr:first a.remove_fields').hide(); // prevent removing the last item
+
+        window.btaa.reminderBookingIds = function() {
+          return [<%= form.object.id %>];
+        };
+    </script>
+<% end %>

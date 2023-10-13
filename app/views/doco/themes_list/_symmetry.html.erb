@@ -1,0 +1,14 @@
+<% content_for :panel_head do %>
+    Symmetry
+<% end %>
+
+<% content_for :panel_body do %>
+    <p>This theme has a quickview form on the home and collection pages that includes the ability to add products
+      to the cart. There are few customizations needed to support this. First, the booking-form snippet should be
+      included in the product-detail snippet. This snippet is used across the home, collection and product pages.</p>
+    <%= render_source partial: 'doco/themes/symmetry_product', path: 'snippets/product-detail', line: 31 %>
+
+    <p>In the booking-form snippet remove the &lt;script> element containing the product id. To capture the product
+      ids paste the following at the bottom of <strong><em>theme/theme.liquid</em></strong>.</p>
+    <%= render_source partial: 'doco/themes/symmetry_theme', path: 'layout/theme.liquid' %>
+<% end %>

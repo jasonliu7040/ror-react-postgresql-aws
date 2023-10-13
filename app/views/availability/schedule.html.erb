@@ -1,0 +1,54 @@
+<!-- placeholder for mini-profiler -->
+<div class="box-body clear">
+  <h3>Blackouts</h3>
+  <table class="styled">
+    <tr>
+      <th>ID</th>
+      <th>Product</th>
+      <th>Variant</th>
+      <th>Start</th>
+      <th>End</th>
+      <th>All Day</th>
+      <th>Title</th>
+    </tr>
+    <% @blackouts.each do |blackout| %>
+    <tr>
+      <td><%= blackout[:id] %></td>
+      <td><%= blackout[:product_id] %></td>
+      <td><%= blackout[:variant_id] %></td>
+      <td><%= blackout[:start] %></td>
+      <td><%= blackout[:end] %></td>
+      <td><%= blackout[:all_day] %></td>
+      <td><%= blackout[:title] %></td>
+    </tr>
+    <% end %>
+  </table>
+
+  <h3>Schedule</h3>
+  <table class="styled">
+    <tr>
+      <th>ID</th>
+      <th>Product</th>
+      <th>Start</th>
+      <th>End</th>
+      <th>All Day</th>
+      <th>Bookings</th>
+      <th>Title</th>
+      <th>Locations</th>
+      <th>Resources</th>
+    </tr>
+    <% @schedule.each do |item| %>
+        <tr>
+          <td><%= item[:id] %></td>
+          <td><%= item[:handle] %></td>
+          <td><%= item[:start] %></td>
+          <td><%= item[:end] %></td>
+          <td><%= item[:allDay] %></td>
+          <td><%= item[:bookingCount] %></td>
+          <td><%= item[:title] %></td>
+          <td><%= item[:locations] %></td>
+          <td><%= item[:resources] %></td>
+        </tr>
+    <% end %>
+  </table>
+</div>

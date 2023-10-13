@@ -1,0 +1,12 @@
+<tr class="fields">
+  <td>
+    <%= f.hidden_field :id %>
+    <%= f.hidden_field :latitude %>
+    <%= f.hidden_field :longitude %>
+    <%= f.hidden_field :locality %>
+    <%= f.hidden_field :country %>
+    <%= f.text_field :name, :size => "20", :required => 'required' %>
+  </td>
+  <td><%= f.text_area :address, :cols => "60", :rows => "4" %></td>
+  <td><%= f.link_to_remove "Remove" %></td>
+</tr>

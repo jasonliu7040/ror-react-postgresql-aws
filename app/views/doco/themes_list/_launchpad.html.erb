@@ -1,0 +1,14 @@
+<% content_for :panel_head do %>
+  Launchpad
+<% end %>
+
+<% content_for :panel_body do %>
+  <h5>Product Page</h5>
+  <p>The product page hides the variant dropdown if there is only 1 with a title of 'Default' so the booking
+    form should be outside the variant select. The easiest way to handle it is to create a new div just underneath.</p>
+  <%= render_source partial: 'doco/themes/launchpad_product', path: 'templates/product.liquid', line: 108 %>
+
+  <h5>Cart Page</h5>
+  <p>The theme doesn't have line item properties installed so you need to add it yourself. Add the code below.</p>
+  <%= render_source partial: 'doco/themes/launchpad_cart', path: 'templates/cart.liquid', line: 47 %>
+<% end %>

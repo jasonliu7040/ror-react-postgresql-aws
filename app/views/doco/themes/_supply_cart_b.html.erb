@@ -1,0 +1,6 @@
+{% if item.product.metafields.bookthatapp.config %}
+    {{ item.quantity }}
+    <input type="hidden" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}">
+{% else %}
+    <input type="number" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}" min="0" data-id="{{ item.id }}">
+{% endif %}

@@ -1,0 +1,11 @@
+<%= render partial: 'common/breadcrumbs',
+           locals: {
+               section: 'Product',
+               crumbs: [
+                   {title: 'Configuration', path: ''},
+                   {title: 'Products', path: admin_products_path},
+                   {title: 'Import Product'}
+               ]
+           } %>
+
+<%= render :partial => 'products/v2/form'%>

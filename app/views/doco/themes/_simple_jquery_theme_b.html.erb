@@ -1,0 +1,5 @@
+$(".quickAdd").submit(function(e) {
+    e.preventDefault();
+
+    var btaForm = $('form[action="/cart/add"]').data('bta.bookingForm');
+    if (btaForm && !btaForm.isRequiredValid()) return;

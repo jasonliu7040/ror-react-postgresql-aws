@@ -1,0 +1,26 @@
+<% content_for :panel_head do %>
+    Providence
+<% end %>
+<% content_for :panel_body do %>
+    <p>This theme is snippet crazy! Oh well, who are we to complain when we are adding another one (booking-form).</p>
+
+    <h5>Product Page</h5>
+    <p>You will find the product form element in the <strong><i>product-variants</i> snippet</strong>.
+      Look for the 'form-actions' div near line 65:</p>
+    <%= render_source partial: 'doco/themes/providence_product_a', path: 'snippets/product-variants.liquid', line: 65 %>
+
+    <p>Insert the booking-form snippet just above it. In the example below I've also wrapped the booking
+      form with a couple of divs (<i>row</i> and <i>large-4 columns</i>) that will make the form match the theme.</p>
+    <%= render_source partial: 'doco/themes/providence_product_b', path: 'snippets/product-variants.liquid', line: 65 %>
+
+    <p>Finally, this theme uses Foundation to modify select elements. If you are using time pickers you
+      will need to let Foundation know the options have changed after a date is selected.</p>
+    <%= render_source partial: 'doco/themes/providence_product_c', path: 'snippets/booking-form.liquid', line: 22 %>
+
+    <h5>Cart Page</h5>
+    <p>This theme does not have line item properties installed so you will need to add that. Again you
+      will be adding code to a snippet (<i>line-item-variants</i>). In the example below I've made the date/time match
+      the theme. Insert the following code at line 31.</p>
+
+    <%= render_source partial: 'doco/themes/providence_cart', path: 'snippets/line-item-variants.liquid', line: 31 %>
+<% end %>

@@ -1,0 +1,173 @@
+variant1:
+  id: 1
+  product_id: 1
+  external_id: 1
+  all_day: 1
+  title: Some stuff <%= (0..69).to_a.sample %>
+  sku: 'variant1'
+  duration: 60
+
+variant2:
+  id: 2
+  product_id: 2
+  external_id: 2
+  title: Some stuff <%= (0..69).to_a.sample %>
+  all_day: 0
+  sku: 'variant2'
+  duration: 60
+
+product3_variant:
+  product_id: 3
+  external_id: 2
+  title: Some stuff <%= (0..69).to_a.sample %>
+  duration: 60
+  sku: 'product3_variant'
+  duration: 60
+
+hook_variant:
+  id: 3
+  product_id: 4
+  external_id: 65985862
+  title: Some stuff <%= (0..69).to_a.sample %>
+  option1: Black
+  sku: 'hook_variant'
+  duration: 60
+
+second_hook_variant:
+  product_id: 4
+  external_id: 65985869
+  title: Some stuff <%= (0..69).to_a.sample %>
+  sku: 'second_hook_variant'
+  duration: 60
+
+update_hook_variant:
+  id: 4
+  product_id: 5
+  title: 'Update should have changed it to Black'
+  sku: 'Update should change it'
+  external_id: 233592770
+  duration: 60
+  duration_units: 0 # minutes
+  last_sync: <%= DateTime.new(2015, 1, 5, 11, 50, 00) %>
+
+update_hook_deleted_variant:
+  id: 5
+  product_id: 5
+  title: 'This variant exists in BTA but has been deleted in Shopify'
+  sku: 'update_hook_deleted_variant'
+  external_id: 233592771
+  duration: 1
+  duration_units: 2 # days
+  all_day: 1
+
+one_off_date_product_variant:
+  id: 6
+  product_id: 6
+  duration: 60
+  duration_units: 0 # minutes
+  external_id: 666
+  title: Some stuff <%= (0..69).to_a.sample %>
+  duration: 1
+  duration_units: 1 # hour
+  sku: 'one_off_date_product_variant'
+
+aloha_product_variant:
+  id: 7
+  product_id: 8
+  duration: 12
+  duration_units: 0 # minutes
+  external_id: 265303928
+  title: Some stuff <%= (0..69).to_a.sample %>
+  sku: 'aloha_product_variant'
+
+scheduled_product_variant:
+  id: 9
+  product_id: 7
+  duration: 12
+  duration_units: 0
+  external_id: 666
+  title: Some stuff <%= (0..69).to_a.sample %>
+  option2: nil
+  all_day: 1
+  sku: 'scheduled_product_variant'
+
+reservation_one:
+  id: 10
+  product: reservation_one
+  duration: 60
+  duration_units: 0
+  external_id: 1000
+  title: Reservation <%= (0..69).to_a.sample %>
+  sku: 'reservation_one'
+
+has_all_four_types:
+  id: 11
+  product: has_all_four_types
+  duration: 60
+  duration_units: 0
+  external_id: 1009
+  title: Everyone <%= (0..69).to_a.sample %>
+  sku: 'has_all_four_types'
+
+aloha_reservation_one:
+  id: 12
+  product: aloha_reservation_one
+  duration: 60
+  duration_units: 0
+  external_id: 1000
+  title: Reservation <%= (0..69).to_a.sample %>
+  sku: 'aloha_reservation_one'
+
+resource_variant:
+  id: 13
+  product: resource_one
+  title: 'Resource Variant'
+  duration: 60
+  duration_units: 0
+  external_id: 1098
+  sku: 'resource_variant'
+
+blackout_variant:
+  id: 14
+  product: blackout_product
+  title: 'Blackout Variant'
+  duration: 60
+  duration_units: 0
+  external_id: 1098
+  sku: 'blackout_variant'
+
+three_product_variant:
+  id: 16
+  product_id: 3
+  external_id: 1212129201
+  duration: 60
+  title: Some stuff <%= (0..69).to_a.sample %>
+  sku: 'three_product_variant'
+
+ignored_variant:
+  id: 15
+  product_id: 5
+  external_id: 666
+  title: 'Ignored variant'
+  duration: 60
+  duration_units: 0 # minutes
+  ignore: true
+  sku: 'ignored_variant'
+
+class_with_enrollments_product_variant_1:
+  id: 18
+  product_id: 15
+  title: 'class_with_enrollments_product_variant_1'
+  external_id: 233592771
+  duration: 60
+  duration_units: 0 # minutes
+  sku: 'class_with_enrollments_product_variant_1'
+
+course_variant:
+  id: 17
+  product_id: 16
+  title: 'course Variant'
+  duration: 60
+  duration_units: 0
+  external_id: 16
+  sku: 'course_variant'

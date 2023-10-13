@@ -1,0 +1,96 @@
+<% content_for :head do -%>
+  <%= stylesheet_link_tag 'admin/google-code-prettify/prettify', media: 'screen' %>
+<% end -%>
+<% content_for :footer do -%>
+<script>
+    $("form").submitWithAjax();
+</script>
+<% end -%>
+
+<%= render partial: 'common/breadcrumbs',
+           locals: {
+               section: 'Developer Guide',
+               crumbs: [
+                   {title: 'Developer Guide', path: admin_doco_index_path},
+                   {title: 'Cart'}
+               ]
+           } %>
+
+<div class="wrapper wrapper-content  animated fadeInRight">
+  <div class="row">
+
+    <div class="col-lg-3 col-lg-push-9">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Recommended Reading</h5>
+        </div>
+
+        <div class="ibox-content">
+          <p>The Shopify wiki article <a href="http://docs.shopify.com/support/your-store/6-products/how-do-I-collect-additional-information-on-the-product-page-Like-for-a-monogram-engraving-or-customization#updating-cart-liquid" target="_blank">Line Item Properties</a>
+            describes how to capture line item properties. We use use this approach to capture dates and times on the product page.</p>
+          <%= render 'doco/v2/install' %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-9 col-lg-pull-3">
+      <div class="ibox">
+        <div class="ibox-title">
+          <h5>Introduction</h5>
+        </div>
+
+        <div class="ibox-content">
+          <p>The cart page is where you display the date and time values captured on the product page, or you may
+            choose to capture the date and time for all the products in the cart.</p>
+        </div>
+      </div>
+
+      <div class="ibox">
+        <div class="ibox-title">
+          <h5>Per Product Date & Time</h5>
+        </div>
+
+        <div class="ibox-content">
+          <p>Booking attributes gathered on the product page (<a href="/doco/product">instructions</a>) are captured as <a href="http://wiki.shopify.com/Line_Item_Properties" target="_blank">Line Item Properties</a> on
+            the order. All recent themes support these, but you may need to update your cart.liquid template if you have
+            an older one.</p>
+          <p>To replace the standard BookThatApp attributes with something more user friendly, we recommend using the
+            'replace' filter on the cart page.</p>
+          <p><strong><em>cart.liquid</em></strong> (template):</p>
+          <pre><code>{% for p in item.properties %}
+            {% unless p.last == blank %}
+            &lt;p>{{ p.first | replace: 'booking-start', 'Date' | replace: 'booking-time', 'Time' }}:
+            {% if p.last contains '/uploads/' %}&lt;a class="lightbox" href="{{ p.last }}">{{ p.last | split: '/' | last }}&lt;/a>
+            {% else %}{{ p.last }}{% endif %}
+            &lt;/p>
+            {% endunless %}
+            {% endfor %}
+          </code></pre>
+        </div>
+      </div>
+
+      <div class="ibox">
+        <div class="ibox-title">
+          <h5>Date For All Cart Products</h5>
+        </div>
+
+        <div class="ibox-content">
+          <p>You can alternatively capture a booking date for all the products in the cart. Please note that you do not
+            need to capture any information on the product page. Look for your cart form and paste the following code (in-between the ...'s) in <em>cart.liquid</em>:</p>
+          <p><strong><em>cart.liquid</em></strong> (template):</p>
+          <pre><code>&lt;form action="/cart" method="post" id="cartform">
+            ...
+            &lt;label for="booking">Please enter the date of your event:&lt;/label>
+            &lt;input id="booking" type="text" name="attributes[booking]" value="{{ cart.attributes[booking] }}" size="12" class="datepicker bta bta-load-enable" autocomplete="off" disabled="disabled" />
+            ...
+            &lt;/form>
+          </code></pre>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+

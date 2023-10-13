@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  shop_id: 1# shops(:test)
+  message: I am a Note
+  was_read: false
+  message_type: Note
+  actionable: false
+  action_taken: false
+
+two:
+  shop_id: 1# shops(:test)
+  message: I am an Action
+  was_read: false
+  message_type: Action
+  actionable: true
+  action_taken: false
+  noteable_type: Event
+  noteable_id: 7

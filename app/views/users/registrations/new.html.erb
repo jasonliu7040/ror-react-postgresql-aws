@@ -1,0 +1,28 @@
+<h2>Adding Staff</h2>
+<p>If your shop employs people and you want to allow their time to be scheduled, simply fill in the form below.  Provide a password too, for security purposes. If you would like this user to log in, then simply give them the password</p>
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= devise_error_messages! %>
+
+<%= render :partial => 'users/form', :locals => {:f => f}%>
+  <div class="field">
+    <%= f.label :password %>
+    <% if @validatable %>
+    <em>(<%= @minimum_password_length %> characters minimum)</em>
+    <% end %><br />
+    <%= f.password_field :password, autocomplete: "off" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "off" %>
+  </div>
+  <div class="field">
+    <%= f.label :role_id, "Role" %><br />
+    <%= f.select :role_id, Role::ROLE_TYPES.collect {|k, v| [k.to_s.capitalize, v] }, :selected => 1%>
+  </div>
+  <div class="actions">
+    <%= f.submit "Sign up" %>
+  </div>
+<% end %>
+
+<%= render "users/shared/links" %>

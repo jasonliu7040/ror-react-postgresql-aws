@@ -1,0 +1,9 @@
+<tr class="fields">
+  <%= f.hidden_field :id %>
+  <td>
+    <%= f.select :location_id, @available_locations.collect {|r| [r.name, r.id]}, {:prompt => 'Select location...', :multiple => false}, {:class => 'location-picker'} %>
+  </td>
+  <td>
+    <%= f.link_to_remove 'Remove' %>
+  </td>
+</tr>

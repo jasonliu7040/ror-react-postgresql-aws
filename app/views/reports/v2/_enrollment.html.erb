@@ -1,0 +1,25 @@
+<tr>
+  <td>
+    <span class="nowrap">
+        <i class="no-print fa <%= "#{enrollment.payment_status == 2 ? 'fa-calendar' : 'fa-clock-o'}"%>" %></i>
+      <%= link_to enrollment.booking_id, edit_booking_path(enrollment.booking_id), title: enrollment.payment_status == 2 ? 'Confirmed' : 'Reserved' %>
+    </span>
+  </td>
+  <td>
+    <div class="nowrap">
+      <i class="no-print fa fa-envelope"></i>
+      <%= mail_to enrollment.email, enrollment.name, :subject => enrollment.class_name %>
+    </div>
+  </td>
+  <td>
+    <% unless enrollment.phone.blank? %>
+      <div class="nowrap">
+        <i class="no-print fa fa-phone"></i>
+        <a href="tel:<%= enrollment.phone %>"><%= enrollment.phone %></a>
+      </div>
+    <% end %>
+  </td>
+  <td>
+    <%= check_box_tag 'attended', enrollment.booking_id , enrollment.attended?, :class => 'attendance-check' %>
+  </td>
+</tr>

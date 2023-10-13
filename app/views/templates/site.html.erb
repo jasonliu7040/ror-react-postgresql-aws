@@ -1,0 +1,114 @@
+<h1>Configuration</h1>
+<p>Set up BookThatApp.</p>
+
+<div class="content-box">
+	<div class="box-header clear">
+        <ul id="custom-tabs" class="tabs custom clear">
+        <% @tmpls.each do |tmpl| %>
+            <li><a href="#template-<%= tmpl.name %>"><%= tmpl.name.capitalize %></a></li>
+          <% end %>
+        </ul>
+        <h2>Site Templates</h2>
+	</div>
+	<div class="box-body clear">
+      <% @tmpls.each do |tmpl| %>
+      <%= render 'common/error_messages', :object => tmpl %>
+      <div id="template-<%= tmpl.name %>">
+            <%= form_for tmpl, :url => { :action => tmpl.new_record? ? "create" : "update" }, :html => { :class => 'editor-form' }, :remote => true do | form | %>
+                  <%= form.hidden_field :id, :value => tmpl.id %>
+                  <%= form.hidden_field :body, :value => tmpl.body %>
+                  <%= hidden_field_tag 'ga_client_id', '', :class => 'ga-client-id' %>
+
+
+            <div id="template-customer-hint" class="hidden hint">
+                <p>This template is used when you access <strong>/apps/bookthat/customer/<em>customer_id</em></strong>.</p>
+                <p>If you wish to use this template please ensure your store has been set up to allow customer accounts, and the theme allows your customers to log in. Refer to the Shopify wiki article if you
+                  need to add the code: <a href="http://wiki.shopify.com/Customer_Accounts#Modifying_theme.liquid">Modifying theme.liquid for Customer Accounts</a>.
+                </p>
+                <p>Use the following liquid code to link to it so that signed in customers can see their bookings:</p>
+<pre style="background: #000;"><code>{% if shop.customer_accounts_enabled %}
+    {% if customer  %}
+        &lt;a href="/apps/bookthat/customer/{{ customer.id }}">View your bookings&lt;/a>
+    {% else %}
+        {{ "Login to see your bookings" | customer_login_link }}
+    {% endif %}
+{% endif %}</code></pre>
+            </div>
+
+            <div id="template-calendar-hint" class="hidden hint">
+                <p>This template is used when you access <strong>/apps/bookthat/calendar</strong>.</p>
+            </div>
+
+          <% end %>
+      </div>
+      <% end %>
+      <div class="editor-wrap">
+        <pre id="template-editor" class="editor"></pre>
+      </div>
+
+        <button id="save" class="submit" disabled="disabled">Save</button>
+	</div>
+</div>
+
+<% content_for :footer do -%>
+<%= javascript_include_tag '/javascripts/ace/ace', '/javascripts/ace/theme-textmate', '/javascripts/ace/mode-html', :cache => "cache/ace" %>
+
+<script type="text/javascript">
+    var EditSession = require('ace/edit_session').EditSession;
+    var UndoManager = require("ace/undomanager").UndoManager;
+    var Mode = require("ace/mode/html").Mode;
+
+    var editor = null, sessions = [];
+
+    function createSessions() {
+        $('form.editor-form input[name="liquid_template[body]"]').each(function() {
+            var form = $(this).parent();
+            var session = new EditSession($(this).val());
+            session.setUndoManager(new UndoManager());
+            session.setMode(new Mode());
+            session.on('change', function() {
+                form.data('dirty', true);
+                $('#save').removeAttr('disabled');
+            });
+
+            sessions.push({
+                'session': session
+            });
+        })
+    }
+
+    $(window).load(function() {
+        createSessions();
+        editor = ace.edit("template-editor");
+        editor.setTheme("ace/theme/textmate");
+        editor.setSession(sessions[0].session);
+    });
+
+    $("#custom-tabs").idTabs(function(id, list, set, s) {
+        var index = jQuery.inArray(id, list);
+
+        $('div.hint').hide();
+        $(id.toLowerCase() + "-hint").show();
+
+        if (editor) {
+            editor.setSession(sessions[index].session);
+            editor.resize();
+            editor.focus();
+        }
+
+        return true;
+    });
+
+    $('#save').click(function() {
+        $('form.editor-form').each(function(ndx, f) {
+            var form = $(f), dirty = form.data('dirty');
+            if (dirty) {
+                $('input[name="liquid_template[body]"]', form).val(editor.getSession().getValue());
+                form.data('dirty', false);
+                $('#save').attr('disabled', 'disabled');
+                form.submit();
+            }
+        })
+    });
+</script>
+<% end -%>

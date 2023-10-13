@@ -1,0 +1,15 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <%= react_component('EventsContainer',
+                          latest_bookings: @latest_bookings.map{ |b| ShortBookingSerializer.new(b, root: false).as_json },
+                          next_bookings: @next_bookings.map{ |b| ShortBookingSerializer.new(b, root: false).as_json },
+                          products: @products.map{ |p| ShortProductSerializer.new(p, root: false).as_json },
+                          booking_count: @booking_count,
+                          booking_count_by_month: @booking_count_by_month.as_json,
+                          revenue: @revenue
+          )%>
+    </div>
+  </div>
+</div>
+

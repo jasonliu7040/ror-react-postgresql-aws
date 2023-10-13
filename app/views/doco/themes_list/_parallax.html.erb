@@ -1,0 +1,30 @@
+<% content_for :panel_head do %>
+    Parallax
+<% end %>
+<% content_for :panel_body do %>
+    <h5>Theme</h5>
+    <p>The code for the dynamic cart popup is in theme.liquid.</p>
+    <%= render_source partial: 'doco/themes/parallax_theme_a', path: 'layout/theme.liquid', line: 142 %>
+
+    <p>With the following:</p>
+    <%= render_source partial: 'doco/themes/parallax_theme_b', path: 'layout/theme.liquid', line: 142 %>
+
+    <h5>Product Page</h5>
+    <p>Include the booking form in the product-form.liquid snippet.</p>
+    <%= render_source partial: 'doco/themes/parallax_product', path: 'snippets/product-form.liquid', line: 49 %>
+
+    <h5 id="parallax-quick-view">Quick View</h5>
+    <p>If Quick View is turned on in theme settings add the following to the bottom of
+      <strong><em>theme.liquid</em></strong> just before the closing body tag (<code>&lt;/body></code>):</p>
+
+    <%= render_source partial: 'doco/themes/parallax_theme_c', path: 'layout/theme.liquid' %>
+
+    <h5 id="parallax-ajax">Ajax Add To Cart</h5>
+    <p>When a product is added to the cart this theme recreates the cart using Javascript in
+      <strong><em>apps.js.liquid</em></strong>.</p>
+    <p>Replace the following code from <strong><em>assets/app.js.liquid:431</em></strong> so that the
+      date/time properties are displayed:</p>
+    <%= render_source partial: 'doco/themes/parallax_app_a', path: 'assets/app.js.liquid', line: 431 %>
+    <p>With the following:</p>
+    <%= render_source partial: 'doco/themes/parallax_app_b', path: 'assets/app.js.liquid', line: 431 %>
+<% end %>

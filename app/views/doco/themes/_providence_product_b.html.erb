@@ -1,0 +1,13 @@
+...
+{% endif %}
+
+<div class="row">
+  <div class="large-4 columns">
+    {% include 'booking-form' %}
+  </div>
+</div>
+
+<div class="form-actions variant-selects-{{display_variants}}">
+  <button type="submit" name="add" class="button large add-to-cart" onclick="addItem('add-to-cart');return false;">{{button_add_to_cart_text}}</button>
+</div>
+...

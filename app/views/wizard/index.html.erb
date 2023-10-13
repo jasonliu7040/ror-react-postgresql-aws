@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+  <title>BookThatApp Booking Wizard</title>
+  <%= stylesheet_link_tag 'http://fonts.googleapis.com/css?family=PT+Sans+Narrow',
+                          'http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold',
+                          'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/overcast/jquery-ui.css',
+                          'reset', 'bta_wizard' %>
+
+  <script type="text/javascript">
+      var steps = [];
+      steps.push({title:"Choose Date", desc:"Select booking dates" });
+      steps.push({title:"Browse Products", desc:"Select the product you are booking"});
+      steps.push({title:"Product Details", desc:"View available options"});
+      steps.push({title:"Confirm &amp; Book", desc:"Confirm selections &amp; checkout"});
+
+      var products = {};
+
+      var Shopify = {shop: "legros-parker-and-harris6290.myshopify.com", money_format: "${{amount}}"};
+  </script>
+</head>
+<body>
+<div id="bta_wizard" class="section clearfix">
+  <div class="full">
+    <div class="panel wizard">
+      <div class="header">
+        <div class="wizard-title">
+          <h2>Booking Wizard</h2>
+          <span>Your guide through the booking process</span>
+        </div>
+        <div class="progress-zone">
+          <div class="progress-bar">
+            <div class="progress-wrap">
+              <div class="pbar ct-step-1">
+                <div class="done"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="theme"></div>
+      </div>
+
+      <div class="content">
+        <div class="wizard-content">
+          <div class="wizard-text">
+            <div class="clear">
+              <span class="numbering">1</span>
+              <h2></h2>
+              <span class="subtext"></span>
+            </div>
+            <div class="hr"></div>
+            <div class="record">
+              <p class="dates-container" style="display:none">Dates:<br/>
+                <span class="start-date"></span><br/>
+                <span class="finish-date"></span>
+              </p>
+              <p class="product-container" style="display:none">Product:<br/>
+                <span class="product"></span><br/>
+                <span class="option"></span>
+              </p>
+            </div>
+          </div>
+          <ul>
+            <li class="wizard-panel">
+              <div class="step-content">
+                <div>
+                  <p><label for="booking-start">Start:</label><input id="booking-start" class="datepicker bta" autocomplete="off" /></p>
+                  <p><label for="booking-finish">End:</label><input id="booking-finish" class="datepicker bta" autocomplete="off" /></p>
+                </div>
+              </div>
+            </li>
+            <li class="wizard-panel">
+              <div class="step-content">
+                <div>
+                  <div class="toolbar clearfix">
+                    <span>View: &nbsp;</span>
+                    <a class="view-button view-gallery-detailed selected" rel="view-gallery-detailed"></a>
+                    <a class="view-button view-gallery-thumbnails" rel="view-gallery-thumbnails"></a>
+                  </div>
+
+                  <div class="view-content" id="view-gallery-detailed">
+                    <ul class="gallery-view-detail">
+                      <% @products.each do |product| %>
+                          <script type="text/javascript">products[<%= product.id %>] = <%= raw product.to_json(:include => [:variants, :bookings]) %></script>
+                          <li class="product clear" data-product-id="<%= product.id %>">
+                            <h3><%= product.product_title %></h3>
+                            <div class="image"><%= image_tag small_image(product.product_image_url), :class => 'small-image', :alt => '' rescue '' %></div>
+                            <div class="excerpt"><%= raw truncate_html product.excerpt, 200 %></div>
+                            <div class="options">
+                              <a href="#" class="select">Book</a>
+                              <a href="#" class="view">View Details</a>
+                            </div>
+                          </li>
+                      <% end %>
+                      <% if @products.empty? %><li>No products available</li><% end %>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="wizard-panel">
+              <div class="step-content">
+                <div>
+                  <div class="product-view-detail">
+                    <h3></h3>
+                    <div class="detail clear">
+                      <div class="clear">
+                        <div class="variants"></div>
+                        <div class="image"></div>
+                        <p>Price: <span class="price"></span></p>
+                      </div>
+                      <div class="excerpt"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="wizard-panel">
+              <div class="step-content">
+                <div class="confirm">
+                  <h1>Confirm &amp; Book</h1>
+                  <div class="hr"></div>
+                  <table class="styled">
+                    <tr>
+                      <td class="title">Dates</td><td class="dates"><span class="date-start"></span><br/><span class="date-finish"></span></td>
+                    </tr>
+                    <tr>
+                       <td class="title">Product</td>
+                       <td>
+                         <span class="product"></span> / <span class="option"></span>
+                       </td>
+                     </tr>
+                    <tr>
+                       <td class="title">Price</td>
+                       <td>
+                         <span class="price"></span>
+                       </td>
+                     </tr>
+                    </table>
+                </div>
+              </div>
+            </li>
+           </ul>
+        </div>
+
+        <div class="wizard-nav clearfix">
+          <button class="wiz-prev ui-state-disabled" disabled="disabled">Previous</button>
+          <button class="wiz-next ui-state-disabled" disabled="disabled">Show Availability</button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<%= javascript_include_tag 'http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js' %>
+<%= javascript_include_tag 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js' %>
+<%= javascript_include_tag 'bta', 'bta_wizard', 'option_selection' %>
+
+</body>
+</html>

@@ -1,0 +1,8 @@
+<tr id="inventory-row-<%= raw product.product_handle %>">
+  <td><%= content_tag(:i, '', :class => "fa #{product.hidden? ? 'fa-lock' : 'fa-check'}") %></td>
+  <td><%= product.profile.capitalize %></td>
+  <td><%= link_to product.product_title, edit_admin_product_path(product) %></td>
+  <td><%= product.capacities %></td>
+  <td><%= product.variants_count %></td>
+  <td class="table-actions"><%= link_to 'x', product, data: { confirm: 'Are you sure you want to delete this product?' }, :method => :delete, :class => 'ajax-delete', 'data-external-id' => product.external_id %></td>
+</tr>

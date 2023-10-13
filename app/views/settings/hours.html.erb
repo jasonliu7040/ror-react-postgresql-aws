@@ -1,0 +1,23 @@
+<% content_for :head do %>
+<style>
+.ui-datepicker-year{
+    display:none;
+}
+</style>
+<% end %>
+
+<% content_for :footer do %>
+    <%= javascript_include_tag '/javascripts/opening_hours.js' %>
+<% end %>
+
+<h1>Configuration</h1>
+<p>Set up BookThatApp.</p>
+
+<div class="content-box">
+  <div class="box-header clear">
+    <h2>Opening Hours</h2>
+  </div>
+  <div class="box-body clear">
+    <%= render :partial => "opening_hours" %>
+  </div>
+</div>

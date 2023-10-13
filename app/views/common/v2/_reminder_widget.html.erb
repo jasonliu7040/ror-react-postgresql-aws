@@ -1,0 +1,10 @@
+<% if reminder_templates_for_select.size > 0 %>
+  <div class="col-lg-5">
+    <div class="input-group">
+      <%= select_tag 'reminder_template', options_for_select(reminder_templates_for_select), class: 'form-control' %>
+      <span class="input-group-btn">
+        <%= link_to 'Send Reminder', send_reminders_bookings_path, :class => 'btn btn-primary submit', id: 'send_reminders' %>
+      </span>
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+<% end %>

@@ -1,0 +1,295 @@
+<% content_for :head do -%>
+  <%= stylesheet_link_tag 'mono-blue' %>
+<% end -%>
+
+<% content_for :footer do -%>
+    <script>
+        $("form").submitWithAjax();
+    </script>
+<% end %>
+
+<div class="fr notification note-info" style="margin-top:20px;width:320px"><span class="icon"></span>
+  <p>You can <a href="/charges/installation">purchase installation</a> for a small fee if you would prefer us to make these changes.</p>
+</div>
+<h1>Install Steps</h1>
+<p>Step by step installation guide.</p>
+
+<div class="content-box">
+  <div class="box-header clear">
+    <h2 id="step-1">Step 1 - Choose your booking form</h2>
+  </div>
+  <div class="box-body clear">
+    <ul>
+      <li>Refer to our <a href="//support.shopifyconcierge.com/entries/83943555-How-do-I-choose-the-right-booking-form-profile-" target="_blank">Help Desk Article</a>
+        for assistance in choosing the booking form that is most applicable for your products.</li>
+      <li>Install the booking form snippet into your currently active theme by clicking on the "Install" button
+        next to the applicable booking form. <strong>Note:</strong> the booking form fields will not be visible in your product
+      page until you complete Step 2.</li>
+    </ul>
+    <hr/>
+    <table class="styled">
+      <tbody>
+      <tr>
+        <td>
+          <!-- <a href="#" title="preview"><img src="images/tmp/thumbnail1.jpg" alt="" class="thumb size48"></a> -->
+        </td>
+        <td>
+          <h4>Form 1: Date</h4>
+          <p class="description">The simplest method of capturing a booking is via a single datepicker. This is best for
+            rental products, such as equipment or clothing. Typically this is used with variants that specify the duration
+            so you don't need to provide a datepicker for the end date.</p>
+        </td>
+        <td class="center vcenter">
+          <%= form_tag '/doco/snippet', :remote => true do %>
+              <%= hidden_field_tag :snippet, 'booking-form' %>
+              <%= hidden_field_tag :source, 'one-date' %>
+              <%= submit_tag 'Install', :class => "submit" %>
+          <% end %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <!-- <a href="#" title="preview"><img src="images/tmp/thumbnail1.jpg" alt="" class="thumb size48"></a> -->
+        </td>
+        <td>
+          <h4>Form 2: Date Range</h4>
+          <p class="description">Capturing a date range is similar to capturing a single date. This adds an additional
+            datepicker that represents the finish date. BookThatApp automatically ensures that the end date is not
+            before the start date, and that you can't create a booking that overlaps an existing booking.</p>
+        </td>
+        <td class="center vcenter">
+          <%= form_tag '/doco/snippet', :remote => true do %>
+              <%= hidden_field_tag :snippet, 'booking-form' %>
+              <%= hidden_field_tag :source, 'date-range' %>
+              <%= submit_tag 'Install', :class => "submit" %>
+          <% end %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <!-- <a href="#" title="preview"><img src="images/tmp/thumbnail1.jpg" alt="" class="thumb size48"></a> -->
+        </td>
+        <td>
+          <h4>Form 3: Appointment Time</h4>
+          <p class="description">This form provides a date picker and a time picker that is based on Opening Hours that
+            you schedule. This is best for applications where you have a regular set of hours with fixed appointment
+            slots. i.e. Monday to Friday, 9 am to 5 pm in 30 min intervals.</p>
+        </td>
+        <td class="center vcenter">
+          <%= form_tag '/doco/snippet', :remote => true do %>
+              <%= hidden_field_tag :snippet, 'booking-form' %>
+              <%= hidden_field_tag :source, 'opening-time' %>
+              <%= submit_tag 'Install', :class => "submit" %>
+          <% end %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <!-- <a href="#" title="preview"><img src="images/tmp/thumbnail1.jpg" alt="" class="thumb size48"></a> -->
+        </td>
+        <td>
+          <h4>Form 4: Scheduled Time</h4>
+          <p class="description">This form also provides a date and time picker, but the times shown are scheduled and
+            may vary per day or per week. It is typically used for classes, events or courses.</p>
+        </td>
+        <td class="center vcenter">
+          <%= form_tag '/doco/snippet', :remote => true do %>
+              <%= hidden_field_tag :snippet, 'booking-form' %>
+              <%= hidden_field_tag :source, 'scheduled-time' %>
+              <%= submit_tag 'Install', :class => "submit" %>
+          <% end %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <!-- <a href="#" title="preview"><img src="images/tmp/thumbnail1.jpg" alt="" class="thumb size48"></a> -->
+        </td>
+        <td>
+          <h4>Form 5: Upcoming Events List</h4>
+          <p class="description">This form displays a list of upcoming events and is perfect for when you want to
+            display upcoming dates without requiring users to hunt through months using a datepicker.</p>
+        </td>
+        <td class="center vcenter">
+          <%= form_tag '/doco/snippet', :remote => true do %>
+              <%= hidden_field_tag :snippet, 'booking-form' %>
+              <%= hidden_field_tag :source, 'product-upcoming-events' %>
+              <%= submit_tag 'Install', :class => "submit" %>
+          <% end %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <!-- <a href="#" title="preview"><img src="images/tmp/thumbnail1.jpg" alt="" class="thumb size48"></a> -->
+        </td>
+        <td>
+          <h4>Form 6: Date Range with From/To Time</h4>
+          <p class="description">This form allows you to select a starting date and time, and a finish
+            date and time. Suitable for product rentals where you rent hourly.</p>
+        </td>
+        <td class="center vcenter">
+          <%= form_tag '/doco/snippet', :remote => true do %>
+              <%= hidden_field_tag :snippet, 'booking-form' %>
+              <%= hidden_field_tag :source, 'time-range' %>
+              <%= submit_tag 'Install', :class => "submit" %>
+          <% end %>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="box-header clear">
+    <h2 id="step-2">Step 2 - Add the booking form to your product page</h2>
+  </div>
+  <div class="box-body clear">
+    <ul>
+      <li>In <a href='<%= "https://#{current_account.subdomain}.myshopify.com/admin/themes" %>' target="_blank">your
+        Theme Editor</a>, open <i>product.liquid</i> in your published theme.</li>
+      <li>Find the code in your theme where the product variants are located. It will look something like this:
+<pre><code>&lt;select id="product-select" name="id">
+  {% for variant in product.variants %}
+  &lt;option value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money }}&lt;/option>
+  {% endfor %}
+&lt;/select></code></pre>
+      </li>
+      <li>Paste the "include-booking" statement just below where the variants are defined
+<pre><code>&lt;select id="product-select" name="id">
+  {% for variant in product.variants %}
+  &lt;option value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money }}&lt;/option>
+  {% endfor %}
+&lt;/select>
+
+{% include 'booking-form' %}</code></pre>
+      </li>
+      <div class="notification note-info"><span class="icon"></span>
+        <p><strong>Tip</strong>: We have documented select theme-specific instructions on our <a href="/doco/themes">theme guide</a>.
+          Check this guide to see if there are instructions for your theme.</p>
+      </div>
+      <li>There are a number of ways to customize the behaviour of the booking form. Please see
+        the <a href="/doco/product">product page developer instructions</a> for more details.</li>
+      <li>If you don’t know where to add it in your theme,
+        please <a href="http://support.shopifyconcierge.com/tickets/new">create a help ticket</a> and we’ll help you get
+        the form installed.</li>
+    </ul>
+  </div>
+
+  <div class="box-header clear">
+    <h2 id="step-3">Step 3 - Update the cart page</h2>
+  </div>
+  <div class="box-body clear">
+    <h3 id="step-3-a">A - Display Line Item Properties</h3>
+    <ul>
+      <li>Open <i>cart.liquid</i> in <a href='https://<%= current_account.subdomain %>.myshopify.com/admin/themes' target="_blank">your Theme Editor</a>.</li>
+      <li>Check if your theme is already set up to show line item properties. You should see something like this:
+<pre><code>{% for p in item.properties %}
+  {% unless p.last == blank %}
+    {{ p.first }}:
+    {% if p.last contains '/uploads/' %}
+      &lt;a class="lightbox" href="{{ p.last }}">{{ p.last | split: '/' | last }}&lt;/a>
+    {% else %}
+      {{ p.last }}
+    {% endif %}&lt;br/>
+  {% endunless %}
+  {% endfor %}</code></pre>
+      </li>
+      <li>If you don't see that code find where it says <code>{{ item.title }}</code> and paste the above code
+        just after that.
+      </li>
+      </ul>
+      <div class="notification note-info"><span class="icon"></span>
+        <p><strong>Tip</strong>: If you are using form 5 then instead of <code>{{ p.last }}</code>
+          format the date using <code>{{ p.last | date: '%m/%d/%y %-I:%M %p' }}</code>.</p>
+      </div>
+      <div class="notification note-info"><span class="icon"></span>
+        <p><strong>Tip</strong>: If you have customer accounts enabled you can also list the booking dates/times line item
+          properties for each order using the same technique as above on the <em>customers/order.liquid</em> template.</p>
+      </div>
+      <h3 id="step-3-b">B - Read Only Quantity</h3>
+    <ul>
+      <li>We need to make the quantity field read only on the cart page so that customers don't overbook. It should
+        currently look something like this:
+<pre><code>&lt;input type="text" size="4" name="updates[{{item.id}}]" id="updates_{{ item.id }}" value="{{ item.quantity }}"/></code></pre>
+      </li>
+      <li>Copy the following and paste it below the existing quantity field:
+<pre><code>{% if item.product.metafields.bookthatapp.config %}
+  {{ item.quantity }}
+  &lt;!-- replace with existing quantity input -->
+{% else %}
+  &lt;!-- replace with existing quantity input -->
+{% endif %}</code></pre>
+      <li>Copy the existing input field line and paste it over where it says <code>&lt;!-- replace with existing quantity input --></code>, then delete the original input field line. It
+      should now have 2 quantity input fields and look similar to this:
+<pre><code>{% if item.product.metafields.bookthatapp.config %}
+  {{ item.quantity }}
+  &lt;input type="text" size="4" name="updates[{{item.id}}]" id="updates_{{ item.id }}" value="{{ item.quantity }}"/>
+{% else %}
+  &lt;input type="text" size="4" name="updates[{{item.id}}]" id="updates_{{ item.id }}" value="{{ item.quantity }}"/>
+{% endif %}</code></pre>
+      </li>
+      <li>
+        The last step is to convert the <strong>first</strong> quantity input field to 'hidden' (this is so that removing items from the cart will still work). Do this
+        by changing where it says <code>type="text"</code> to <code>type="hidden"</code>. You can also safely remove the size, and class if it exists, attributes.
+        The final code should look similar to this:
+<pre><code>{% if item.product.metafields.bookthatapp.config %}
+  {{ item.quantity }}
+  &lt;input type="hidden" name="updates[{{item.id}}]" id="updates_{{ item.id }}" value="{{ item.quantity }}"/>
+{% else %}
+  &lt;input type="text" size="4" name="updates[{{item.id}}]" id="updates_{{ item.id }}" value="{{ item.quantity }}"/>
+{% endif %}</code></pre>
+      </li>
+    </ul>
+  </div>
+
+  <div class="box-header clear">
+    <h2 id="step-4">Step 4 - Update email notifications</h2>
+  </div>
+  <div class="box-body clear">
+    <p>There are 2 sets of instructions, depending on if you have modified the email templates.</p>
+
+    <h3>Default Templates</h3>
+    <p>If you <strong>have not</strong> modified the default email templates follow these instructions.</p>
+    <ul>
+      <li>Go to <a href='https://<%= current_account.subdomain %>.myshopify.com/admin/settings/notifications' target="_blank">your
+        notification settings</a>.</li>
+      <li>Open the "New Order Notification" email template and select the 'HTML Email' tab. Replace the contents
+        with <a href="https://gist.githubusercontent.com/gterrill/9560235/raw/c5d678153c2d9baa8d6d142d1719b97006d56214/order-notification.html" target="_blank">this code</a> and save.</li>
+      <li>Open the "Order Confirmation" template and select the HTML Email tab. Replace the contents
+        with <a href="https://gist.githubusercontent.com/gterrill/9560269/raw/616ce4b97d116b497bf58511689e9009e6c8e6a7/order-confirmation.html" target="_blank">this code</a> and save.</li>
+    </ul>
+
+    <h3>Modified Templates</h3>
+    <p>If you <strong>have</strong> modified the default email templates follow these instructions.</p>
+    <ul>
+      <li>Go to <a href='https://<%= current_account.subdomain %>.myshopify.com/admin/settings/notifications' target="_blank">your
+        notification settings</a>.</li>
+      <li>Open the "New Order Notification" email template and select the 'HTML Email' tab.</li>
+      <li>Find where it lists the items in the order. It will look similar to this:
+<pre><code>&lt;ul>  {% for line in line_items %} &lt;li> &lt;img src="{{ line | img_url: 'thumb' }}" /> {{ line.quantity }}
+x {{ line.title }} for {{ line.price | money }} each &lt;/li> {% endfor %} &lt;/ul></code></pre>
+      </li>
+      <li>Replace it with this:
+<pre><code>&lt;ul>
+  {% for line in line_items %}
+  &lt;li>
+    &lt;img src="{{ line | img_url: 'thumb' }}" /> {{ line.quantity }} x {{ line.title }} for {{ line.price | money }} each
+    {% for p in line.properties %}
+      &lt;br/>{{ p.first }}:
+      {{ p.last }}
+    {% endfor %}
+  &lt;/li>
+  {% endfor %}
+&lt;/ul></code></pre>
+      </li>
+      <li>
+        Repeat for the "Order Confirmation" email.
+      </li>
+
+      <h3>Date Formatting</h3>
+      <div class="notification note-info"><span class="icon"></span>
+        <p><strong>Tip</strong>: If you are using form 5 then instead of <code>{{ p.last }}</code>
+          use <code>{{ p.last | date: '%m/%d/%y %I:%M %p' }}</code> so that the date is formatted properly.</p>
+      </div>
+    </ul>
+  </div>
+
+</div>

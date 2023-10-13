@@ -1,0 +1,134 @@
+<% content_for :head do -%>
+    <%= stylesheet_link_tag "/fullcalendar2/fullcalendar.css" %>
+    <%= stylesheet_link_tag "/fullcalendar2/fullcalendar.print.css", :media => "print" %>
+    <%= stylesheet_link_tag "/qtip/jquery.qtip.min" %>
+<% end %>
+
+<div class="content-box">
+  <div class="box-header clear">
+    <h2>Bookings</h2>
+  </div>
+
+  <div class="box-body clear">
+    <div style="margin-bottom:20px">
+      <button id="tour-manual-bookings" class="create_booking_button" data-href="<%= new_booking_path %>" data-icon="ui-icon-calendar">Create Booking</button>
+      <button class="create_blackout_button" data-href="<%= new_blackout_path %>" data-icon="ui-icon-flag">Create Blackout</button>
+    </div>
+
+    <% unless @latest_bookings.empty? %>
+        <div class="clear">
+          <div class="half fl">
+            <%= render 'recent_bookings' %>
+          </div>
+          <div class="half fr">
+            <%= render 'upcoming_bookings' %>
+          </div>
+        </div>
+    <% end %>
+
+    <% if @product_count == 0 %>
+        <div id="add-bookings-info" class="notification note-info">
+          <a title="Close notification" class="close" href="#"><span>close</span></a>
+          <span class="icon"></span>
+
+          <p>You currently have no products defined in BookThatApp. <a href="/products">Configure some products</a> to
+            get started.</p>
+        </div>
+    <% end %>
+
+    <div id="bta-fc-toolbar" class="clear">
+      <div id="product-filter-form" class="fl">
+        <div class="form-field">
+          <span id="loading" class="loading fr-space2 hidden"></span>
+          <label for="filter-products">Product:</label>
+          <select id="filter-products">
+            <option value="">-- All --</option>
+            <% @products.each do |product| %>
+                <option <%= "value=#{product.id}" %>><%= "#{product.product_title}" %></option>
+            <% end %>
+          </select>
+          <label for="filter-bookings">
+            <input class="" id="filter-bookings" name="type[]" type="checkbox" value="booking">Bookings
+          </label>
+          <label for="filter-blackouts">
+            <input id="filter-blackouts" name="type[]" type="checkbox" value="blackout">Blackouts
+          </label>
+        </div>
+      </div>
+
+      <div id="select-month-span" class="fr">
+        <label for="select-month">Jump to:</label>
+        <select id="select-month">
+          <option value="0">January</option>
+          <option value="1">February</option>
+          <option value="2">March</option>
+          <option value="3">April</option>
+          <option value="4">May</option>
+          <option value="5">June</option>
+          <option value="6">July</option>
+          <option value="7">August</option>
+          <option value="8">September</option>
+          <option value="9">October</option>
+          <option value="10">November</option>
+          <option value="11">December</option>
+        </select>
+      </div>
+    </div>
+
+    <h3>Calendar</h3>
+    <div id="calendar"></div>
+  </div>
+</div>
+
+<div id="delete-confirm" class="hidden" title="Delete Confirmation">
+  <p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>This event will be
+    permanently deleted and cannot be recovered. Are you sure?</p>
+</div>
+
+<% content_for :footer do %>
+    <script id="booking-tooltip-template" type="text/html">
+      <table>
+        <tr>
+          <td>
+            ${ formattedDateRange }
+          </td>
+        </tr>
+        <tr>
+          <td>
+            ${ quantity } x ${ title }
+            {{if email.length > 0 }}<br/>
+            ${ name } (${ email }){{/if}}
+          </td>
+        </tr>
+        {{if order_id }}
+        <tr>
+          <td>{{if order_name }}Order: ${ order_name }{{else}}${ order_id }{{/if}}</td>
+        </tr>
+        {{/if}}
+      </table>
+    </script>
+
+    <script id="blackout-tooltip-template" type="text/html">
+      <table cellpadding="5">
+        <tr>
+          <td>
+            ${ formattedDateRange }
+          </td>
+        </tr>
+        <tr>
+          <td>
+            ${ title }
+          </td>
+        </tr>
+      </table>
+    </script>
+
+    <%= javascript_include_tag '/fullcalendar2/fullcalendar.min' %>
+    <%= javascript_include_tag '/qtip/jquery.qtip.min' %>
+    <%= javascript_include_tag '/javascripts/schedadly-calendar' %>
+
+    <script type='text/javascript'>
+        <%= render :partial => 'common/async_bta' %>
+        schedadly.init();
+    </script>
+<% end %>

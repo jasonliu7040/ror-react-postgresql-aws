@@ -1,0 +1,223 @@
+<div class="content-box">
+  <div class="box-header clear no-print">
+    <h2>Enrollments</h2>
+  </div>
+
+  <div class="box-body clear">
+    <div class="clear">
+      <form action="/reports/enrollments" method="get" class="no-print">
+        <input type="text" id="start" name="start" value="<%= @filter.start.strftime('%FT%H:%M') if @filter.present? %>" class="hidden" />
+        <table class="styled">
+          <caption>Filter</caption>
+          <tbody>
+              <tr>
+                <td class="title" style="border-bottom: 0 none;"><label for="products">Class:</label></td>
+                <td style="border-bottom: 0 none;">
+                  <select id="products" name="products">
+                    <%= display_product_search_options %>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <div id="event-instructions" class="notification note-info" style="display:none;">
+                    <span class="icon"></span>
+                    <p>Select a class to display upcoming schedule.</p>
+                  </div>
+
+                  <table id="upcoming-classes" class="plain styled" style="display:none;">
+                    <thead>
+                    <tr>
+                      <td></td>
+                      <td>Date</td>
+                      <td>Bookings</td>
+                      <td>Capacity</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
+
+                  <div id="no-events" class="notification note-info" style="display: none">
+                    <span class="icon"></span>
+                    <p>No classes scheduled.</p>
+                  </div>
+                </td>
+              </tr>
+          </tbody>
+        </table>
+
+        <div class="tab-footer">
+          <div style="text-align:right">
+            <input type="submit" class="submit" value="Show Enrollments for selected class"/>
+          </div>
+        </div>
+      </form>
+
+      <div class="dataTables_wrapper">
+        <% if @enrollments.empty? && @filter.present? %>
+            <div class="notification note-info no-print">
+              <span class="icon"></span>
+              <p><strong>No bookings:</strong> There are no enrollments for this class.</p>
+            </div>
+        <% end %>
+
+        <% unless @enrollments.empty? %>
+            <table class="styled">
+              <thead>
+              <tr>
+                <th width="1%">Booking</th>
+                <th class="nowrap">Customer</th>
+                <th class="nowrap">Phone</th>
+                <th width="1%">Attended?</th>
+              </tr>
+              </thead>
+              <tbody>
+              <% @enrollments.each do |enrollment| %>
+                  <tr>
+                    <td>
+                      <span class="nowrap">
+                          <span class="no-print ui-icon <%= "#{enrollment.payment_status == 2 ? 'ui-icon-calendar' : 'ui-icon-clock'}"%>" %> ></span>
+                          <%= link_to enrollment.booking_id, edit_booking_path(enrollment.booking_id), title: enrollment.payment_status == 2 ? 'Confirmed' : 'Reserved' %>
+                      </span>
+                    </td>
+                    <td>
+                      <div class="nowrap">
+                        <span class="no-print ui-icon ui-icon-mail-closed"></span>
+                        <%= mail_to enrollment.email, enrollment.name, :subject => enrollment.class_name %>
+                      </div>
+                    </td>
+                    <td>
+                      <% unless enrollment.phone.blank? %>
+                      <div class="nowrap">
+                        <span class="no-print ui-icon ui-icon-person"></span>
+                        <a href="tel:<%= enrollment.phone %>"><%= enrollment.phone %></a>
+                      </div>
+                      <% end %>
+                    </td>
+                    <td>
+                      <%= check_box_tag 'attended', enrollment.booking_id , enrollment.attended?, :class => 'attendance-check' %>
+                    </td>
+                  </tr>
+              <% end %>
+              </tbody>
+            </table>
+
+            <div class="tab-footer clear no-print">
+              <div class="fr">
+                <%= paginate @enrollments %>
+              </div>
+
+              <div class="fl">
+                <a href="#" onClick="window.print(); return false;" class="fl-space submit">Print Page</a>
+                <%= link_to "PDF", enrollments_path(request.parameters.symbolize_keys.merge({:format => :pdf})), :class => 'fl-space submit' %>
+                <%= link_to "Excel", enrollments_path(request.parameters.symbolize_keys.merge({:format => :xls})), :class => 'fl-space submit' %>
+              </div>
+            </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script id="schedule-template" type="text/html">
+  <tr>
+    <td><input type="radio" value="" name="event" data-start='${ moment(start).format("YYYY-MM-DDTHH:mm") }'  data-finish='${ moment(end).format("YYYY-MM-DDTHH:mm") }'></td>
+    <td>${ moment(start).format('YYYY-MM-DD HH:mm') }</td>
+    <td>${ bookingCount }</td>
+    <td>${ capacity }</td>
+  </tr>
+</script>
+
+<% content_for :footer do -%>
+<%= javascript_include_tag 'reports-helper.js' %>
+
+<script>
+    $('.attendance-check').bind('change', function () {
+        $.ajax({
+            url: '/bookings/' + this.value + '/attendance',
+            type: 'POST',
+            data: {"attended": this.checked}
+        });
+    });
+
+    function selectDates() {
+        var start = $('#start'),
+            selected = $('input[type="radio"][name="event"]:checked');
+
+        if (selected.length > 0) {
+            start.val(selected.attr('data-start'));
+        }
+    }
+
+    function getParameterByName(name) {
+        var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+        return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+    }
+
+    function loadSchedule() {
+        var external_product_id = $('#products option:selected').attr('data-external-id'),
+            external_variant_id = $('#variants option:selected').attr('data-external-id');
+
+        if (external_product_id) {
+            $('#event-instructions').hide();
+
+            $.getJSON("/availability/schedule.json?callback=?", {
+                products: external_product_id || '',
+                variants: external_variant_id || '',
+                start: moment(new Date()).format('YYYY-MM-DD'),
+                finish: moment(new Date()).add(6, 'months').format('YYYY-MM-DD')
+            }, function (data) {
+                var table = $('#upcoming-classes').find('tbody'),
+                    events = $.map(data.schedule, function(event) {
+                        event.start = new Date(event.start[0], event.start[1] - 1, event.start[2], event.start[3], event.start[4], event.start[5]);
+                        event.end = new Date(event.end[0], event.end[1] - 1, event.end[2], event.end[3], event.end[4], event.end[5]);
+                        return event;
+                    });
+
+                table.empty();
+
+                for (var i = 0; i < events.length && i <= 30; i++) { // display up to the next 30 events
+                    $('#schedule-template').tmpl(events[i]).appendTo(table);
+                }
+
+                var startParam = getParameterByName('start');
+                if (startParam) {
+                    $('input[type="radio"][name="event"][data-start="' + unescape(startParam) + '"]').prop('checked', 'true');
+                } else {
+                    $('input[type="radio"][name="event"]:first').prop('checked', 'true');
+                }
+
+                selectDates();
+
+                if (events.length == 0) {
+                    $('#no-events').show();
+                    $('#upcoming-classes').hide();
+                } else {
+                    $('#no-events').hide();
+                    $('#upcoming-classes').show();
+                }
+            });
+        } else {
+            $('#event-instructions').show();
+            $('#upcoming-classes').hide();
+            $('#no-events').hide();
+            $('.dataTables_wrapper').hide(); // hide results from previous search
+        }
+    }
+
+    $('#products, #variants').bind('change', function() {
+        loadSchedule();
+    });
+
+    loadSchedule();
+
+    $('#upcoming-classes').on('change', 'input[type="radio"][name="event"]', function() {
+        selectDates();
+    });
+
+    <% if @filter.present? %>
+    $('#start').datepicker('setDate', new Date('<%= @filter.start %>'));
+    <% end %>
+</script>
+<% end %>

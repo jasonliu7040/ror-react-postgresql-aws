@@ -1,0 +1,10 @@
+$.jGrowl("<%= escape_javascript(flash.delete(:notice)) %>");				
+$("#new_product")[0].reset();
+$("#product-chooser-list a[href='#<%= raw @product.product_handle %>']").addClass("ui-state-disabled").find('span.ui-icon-triangle-1-w').removeClass('ui-icon-triangle-1-w').addClass('ui-icon-check');
+$('#product-form').fadeOut('slow', function() {
+	$("#inventory-placeholder").remove();
+	$("#product-inventory-table tbody").append("<%= escape_javascript(render(:partial => @product, :locals => {:product => @product})) %>");
+	var row = $("#inventory-row-<%= raw @product.product_handle %>")
+	row.effect("highlight", {}, 3000);
+	$.uniform.update(row);
+});

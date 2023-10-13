@@ -1,0 +1,185 @@
+<% content_for :head do -%>
+  <%= stylesheet_link_tag "/fullcalendar2/fullcalendar.css" %>
+  <%= stylesheet_link_tag "/fullcalendar2/fullcalendar.print.css", :media => "print" %>
+<% end %>
+
+
+<div id='products-tab'>
+
+  <%= render 'common/error_messages', :object => form.object %>
+
+
+  <table id="term-form-table" class="form-table styled">
+    <tbody>
+    <tr>
+      <td class="title">
+        <%= form.label :name, 'Term name' %>
+      </td>
+      <td>
+        <%= form.text_field :name, required: true %>
+      </td>
+    </tr>
+
+    <tr>
+      <td class="title">
+        <%= form.label :start_date %>
+      </td>
+      <td>
+        <%= form.text_field :start_date,  :value => datetime(@term.start_date), :class=>'datetimepickers', required: true %>
+      </td>
+    </tr>
+
+    <tr>
+      <td class="title">
+        <%= form.label :finish_date %>
+      </td>
+      <td>
+        <%= form.text_field :finish_date,   :value => datetime(@term.finish_date), class: "datetimepickers", required: true %>
+      </td>
+    </tr>
+
+
+    <%= form.fields_for :schedule do |schedule| %>
+      <tr class="fields">
+        <%= schedule.hidden_field :id %>
+        <td colspan="2">
+          <div class="tabs" id="schedule-form">
+            <ul>
+              <li><a href="#recurring-schedule-tab" id="recurring-schedule-tab-id">Recurring Schedule</a></li>
+              <li><a href="#one-off-schedule-tab">One off dates</a></li>
+            </ul>
+            <div id="recurring-schedule-tab" class="clear">
+              <%= render partial:"recurring_schedule", locals: {term: @term, schedule: schedule} %>
+            </div>
+            <div id="one-off-schedule-tab" class="clear">
+              <%= render partial:"oneoff_schedule", locals: {term: @term, schedule: schedule} %>
+            </div>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+
+    <tr>
+      <td colspan="2">
+        <div class="fr">
+          <div class="box-header clear">
+            <span class="fr" style="padding-top: 4px;">Available at <a href="<%= "http://#{current_shop.url}/apps/bookthatapp/calendar" %>" target="_blank">/apps/bookthatapp/calendar</a>.</span>
+            <h2>Calendar Preview</h2>
+          </div>
+          <div class="box-body clear">
+            <div id="calendar"></div>
+          </div>
+        </div>
+      </td>
+    </tr>
+
+    </tbody>
+  </table>
+
+
+  <div class="tab-footer clear" style="display: block; margin-top: 20px;">
+    <div class="button-bar">
+      <%= form.submit 'Save', :id => "save" %>
+      <%= link_to 'Close', edit_product_path(@product) %>
+    </div>
+  </div>
+</div>
+
+
+
+<% content_for :footer do %>
+
+  <script type='text/javascript'>
+
+    $( document ).ready(function() {
+
+      $("#term_start_date").on("change",function(){
+        var startDt = $('#term_start_date').datetimepicker('getDate');
+        $('#start-date').datetimepicker('setDate', startDt);
+      });
+
+      $("#term_finish_date").on("change",function(){
+        var startDt = $('#term_finish_date').datetimepicker('getDate');
+        $('.date-until').datetimepicker('setDate', startDt);
+      });
+
+      setDates();
+
+      $('#recurrences').on('click', 'button', function(){
+        setDates();
+      });
+
+      $('#repeating').on('click', function(){
+        setDates();
+      });
+      
+
+      $('form').submit(function () {
+
+        // validate dates (they should be in term time range)
+        var startDate =  moment($('#term_start_date').val()).toDate();
+        var finishDate =  $('#term_finish_date').val();
+
+        if (finishDate != "") {
+          finishDate = moment(finishDate).toDate();
+        }
+
+        // validate one off dates
+        var oneoffItemsValid = true;
+        $('.oneoff_items').each(function(index, element){
+          var parent = element.closest('tr');
+          if(parent.style.display != 'none') {
+            oneoffItemsValid = oneoffItemsValid && validateElementForRange(startDate, finishDate, $(this));
+          }
+        });
+
+        if (!oneoffItemsValid) {
+          $.jGrowl('Please check one off dates. Dates are incorrect. They should be in range.');
+        }
+
+        return oneoffItemsValid;
+
+      });
+
+      function setDates() {
+        var date = $('#term_start_date').datetimepicker('getDate');
+        $('#start-date').datetimepicker('setDate', date);
+
+        date = $('#term_finish_date').datetimepicker('getDate');
+        $('.date-until').datetimepicker('setDate', date);
+      }
+
+
+    });
+
+
+    function validateElementForRange(startDate, finishDate, element) {
+      var valid = true;
+      element.css("border-color", "");
+      var datetime = element.val();
+
+      if (datetime != "") {
+
+        datetime = moment(element.val()).toDate();
+        if (startDate > datetime) {
+          element.animate({'borderColor': '#fb6c6c'}, 100);
+          valid = false;
+        }
+        if (finishDate != "" && finishDate < datetime) {
+          element.animate({'borderColor': '#fb6c6c'}, 100);
+          valid = false;
+        }
+
+      } else {
+
+        if (finishDate != "") {
+          element.animate({'borderColor': '#fb6c6c'}, 100);
+          valid = false;
+        }
+
+      }
+      return valid;
+    }
+
+  </script>
+<% end %>

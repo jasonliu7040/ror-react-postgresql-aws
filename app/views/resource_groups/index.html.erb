@@ -1,0 +1,30 @@
+<h1>Configuration</h1>
+<p>Set up BookThatApp.</p>
+
+<div class="content-box">
+  <div class="box-header clear">
+    <h2>Resource Groups</h2>
+  </div>
+  <div class="box-body clear">
+    <p><%= link_to "Add Group", new_resource_group_path, class:'submit' %></p>
+    <table class="styled">
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th class="table-actions"></th>
+      </tr>
+
+      <% @resource_groups.each do |resource_group| %>
+          <tr>
+            <td><%= resource_group.name %></td>
+            <td><%= resource_group.description %></td>
+            <td class="table-actions">
+              <%= link_to content_tag(:span, '', :class => "ui-icon ui-icon-trash"), resource_group, data: {confirm: 'Are you sure you want to delete this group?'}, :method => :delete %>
+              <%= link_to content_tag(:span, "", :class => 'ui-icon ui-icon-pencil'), edit_resource_group_path(resource_group) %>
+            </td>
+          </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
+

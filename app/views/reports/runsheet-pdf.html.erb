@@ -1,0 +1,67 @@
+<div class="content-box">
+	<div class="box-header clear">
+	    <h2>Run Sheet</h2>
+	</div>
+	<div class="box-body clear">
+
+	    	<div class="dataTables_wrapper">
+				<% if @bookings.empty? %>
+	            <div class="notification note-info">
+	                <span class="icon"></span>
+	                <p><strong>No bookings:</strong> No bookings found that match the filter criteria.</p>
+	            </div>
+              <% else %>
+                  <table class="styled">
+                      <thead>
+                          <tr>
+                            <th width="1%">Id</th>
+                            <th width="130px">Date/Time</th>
+                            <th width="1%">Customer</th>
+                            <th>Product</th>
+                            <th width="1%">Order</th>
+                            <th width="1%">Status</th>
+                            <th width="1%">#</th>
+                            <th>Notes</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                      <% @bookings.each do |item| %>
+                          <% booking = item.booking %>
+                          <tr>
+                            <td><%= booking.id %></td>
+                            <td>
+                              <% if item.variant.all_day? %>
+                                  <%= I18n.localize(item.start.to_date, :format => :short) %>
+                              <% else %>
+                                  <span class="nowrap"><%= I18n.localize(item.start, :format => :short) %></span><br/>
+                                  <span class="nowrap"><%= I18n.localize(item.finish, :format => :short) %></span>
+                              <% end %>
+                            </td>
+                            <td>
+                              <span class="nowrap"><%= booking.name %></span>
+                              <br/><span class="nowrap"><%= booking.email %></span>
+                              <% unless booking.phone.blank? %>
+                                  <br/><span class="nowrap"><%= booking.phone %></span>
+                              <% end %>
+                            </td>
+                            <td><%= booking.product_summary %></td>
+                            <td><%= booking.order_name %></td>
+                            <td><%= booking.status == 1 ? "Reserved" : "Confirmed" %></td>
+                            <td><%= item.quantity %></td>
+                            <td><%= booking.notes %></td>
+                          </tr>
+                      <% end %>
+                      </tbody>
+                    <tfoot>
+                    <tr>
+                      <td colspan="6" style="text-align: right;">Total:</td>
+                      <td><%= @total %></td>
+                      <td></td>
+                    </tr>
+                    </tfoot>
+                  </table>
+            <% end %>
+	    	</div>
+	    </div>
+	</div>
+</div>

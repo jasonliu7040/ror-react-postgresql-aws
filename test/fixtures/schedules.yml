@@ -1,0 +1,35 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+# This model initially had no columns defined.  If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+one:
+  id: 1
+  schedulable_type: Term
+  schedulable_id: 1
+
+product_schedule:
+  id: 2
+  schedulable_type: Product
+  schedulable_id: 1
+
+product_schedule_7:
+  id: 3
+  schedulable_type: Product
+  schedulable_id: 7
+
+product_schedule_2:
+  id: 4
+  schedulable_type: Product
+  schedulable_id: 2
+
+schedule:
+  id: 5
+  schedulable_type: Product
+  schedulable_id: 1
+
+schedule_with_empty_yaml:
+  id: 6
+  schedulable_type: Product
+  schedulable_id: 2

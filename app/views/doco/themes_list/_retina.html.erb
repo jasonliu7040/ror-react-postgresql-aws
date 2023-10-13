@@ -1,0 +1,8 @@
+<% content_for :panel_head do %>
+    Retina
+<% end %>
+<% content_for :panel_body do %>
+    <h5>Product Page</h5>
+    <p>Include the booking form snippet just after where the variants are defined.</p>
+    <%= render_source partial: 'doco/themes/retina_product', path: 'snippets/product-form.liquid', line: 40 %>
+<% end %>

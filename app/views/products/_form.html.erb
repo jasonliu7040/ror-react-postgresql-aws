@@ -1,0 +1,920 @@
+<% content_for :head do -%>
+    <%= stylesheet_link_tag "/fullcalendar2/fullcalendar.css" %>
+    <%= stylesheet_link_tag "/fullcalendar2/fullcalendar.print.css", :media => "print" %>
+<% end %>
+
+<div class="hidden">
+  <div class="notification note-info">
+    <span class="icon"></span>
+    <p>The product configuration page is currently undergoing maintenance. Please check back again in 30 minutes.</p>
+  </div>
+</div>
+
+<div id='products-tab'>
+  <% if shopify_inventory_management %>
+      <div class="notification note-info">
+        <span class="icon"></span>
+
+        <p>This product has 1 or more variants with the inventory policy set to <i><strong>Shopify
+          tracks this variant's inventory</strong></i>. BookThatApp manages inventory based on the number of bookings on
+          specific dates (capacity) so the inventory policy will automatically be set to <i><strong>Don't track
+          inventory</strong></i> when this product is saved.
+        </p>
+      </div>
+  <% end %>
+
+  <% if @product.hidden? %>
+      <div class="notification note-info">
+        <span class="icon"></span>
+
+        <p>This product is currently hidden.</p>
+      </div>
+  <% end %>
+
+  <% add_colors_and_types %>
+  <%= render 'common/error_messages', :object => form.object %>
+  <%= form.hidden_field :id %>
+  <%= form.hidden_field :product_id %>
+  <%= form.hidden_field :external_id %>
+  <%= form.hidden_field :product_image_url %>
+  <%= hidden_field_tag 'ga_client_id', '', :class => 'ga-client-id' %>
+
+  <table id="product-form-table" class="form-table styled">
+    <tbody>
+    <tr>
+      <td class="title">
+        <%= form.label :profile %>
+      </td>
+      <td>
+        <%= form.select :profile, options_for_select(@types, form.object.profile) %>
+      </td>
+    </tr>
+    <tr>
+      <td class="title">
+        <%= form.label :product_handle, "Product Title" %><br/>
+        <% if @product.new_record? %>
+            <%= form.hidden_field :product_title %>
+            <%= form.hidden_field :product_handle %>
+        <% else %>
+            <small>
+              <a id="edit-handle-link" href="#" onclick="$('#edit-handle').fadeIn();">Edit Handle</a>&nbsp;|
+              <a href="http://<%= current_account.subdomain %>.myshopify.com/products/<%= @product.product_handle %>" target="_blank">View</a>
+            </small>
+            <div id="edit-handle" style="display:none;">
+              <%= form.label :product_handle, "Handle:" %><%= form.text_field :product_handle %>
+              <p>
+                <small>This should match the Shopify product handle. You should not need to change this.
+                  <strong>Changing this value does not change the product handle in Shopify</strong></small>
+              </p>
+            </div>
+        <% end %>
+      </td>
+      <td>
+        <%= form.text_field :product_title %>
+      </td>
+    </tr>
+    <tr>
+      <td class="title">
+        Capacity
+
+      </td>
+      <td>
+        <span class="nowrap">
+          <%= form.label :capacity_type, 'Base capacity on' %>
+          <%= form.select :capacity_type, options_for_select([['Product', '0'], ['Variant Options', '1']], form.object.capacity_type) %>
+          <%= image_tag("ico_info_16.png", :class => "help icon", data: {tooltip: "<p>Capacity is used to limit how many bookings can be made at any one time.</p>
+          <p><strong>Product</strong> is typically used for courses, equipment or services, while <strong>Variant Options</strong> can be used for dress rentals with
+           different size/colors or hotel rooms with different bed sizes for example."}) %>
+        </span>
+
+        <div class="targetDiv" id="capacity-type-0"<%= " style=display:none" unless form.object.capacity_type == 0 %>>
+          <%= form.label :capacity, "Capacity " %><%= form.text_field :capacity, :type => 'number', :min => '0', :max => '9999', :size => '5', :required => 'required' %>
+        </div>
+        <div class="targetDiv" id="capacity-type-1" <%= " style=display:none" unless form.object.capacity_type == 1 %>>
+
+          <% if false %>
+          <table>
+            <tr>
+              <td><input type="checkbox" name="configuration_options[]" value="<%= form.object.capacity_option1 %>" <%= raw "checked='checked'" unless @configuration_options[0].nil? %> id="option0" class="capacity-option"><%= form.object.capacity_option1 %></td>
+              <td><input type="checkbox" name="configuration_options[]" value="<%= form.object.capacity_option2 %>" <%= raw "checked='checked'" unless @configuration_options[1].nil? %> id="option1" class="capacity-option"><%= form.object.capacity_option2 %></td>
+              <td><input type="checkbox" name="configuration_options[]" value="<%= form.object.capacity_option3 %>" <%= raw "checked='checked'" unless @configuration_options[2].nil? %> id="option2" class="capacity-option"><%= form.object.capacity_option3 %></td>
+            </tr>
+          </table>
+          <% end %>
+
+          <table id="option-capacity-table" class="styled">
+            <thead>
+            <tr>
+              <th width="33%">
+                <label for="option0"><input type="checkbox" name="configuration_options[]" value="<%= form.object.capacity_option1 %>" <%= raw "checked='checked'" unless @configuration_options[0].nil? %> id="option0" class="capacity-option"><%= form.object.capacity_option1 %></label>
+              </th>
+              <th width="33%">
+                <label for="option1"><input type="checkbox" name="configuration_options[]" value="<%= form.object.capacity_option2 %>" <%= raw "checked='checked'" unless @configuration_options[1].nil? %> id="option1" class="capacity-option"><%= form.object.capacity_option2 %></label>
+              </th>
+              <th width="33%">
+                <label for="option2"><input type="checkbox" name="configuration_options[]" value="<%= form.object.capacity_option3 %>" <%= raw "checked='checked'" unless @configuration_options[2].nil? %> id="option2" class="capacity-option"><%= form.object.capacity_option3 %></label>
+              </th>
+              <th width="1%">Capacity</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+      </td>
+    </tr>
+    <% if $flipper[:duration_v2].enabled?(current_account) %>
+        <tr id="duration-section">
+          <td class="title">
+            Duration
+          </td>
+          <td>
+            <%= form.label :duration_type, 'Base duration on' %>
+            <%= form.select :duration_type, options_for_select([['Product', '0'], ['Variant Option', '1']], form.object.duration_type) %>
+            <%= image_tag("ico_info_16.png", :class => "help icon", data: {tooltip: "<p>Determines how the end date for bookings is calculated (for orders
+        that don't include the end date).</p><p>Set to
+        Product if the duration is the same across all variants. If the duration changes depending on what variant is selected, or if you are using
+        a date range and want to change the rate depending on how many days are selected, choose Variant Option."}) %>
+
+            <div id="duration-type-0" class="duration-type duration-container"<%= " style=display:none" unless form.object.duration_type == 0 %>>
+              <%= form.hidden_field :duration %>
+              <input type="number" class="short_number duration" value="0" min="0">
+              <select class="duration-units">
+                <option value="mins">Minutes</option>
+                <option value="hours">Hours</option>
+                <option value="days">Days</option>
+                <option value="weeks">Weeks</option>
+              </select>
+            </div>
+            <div id="duration-type-1" class="duration-type" <%= " style=display:none" unless form.object.duration_type == 1 %>>
+              <%= form.hidden_field :duration_option_external_id %>
+              <%= form.hidden_field :duration_option_position %>
+              <%= form.label :duration_option, 'Option' %>
+              <%= form.select :duration_option, options_for_select(@variant_options.map(&:name), form.object.duration_option) %>
+              <%= form.label :duration_option_range_variant do %>
+                  <%= form.check_box :duration_option_range_variant %>
+                  Variants represent date range?
+              <% end %>
+              <table id="duration-values-table" class="plain">
+                <thead>
+                <tr>
+                  <th>Value</th>
+                  <th>Duration</th>
+                  <th class="variant-range-duration" style="display:none">Range From</th>
+                  <th class="variant-range-duration" style="display:none">Range To</th>
+                </tr>
+                </thead>
+                <tbody>
+                <%= form.fields_for :option_durations do |option_duration_builder| %>
+                    <%= render "option_duration_fields", :f => option_duration_builder %>
+                <% end %>
+                </tbody>
+              </table>
+            </div>
+          </td>
+        </tr>
+    <% end %>
+    <tr>
+      <td class="title">Variants</td>
+      <td>
+        <table id="variants" class="plain">
+          <thead>
+          <tr>
+            <th>Title</th>
+            <% if !$flipper[:duration_v2].enabled?(current_account) %>
+            <th>
+              Duration
+            </th>
+            <% end %>
+            <% if @legacy_variant_times %>
+            <% unless form.object.new_record? %>
+                <th class="hours-available profiled profile-appt profile-activity">Hours Available</th>
+            <% end %>
+            <% end %>
+            <th class="party-size">
+              <span class='profiled profile-class profile-activity'>
+                Units
+                <%= image_tag("ico_info_16.png", :class => "help icon", data: {tooltip: "Party Size"}) %>
+              </span>
+            </th>
+            <th class="ignore-variant-cell">
+              Ignore?
+              <%= image_tag("ico_info_16.png", :class => "help icon", data: {tooltip: "Hides the booking form when the variant is chosen on the product page."}) %>
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <%= form.fields_for :variants do |variant_builder| %>
+              <%= render "variant_fields", :f => variant_builder %>
+          <% end %>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+
+    <tr class="profiled profile-course" style="display:none">
+      <td class="title">
+        Course Schedule
+      </td>
+      <td>
+        <div id="courses" class="clear">
+          <div class="tabs">
+            <ul>
+              <li><a href="#schedule-courses">Terms</a></li>
+              <li><a href="#schedule-calendar">Calendar</a></li>
+            </ul>
+
+            <div id="schedule-courses" class="clear">
+
+              <div>
+                <table class="nested-form-table plain">
+                  <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Start</th>
+                    <th>Finish</th>
+                    <th></th>
+                  </tr>
+                  </thead>
+                  <tbody id="term_builder">
+                    <%= form.fields_for :terms, :wrapper => false %>
+                    <tr class="nested-form-actions">
+                      <td colspan="2">
+                        <%= form.link_to_add "Add Term", :terms, :class => 'submit' %>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                  <tr>
+                    <td colspan="6">
+                    </td>
+                  </tr>
+                  </tfoot>
+                </table>
+
+              </div>
+
+            </div>
+
+            <div id="schedule-calendar" class="clear">
+
+              <div class="box-header clear">
+                <span class="fr" style="padding-top: 4px;">Available at <a href="<%= "http://#{current_shop.url}/apps/bookthatapp/calendar" %>" target="_blank">/apps/bookthatapp/calendar</a>.</span>
+                <h2>Calendar Preview</h2>
+              </div>
+              <div class="box-body clear">
+                <div id="terms-calendar"></div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
+
+    <tr>
+      <td class="title">
+        <%= form.label :resources_allocations, 'Resources' %>
+      </td>
+      <td>
+        <% unless @available_resources.empty? %>
+        <table class="styled plain">
+          <tr>
+            <td>
+              <table class="nested-form-table plain">
+                <tbody>
+                <%= form.fields_for :resource_constraints, :wrapper => false %>
+                <tr class="nested-form-actions">
+                  <td colspan="2">
+                    <%= form.link_to_add "Add Resource", :resource_constraints, :class => 'submit' %>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        </table>
+        <% end %>
+      </td>
+    </tr>
+
+    <tr class="profiled profile-appt profile-class profile-product profile-appt profile-activity profile-course">
+      <td class="title">
+        <%= form.label :mindate, "Cutoff Days" %>
+      </td>
+      <td>
+        <%= form.number_field :mindate, :min => 0 %>
+        <%= image_tag("ico_info_16.png", :class => "help icon", data: {tooltip: "First available day (from today) in the datepicker. Set to 0 for today, 1 for tomorrow etc."}) %>
+      </td>
+    </tr>
+
+    <tr class="profiled profile-appt profile-product profile-appt profile-activity">
+      <td class="title">
+        <%= form.label :lead_time, "Lead Time" %>
+      </td>
+      <td>
+        <%= form.number_field :lead_time, :min => 0 %>
+        <%= image_tag("ico_info_16.png", :class => "help icon", data: {tooltip: "Number of days to allow before the next booking can begin, for example to account for
+          delivery time. Unlike lag time, the lead time component is not included when a booking is created from an order."}) %>
+      </td>
+    </tr>
+
+    <tr class="profiled profile-appt profile-product profile-appt profile-activity">
+      <td class="title">
+        <%= form.label "lag-input", "Lag Time" %>
+      </td>
+      <td>
+        <input id="lag-input" type="number" value="0" min="0" max="59"/>
+        <select id="lag-input-units">
+          <option value="minutes" selected="selected">Minutes</option>
+          <option value="hours">Hours</option>
+          <option value="days">Days</option>
+        </select>
+        <%= form.hidden_field :lag_time %>
+        <%= image_tag("ico_info_16.png", :class => "help icon", data: {tooltip: "Lag time is automatically added to the booking finish time on creation. Typically used to account for
+        the time required to get an item ready before the next booking."}) %>
+      </td>
+    </tr>
+
+    <tr class="profiled profile-product">
+      <td class="title">
+        Date Range
+      </td>
+      <td>
+        <table class="plain">
+          <tr>
+            <td class="title">
+              <%= form.label :range_count_basis, "Count" %>
+            </td>
+            <td>
+              <%= form.select :range_count_basis, options_for_select([['Nights', '0'], ['Days', '1']], form.object.range_count_basis) %>
+              <%= image_tag("ico_info_16.png", :class => "help icon", data: {tooltip: "Count days or nights when calculating quantity for the 'Date Range Updates Quantity Setting'."}) %>
+            </td>
+          </tr>
+          <tr>
+            <td class="title">
+              <%= form.label :min_duration, "Minimum" %>
+            </td>
+            <td>
+              <%= form.number_field :min_duration, :min => 0, :size => 3 %>
+            </td>
+          </tr>
+          <tr>
+            <td class="title">
+              <%= form.label :max_duration, "Maximum" %>
+            </td>
+            <td>
+              <%= form.number_field :max_duration, :min => 0, :max => 365 %>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr>
+      <td class="title">
+        <%= form.label :product_locations, 'Locations' %>
+        <%= image_tag('ico_info_16.png', :class => 'help icon', data: {tooltip: 'Choose the locations this product applies to. Location information (address, map & email) can be used in reminders. Locations are created
+          via the settings menu.'}) %>
+      </td>
+      <td>
+        <% unless @available_locations.empty? %>
+        <table class="styled plain">
+          <tr>
+            <td>
+              <table class="nested-form-table plain">
+                <tbody>
+                <%= form.fields_for :product_locations, :wrapper => false %>
+                <tr class="nested-form-actions">
+                  <td colspan="2">
+                    <%= form.link_to_add 'Add Location', :product_locations, :class => 'submit' %>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        </table>
+        <% end %>
+      </td>
+    </tr>
+
+    <tr>
+      <td class="title">
+        Calendar Colors
+      </td>
+      <td>
+        <table class="styled">
+          <tr>
+            <td>
+              <%= form.label :text_color, "Text" %>
+              <%= form.select :text_color, options_for_select(@colors, form.object.text_color), {:include_blank => true}, {:class => 'color'} %>
+            </td>
+            <td>
+              <%= form.label :background_color, "Background" %>
+              <%= form.select :background_color, options_for_select(@colors, form.object.background_color), {:include_blank => true}, {:class => 'color'} %>
+            </td>
+            <td>
+              <%= form.label :border_color, "Border" %>
+              <%= form.select :border_color, options_for_select(@colors, form.object.border_color), {:include_blank => true}, {:class => 'color'} %>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr class="hidden">
+      <td class="title">
+        <%= form.label :calendar_display, "Display in calendar?" %>
+        <small><em>Determine if this product should appear in
+          <a href='<%= "http://#{current_shop.url}/apps/bookthatapp/calendar" %>' target='_blank'>your store's
+            calendar</a>.</em></small>
+      </td>
+      <td>
+        <%= form.check_box :calendar_display %>
+      </td>
+    </tr>
+    <tr id="scheduled-row" class="hidden">
+      <td class="title">
+        <%= form.label :scheduled, "Scheduled?" %>
+        <small><em>Select if this product is a one-off or recurring event (e.g. class) that should appear in your
+          store's calendar.</em></small>
+      </td>
+      <td>
+        <%= form.check_box :scheduled %>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+
+  <%= form.fields_for :schedule do |schedule| %>
+    <div id="schedule-wrap" class="clear">
+      <div class="half fl">
+        <div class="box-header clear">
+          <ul class="tabs clear">
+            <li><a href="#schedule-form" class="selected">Schedule</a></li>
+            <li><a href="#schedule-raw">View Config</a></li>
+          </ul>
+          <h2>Schedule</h2>
+        </div>
+        <div class="box-body clear">
+          <div id="schedule-form">
+            <div id="oneoff-dates-table" class="form-field clear">
+              <label class="form-label fl-space2">One Off Dates:</label>
+              <table class="styled">
+                <tr>
+                  <td>
+                    <table class="nested-form-table plain styled">
+                      <tbody id="oneoff_schedule_builder">
+                      <%= schedule.fields_for :oneoff_items, @product.schedule.oneoff_items.sort_by(&:start), :wrapper => false %>
+                      <tr class="nested-form-actions">
+                        <td colspan="2">
+                          <%= schedule.link_to_add "Add Date", :oneoff_items, :class => 'submit' %>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="form-field clear">
+              <label class="form-label fl-space2" for="repeating">Repeating?:</label>
+              <input type="checkbox" name="" id="repeating">
+            </div>
+            <div id="recurring-schedule" style="display:none">
+              <div class="form-field clear">
+                <label class="form-label fl-space2" for="start-date">Start:</label>
+
+                <div class="fl">
+                  <input type="text" class="text fl datetimepicker" id="start-date"/>
+                </div>
+              </div>
+              <div id="finish-div" class="form-field clear hidden">
+                <label class="form-label fl-space2" for="finish-date">End:</label>
+
+                <div class="fl">
+                  <input type="text" class="text fl datetimepicker" id="finish-date"/>
+                </div>
+              </div>
+              <div id="duration-div" class="form-field clear">
+                <label class="form-label fl-space2" for="duration">Duration:</label>
+
+                <div class="fl">
+                  <input type="number" class="text short_number" id="duration" min="1">
+                  <select id="duration-units">
+                    <option>Minutes</option>
+                    <option selected="selected">Hours</option>
+                    <option>Days</option>
+                    <option>Weeks</option>
+                  </select>
+                </div>
+              </div>
+              <fieldset>
+                <legend>Repeating Rules</legend>
+                <div id="recurrences">
+                  <button id="add-recurrence" class="rrule-btnAdd fr">+ Rule</button>
+                </div>
+              </fieldset>
+              <!--
+              <fieldset><legend>Exceptions</legend>
+              <div id="exceptions">
+                      <button id="add-exception" class="exrule-btnAdd fr">Add</button>
+              </div>
+              </fieldset>
+              -->
+              <p id="schedule-summary"><%= pretty_schedule @product.icecube_schedule %></p>
+            </div>
+          </div>
+          <div id="schedule-raw">
+            <%= schedule.fields_for :recurring_items do |item| %>
+              <%= item.text_area :schedule_yaml, :style => "width:100%", id: 'product_schedule_yaml' %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="half fr">
+        <div class="box-header clear">
+          <span class="fr" style="padding-top: 4px;">Available at <a href="<%= "http://#{current_shop.url}/apps/bookthatapp/calendar" %>" target="_blank">/apps/bookthatapp/calendar</a>.</span>
+          <h2>Calendar Preview</h2>
+        </div>
+        <div class="box-body clear">
+          <div id="calendar"></div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="tab-footer clear" style="display: block; margin-top: 20px;">
+    <div class="button-bar">
+      <%= form.submit 'Save', :id => "save" %>
+      <%= link_to 'Close', products_path %>
+    </div>
+  </div>
+</div>
+
+<script id="rule-template" type="text/html">
+  <div class="${type}-group clear">
+    <div class="fl form-field">
+      <label class="form-label fl-space2" for="${type}_0_rule_type">Rule:</label>
+
+      <div class="clear">
+        <select name="${type}[0][rule_type]" id="${type}_0_rule_type" class="rule_type" data-pattern-name="${type}[++][rule_type]" data-pattern-id="${type}_++_rule_type">
+          <option value="IceCube::MinutelyRule">Minutes</option>
+          <option value="IceCube::HourlyRule">Hourly</option>
+          <option value="IceCube::DailyRule" selected="selected">Daily</option>
+          <option value="IceCube::WeeklyRule">Weekly</option>
+          <option value="IceCube::MonthlyRule">Monthly</option>
+          <option value="IceCube::YearlyRule">Yearly</option>
+        </select>
+      </div>
+      <div class="clear">
+        <label class="form-label fl-space2" for="${type}_0_interval">Repeat Every</label>
+        <input type="number" class="short_number text" id="${type}_0_interval" min="1" name="${type}[0][interval]" value="1" data-pattern-name="${type}[++][interval]" data-pattern-id="${type}_++_interval">&nbsp;<span id="${type}_0_interval_prompt" data-pattern-id="${type}_++_interval_prompt">Days</span>
+      </div>
+      <div id="${type}_0_moy" class="moy clear" data-pattern-id="${type}_++_moy">
+        <label class="form-label fl-space2">Specific Months</label>
+
+        <div class="checkboxes">
+          <label><input type="checkbox" value="1" name="${type}[0][moy]" data-pattern-name="${type}[++][moy]" id="${type}_0_moy_jan" data-pattern-id="${type}_++_moy_jan"/>Jan</label>
+          <label><input type="checkbox" value="2" name="${type}[0][moy]" data-pattern-name="${type}[++][moy]" id="${type}_0_moy_feb" data-pattern-id="${type}_++_moy_feb"/>Feb</label>
+          <label><input type="checkbox" value="3" name="${type}[0][moy]" data-pattern-name="${type}[++][moy]" id="${type}_0_moy_mar" data-pattern-id="${type}_++_moy_mar"/>Mar</label>
+          <label><input type="checkbox" value="4" name="${type}[0][moy]" data-pattern-name="${type}[++][moy]" id="${type}_0_moy_apr" data-pattern-id="${type}_++_moy_apr"/>Apr</label>
+          <label><input type="checkbox" value="5" name="${type}[0][moy]" data-pattern-name="${type}[++][moy]" id="${type}_0_moy_may" data-pattern-id="${type}_++_moy_may"/>May</label>
+          <label><input type="checkbox" value="6" name="${type}[0][moy]" data-pattern-name="${type}[++][moy]" id="${type}_0_moy_jun" data-pattern-id="${type}_++_moy_jun"/>Jun</label>
+          <label><input type="checkbox" value="7" name="${type}[0][moy]" data-pattern-name="${type}[++][moy]" id="${type}_0_moy_jul" data-pattern-id="${type}_++_moy_jul"/>Jul</label>
+          <label><input type="checkbox" value="8" name="${type}[0][moy]" data-pattern-name="${type}[++][moy]" id="${type}_0_moy_aug" data-pattern-id="${type}_++_moy_aug"/>Aug</label>
+          <label><input type="checkbox" value="9" name="${type}[0][moy]" data-pattern-name="${type}[++][moy]" id="${type}_0_moy_sep" data-pattern-id="${type}_++_moy_sep"/>Sep</label>
+          <label><input type="checkbox" value="10" name="${type}[0][moy]" data-pattern-name="${type}[++][moy]" id="${type}_0_moy_oct" data-pattern-id="${type}_++_moy_oct"/>Oct</label>
+          <label><input type="checkbox" value="11" name="${type}[0][moy]" data-pattern-name="${type}[++][moy]" id="${type}_0_moy_nov" data-pattern-id="${type}_++_moy_nov"/>Nov</label>
+          <label><input type="checkbox" value="12" name="${type}[0][moy]" data-pattern-name="${type}[++][moy]" id="${type}_0_moy_dec" data-pattern-id="${type}_++_moy_dec"/>Dec</label>
+        </div>
+      </div>
+      <div id="${type}_0_dow" class="dow clear" data-pattern-id="${type}_++_dow">
+        <label class="form-label fl-space2">Specific Days</label>
+
+        <div class="checkboxes">
+          <label><input type="checkbox" value="0" name="${type}[0][dow]" data-pattern-name="${type}[++][dow]" id="${type}_0_dow_sun" data-pattern-id="${type}_++_dow_sun"/>Sun</label>
+          <label><input type="checkbox" value="1" name="${type}[0][dow]" data-pattern-name="${type}[++][dow]" id="${type}_0_dow_mon" data-pattern-id="${type}_++_dow_mon"/>Mon</label>
+          <label><input type="checkbox" value="2" name="${type}[0][dow]" data-pattern-name="${type}[++][dow]" id="${type}_0_dow_tue" data-pattern-id="${type}_++_dow_tue"/>Tue</label>
+          <label><input type="checkbox" value="3" name="${type}[0][dow]" data-pattern-name="${type}[++][dow]" id="${type}_0_dow_wed" data-pattern-id="${type}_++_dow_wed"/>Wed</label>
+          <label><input type="checkbox" value="4" name="${type}[0][dow]" data-pattern-name="${type}[++][dow]" id="${type}_0_dow_thu" data-pattern-id="${type}_++_dow_thu"/>Thu</label>
+          <label><input type="checkbox" value="5" name="${type}[0][dow]" data-pattern-name="${type}[++][dow]" id="${type}_0_dow_fri" data-pattern-id="${type}_++_dow_fri"/>Fri</label>
+          <label><input type="checkbox" value="6" name="${type}[0][dow]" data-pattern-name="${type}[++][dow]" id="${type}_0_dow_sat" data-pattern-id="${type}_++_dow_sat"/>Sat</label>
+        </div>
+      </div>
+      <div class="clear">
+        <label class="form-label fl-space2" for="${type}_0_hour">Time </label>
+        <select name="${type}[0][hour]" id="${type}_0_hour" class="recurrence_hour" data-pattern-name="${type}[++][hour]" data-pattern-id="${type}_++_hour">
+          <option value="">--</option>
+          <% (0..23).each do |hour| %>
+              <option value="<%= hour %>"><%= "%02d" % hour %></option>
+          <% end %>
+        </select>
+        <select name="${type}[0][time]" id="${type}_0_minute" data-pattern-name="${type}[++][minute]" data-pattern-id="${type}_++_minute">
+          <option value="">--</option>
+          <% (0..55).step(5).each do |minute| %>
+              <option value="<%= minute %>"><%= "%02d" % minute %></option>
+          <% end %>
+        </select>
+      </div>
+      <div class="clear">
+        <label class="form-label fl-space2" for="${type}_0_until">Until </label>
+        <input type="text" class="datetimepicker" id="${type}_0_until" data-pattern-name="${type}[++][until]" data-pattern-id="${type}_++_until"/>
+      </div>
+    </div>
+    <button class="${type}-btnRemove fr">- Rule</button>
+  </div>
+</script>
+
+<script id="option-duration-value-template" type="text/x-jquery-tmpl">
+  {{each values}}
+  <tr>
+    <td>
+      <input id="product_option_durations_attributes_${$index}_option_external_id" name="product[option_durations_attributes][${$index}][option_external_id]" type="hidden" value="${option_id}" class="option_external_id_field">
+      <input id="product_option_durations_attributes_${$index}_value" name="product[option_durations_attributes][${$index}][value]" size="30" type="text" value="${$value}">
+    </td>
+    <td class="duration-container">
+      <input id="product_option_durations_attributes_${$index}_duration" name="product[option_durations_attributes][${$index}][duration]" type="hidden" value="0">
+      <input type="number" class="short_number duration" value="0" min="0">
+      <select class="duration-units">
+        <option value="mins">Minutes</option>
+        <option value="hours">Hours</option>
+        <option value="days">Days</option>
+        <option value="weeks">Weeks</option>
+      </select>
+    </td>
+    <td class="duration-container variant-range-duration" style="display:none">
+      <input id="product_option_durations_attributes_${$index}_low_range" name="product[option_durations_attributes][${$index}][low_range]" type="hidden" value="0">
+      <input type="number" class="short_number duration" value="0" min="0">
+      <select class="duration-units">
+        <option value="days">Days</option>
+        <option value="weeks">Weeks</option>
+      </select>
+    </td>
+    <td class="duration-container variant-range-duration" style="display:none">
+      <input id="product_option_durations_attributes_${$index}_high_range" name="product[option_durations_attributes][${$index}][high_range]" type="hidden" value="0">
+      <input type="number" class="short_number duration" value="0" min="0">
+      <select class="duration-units">
+        <option value="days">Days</option>
+        <option value="weeks">Weeks</option>
+      </select>
+    </td>
+  </tr>
+  {{/each}}
+</script>
+
+<% content_for :footer do %>
+  <%= javascript_include_tag '/fullcalendar2/fullcalendar.min' %>
+  <%= javascript_include_tag '/javascripts/schedadly-product' %>
+  <script type='text/javascript'>
+    $('.deprecated').hide();
+    var options = <%= raw @option_options.to_json %>;
+    function cartesianProductOf() {
+        return Array.prototype.reduce.call(arguments, function (a, b) {
+            var ret = [];
+            a.forEach(function (a) {
+                b.forEach(function (b) {
+                    ret.push(a.concat([b]));
+                });
+            });
+            return ret;
+        }, [
+            []
+        ]);
+    }
+    function optionMatch(optionValue, value) {
+        if (optionValue == null) return true;
+        return optionValue === value;
+    }
+    function buildOptionsTable() {
+        $('#option-capacity-table tbody').empty();
+        var checked = [$('#option0').is(':checked'), $('#option1').is(':checked'), $('#option2').is(':checked')],
+                rows = cartesianProductOf(checked[0] ? options.options1 : ["-"], checked[1] ? options.options2 : ["-"], checked[2] ? options.options3 : ["-"]),
+                optionCapacities = <%= raw(form.object.option_capacities.to_json) %>;
+        for (row = 0; row < rows.length; row++) {
+            var the_tr = $('<tr>'), html = "", optionRowCols = rows[row];
+            // show option capacity value in each col
+            for (col = 0; col < 3; col++) {
+                if (checked[col]) {
+                    var id = 'product_option_capacities_attributes_' + row + '_option' + col,
+                            name = 'product[option_capacities_attributes][' + row + '][option' + (col + 1) + ']',
+                            value = optionRowCols[col];
+                    html = $('<input readonly="readonly" type="text"/>').attr('id', id).attr('name', name).val(value);
+                } else {
+                    html = $('<span>-</span>');
+                }
+                var the_td = $('<td class="label-option option' + col + '">').append(html);
+                the_tr.append(the_td);
+            }
+            // show capacity setting for this combination of options
+            var optionCapacity = $.grep(optionCapacities, function (optionCapacityConfig) {
+                return (optionMatch(optionCapacityConfig.option1, optionRowCols[0]) && optionMatch(optionCapacityConfig.option2, optionRowCols[1]) && optionMatch(optionCapacityConfig.option3, optionRowCols[2]));
+            });
+            var value = optionCapacity.length > 0 ? optionCapacity[0].capacity : 1;
+            the_tr.append($('<td>').html('<input id="product_option_capacities_attributes_' + row + '_capacity" max="9999" min="0" name="product[option_capacities_attributes][' + row + '][capacity]" type="number" value="' + value + '">'));
+            $('#option-capacity-table tbody').append(the_tr);
+        }
+    }
+    $('input[type=checkbox].capacity-option').change(function () {
+        buildOptionsTable();
+    });
+    function toggleCapacityTypeFields() {
+      $('.targetDiv').hide();
+      var type = $('#product_capacity_type').val();
+      $('#capacity-type-' + type).show();
+    }
+    $('#product_capacity_type').change(function () {
+      toggleCapacityTypeFields();
+    });
+    function toggleDurationTypeFields() {
+      $('.duration-type').hide();
+      var type = $('#product_duration_type').val();
+      $('#duration-type-' + type).show();
+    }
+    $('#product_duration_type').change(function () {
+      toggleDurationTypeFields();
+    });
+    function hideShowProfileFields() {
+        var profile = $('#product_profile').val();
+        if (profile === '') {
+            $('.profiled').not('.deprecated').show();
+            $('#scheduled-row').show();
+        } else {
+            $('#scheduled-row').hide();
+            $('.profiled').not('.profile-' + profile).hide();
+            $('.profile-' + profile).not('.deprecated').show();
+        }
+        $('#schedule-wrap').hide();
+        switch (profile) {
+            case 'product':
+                $("#product_scheduled").prop('checked', false);
+                break;
+            case 'appt':
+                $("#product_scheduled").prop('checked', false);
+                break;
+            case 'course':
+                $("#product_scheduled").prop('checked', true);
+                break;
+            default:
+                $("#product_scheduled").prop('checked', true);
+                $('#schedule-wrap').fadeIn();
+        }
+    }
+    // === lag time ===
+    $('#lag-input-units').change(function () {
+        switch ($('#lag-input-units option:selected').val()) {
+            case 'minutes':
+                $('#lag-input').attr('max', 59);
+                break;
+            case 'hours':
+                $('#lag-input').attr('max', 23);
+                break;
+            case 'days':
+                $('#lag-input').attr('max', 14);
+                break;
+        }
+    });
+    var lag = <%= @product.lag_time || 0 %>
+    if (lag < 60) {
+        $('#lag-input').val(lag);
+        $('#lag-input-units').val('minutes');
+    } else if (lag < (60 * 24)) {
+        $('#lag-input').val(lag / 60);
+        $('#lag-input-units').val('hours');
+    } else {
+        $('#lag-input').val(lag / 60 / 24);
+        $('#lag-input-units').val('days');
+    }
+    $('#save').parents('form').submit(function () {
+        var lag = $('#lag-input').val(), units = $('#lag-input-units option:selected').val();
+        if (units == "hours") {
+            lag = lag * 60;
+        }
+        if (units == "days") {
+            lag = lag * 60 * 24;
+        }
+        $('#product_lag_time').val(lag);
+    });
+    $('#product_scheduled').change(function () {
+        if ($('#product_scheduled').is(':checked')) {
+            $('#schedule-wrap').fadeIn();
+        } else {
+            $('#schedule-wrap').hide();
+        }
+    });
+    $('#product_profile').change(function () {
+        hideShowProfileFields();
+    });
+    function enableVariantTimeFields() {
+        $('tr.variant-fields').each(function () {
+            var allDay = $(this).find('input.all-day').is(':checked'),
+                    select = $(this).find('select');
+            // enable/disable mins & hours
+            select.children("option").filter(function () {
+                return this.value < 2;
+            }).prop("disabled", allDay);
+            if (allDay) {
+                if (select.val() < 2) { // choose day automatically
+                    select.val(2);
+                }
+            }
+        })
+    }
+    $('td input.all-day').change(function () {
+        enableVariantTimeFields();
+    });
+    enableVariantTimeFields();
+    // variant schedule
+    $('.hours-available input[type=checkbox]').change(function () {
+        updateVariantScheduleYaml($(this));
+    })
+    <% if @legacy_variant_times %>
+    $('.time-cell').show();
+    <% end %>
+    if ($('td.hours-available').has(':visible').length == 0) {
+        var tbl = $('#variants');
+        tbl.find('th.hours-available').addClass('hidden deprecated')
+        tbl.find('td.hours-available').addClass('hidden deprecated')
+    }
+    // initialize
+    scheduler.init(); // schedadly.js
+    loadVariantSchedule();
+    hideShowProfileFields();
+    buildOptionsTable();
+    /*
+    Duration
+     */
+    // duration type
+    var variantOptions = <%= @variant_options.to_json.html_safe %>;
+    function updateDurationValues() {
+      var tableBody = $('#duration-values-table tbody'),
+          selectedOption = variantOptions[$('#product_duration_option option:selected').index()];
+      $('#product_duration_option_external_id').val(selectedOption.id);
+      $('#product_duration_option_position').val(selectedOption.position);
+      tableBody.empty();
+      $('#option-duration-value-template').tmpl({option_id: selectedOption.id, values:selectedOption.values}).appendTo(tableBody);
+      showHideVariantDurationColumns();
+    }
+    $('#product_duration_option').change(function() {
+      updateDurationValues();
+    });
+    // initialize durations
+    $('.duration-container').each(function() {
+      var duration = parseInt($(this).find('input[type=hidden]').val(), 10),
+          input = $(this).find('input.duration'),
+          units = $(this).find('select.duration-units');
+      if (duration == 0) {
+        input.val(0);
+        units.val('days');
+      } else {
+        if (duration % 604800 == 0) {
+          input.val(Math.floor(duration/604800)); // 1 week in secs
+          units.val('weeks');
+        } else if (duration % 86400 == 0) {
+          input.val(Math.floor(duration/86400)); // 1 day in secs
+          units.val('days');
+        } else if (duration % 3600 == 0) {
+          input.val(Math.floor(duration/3600)); // 1 hour in secs
+          units.val('hours');
+        } else if (duration % 60 == 0) {
+          input.val(Math.floor(duration/60)); // 1 min in secs
+          units.val('mins');
+        }
+      }
+    });
+    $('#duration-section').on('change', '.duration, .duration-units', function() {
+      var container = $(this).parent('.duration-container'),
+          duration = parseInt(container.find('input.duration').val(), 10),
+          durationUnits = container.find('select.duration-units').val();
+      switch (durationUnits) {
+        case 'mins': durationSeconds = duration * 60; break;
+        case 'hours': durationSeconds = duration * 60 * 60; break;
+        case 'days': durationSeconds = duration * 60 * 60 * 24; break;
+        case 'weeks': durationSeconds = duration * 60 * 60 * 24 * 7; break;
+      }
+      container.find('input[type=hidden]').val(durationSeconds);
+    });
+    $('#terms-calendar').fullCalendar({
+      eventSources: <%= raw @events.to_json %>
+    });
+    function showHideVariantDurationColumns() {
+      if ($('#product_duration_option_range_variant').is(':checked')) {
+        $('.variant-range-duration').show();
+      } else {
+        $('.variant-range-duration').hide();
+      }
+    }
+    showHideVariantDurationColumns();
+    $('#product_duration_option_range_variant').click(function() {
+      showHideVariantDurationColumns();
+    });
+    // lead and lag are no longer shown for certain profiles (2016-04-28), but should be shown if they are set so they can be reset to 0
+    if ($('#product_lead_time').parents('tr').is(':hidden') && $('#product_lead_time').val() > "0") {
+      $('#product_lead_time').parents('tr').show();
+    }
+    if ($('#product_lag_time').parents('tr').is(':hidden') && $('#product_lag_time').val() > "0") {
+      $('#product_lag_time').parents('tr').show();
+    }
+  </script>
+<% end %>

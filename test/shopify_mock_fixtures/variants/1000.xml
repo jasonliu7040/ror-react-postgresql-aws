@@ -1,0 +1,21 @@
+<variant>
+  <compare-at-price type="decimal">3.99</compare-at-price>
+  <created-at type="datetime">2012-08-18T02:37:08-04:00</created-at>
+  <fulfillment-service>manual</fulfillment-service>
+  <grams type="integer">0</grams>
+  <id type="integer">1000</id>
+  <product-id type="integer">100383216</product-id>
+  <inventory-management></inventory-management>
+  <inventory-policy>deny</inventory-policy>
+  <option1>Plum</option1>
+  <option2 nil="true"></option2>
+  <option3 nil="true"></option3>
+  <position type="integer">1</position>
+  <price type="decimal">2.99</price>
+  <requires-shipping type="boolean">true</requires-shipping>
+  <sku>ORGANZA-999</sku>
+  <taxable type="boolean">true</taxable>
+  <title>Black</title>
+  <updated-at type="datetime">2013-02-18T16:11:56-05:00</updated-at>
+  <inventory-quantity type="integer">1</inventory-quantity>
+</variant>

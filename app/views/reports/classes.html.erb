@@ -1,0 +1,98 @@
+<% content_for :head do -%>
+    <%= stylesheet_link_tag "/fullcalendar/fullcalendar.css" %>
+    <%= stylesheet_link_tag "/fullcalendar/fullcalendar.print.css", :media => "print" %>
+    <style>
+        #bta-tab {display:none}
+        #calendar .fc-content {height: 300px; overflow-y: auto;}
+    </style>
+<% end -%>
+
+<div class="content-box">
+  <div class="box-header clear no-print">
+    <h2>Class Enrollment</h2>
+    <div id='calendar'></div>
+  </div>
+  <div class="box-body clear no-print">
+    <div id="enrollment-report" class="clear">
+      <% if @resources.empty? %>
+      <div class="notification note-info">
+        <span class="icon"></span>
+        <p>No scheduled products found.</p>
+      </div>
+      <% end %>
+
+      <div id="enrollment">
+        <div class="notification note-info">
+          <span class="icon"></span>
+          <p>Select a class to view class enrollment.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<% content_for :footer do -%>
+    <%= javascript_include_tag '/fullcalendar/fullcalendar.js' %>
+    <script type="text/javascript">
+        function scheduled(start, finish, callback) {
+//            console.log([start, finish]);
+            $.getJSON("/availability/schedule", {
+                start:new XDate(start).toString("i"),
+                end:new XDate(finish).toString("i")
+            }, function (data) {
+	   console.log("I am in the classes;");
+console.log(data);
+                var map = schedadly.product_map(data.schedule);
+                map = $.map(map, function(item, n) {
+                    var title = [];
+                    title.push(item.bookingCount);
+                    title.push(" ppl");
+
+                    return $.extend(item, {
+                        title: title.join(''),
+                        resource: [item.handle],
+                        url: ''
+                    });
+                })
+
+                callback(map);
+            });
+        }
+
+        var calendar = $('#calendar').fullCalendar({
+            firstDay: 1,
+            minTime: 8, maxTime:16,
+            droppable: true, editable: true, theme: true, currentTimeIndicator: true,
+            selectable: false,
+            defaultView: $.cookie('bta.enrollment.view') || 'resourceWeek',
+            ignoreTimezone:true, // all dates are sent as utc
+            eventClick: function(calEvent, jsEvent, view) {
+//                console.log(calEvent);
+                var url = [];
+                url.push('/reports/enrollment?start=');
+                url.push(new XDate(calEvent.start).toString("i"));
+                url.push('&handle=');
+                url.push(calEvent.handle);
+                $('#enrollment').load(url.join(''));
+            },
+            events: scheduled,
+            resources: <%= raw(@resources) %>,
+            windowResize: function( view ) {
+                calendar.fullCalendar('option', 'height', $(window).height() - 40);
+            },
+            viewDisplay: function(view) {
+                $.cookie('bta.enrollment.view', view.name);
+            },
+            loading: function(isLoading, view ) {
+                isLoading ? $('#wait').show() : $('#wait').fadeOut();
+            },
+            eventAfterAllRender: function() {
+                $('.fc-event').addClass('ui-state-default');
+                $('.fc-event-title').addClass('ellipsis');
+                $('#wait').fadeOut();
+            }
+        });
+
+        $('.fc-header-center').prepend($('<div>').attr('id', 'wait').html('<div class="loading ui-icon" style="display:inline-block"></div>'));
+
+    </script>
+<% end %>

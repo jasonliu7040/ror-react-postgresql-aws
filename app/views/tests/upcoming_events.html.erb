@@ -1,0 +1,105 @@
+<div id="test">
+  <h1>Upcoming Events Test Page</h1>
+
+  <form action='/cart/add'>
+    <p>
+      <select id="product_id" class="product-picker">
+        <% @products.each do |product| %>
+            <option value="<%= product.id %>"
+                    data-handle="<%= product.product_handle %>"
+                    data-external-id="<%= product.external_id %>"
+                    data-config="<%= product.metafield_config %>">
+              <%= product.product_title %>
+            </option>
+        <% end %>
+      </select>
+    </p>
+
+    <p>
+      <select id="variant_id" class="product-picker-variants single-option-selector" name="id">
+      </select>
+    </p>
+
+    <hr/>
+
+    <div class="booking-form">
+      <table id="events" class="bta-upcoming-events-table" style="width:100%"
+             data-handle="{{ product.handle }}"
+             data-bta-max-events="12"
+             data-bta-product-config="{{ product.metafields.bookthatapp.config }}"
+             data-bta-variant-config="{% for variant in product.variants %}{{ variant.id }}:{{ variant.metafields.bookthatapp.config }}{% unless forloop.last %},{% endunless %}{% endfor %}">
+        <tr>
+          <td colspan="3" class="loading">Loading...</td>
+        </tr>
+      </table>
+    </div>
+
+    <hr/>
+
+    <label for="quantity">Quantity:</label>
+    <select id="quantity" name="quantity">
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>
+      <option>4</option>
+      <option>5</option>
+    </select>
+  </form>
+</div>
+
+<% content_for :foot do -%>
+    <script type="text/javascript">
+      // =================== Product Picker =======================
+      var widget = $('#events');
+
+      $('#variant_id').change(function () {
+        var variantId = $('#variant_id option:selected').attr('data-external-id');
+        widget.attr('data-variant', variantId);
+        bta.variantId = variantId;
+      });
+
+      $('#product_id').productVariantPicker({
+        variantElement: $('#variant_id'),
+        promptSelect: false,
+        productSelectedCallback: function (data) {
+          var selected = $('#product_id option:selected'),
+              config = [];
+
+          for (var i = 0; i < data.variants.length; i++) {
+            config.push(data.variants[i].external_id + ":" + data.variants[i].metafield_config);
+          }
+
+          widget.attr('data-handle', selected.attr('data-handle'));
+          widget.attr('data-bta-product-config', selected.attr('data-config'));
+          widget.attr('data-bta-variant-config', config.join(','));
+
+          var variantId = $('#variant_id option:selected').attr('data-external-id');
+          widget.attr('data-variant', variantId);
+          bta.variantId = variantId;
+
+          var btaForm = $('form[action="/cart/add"]').data('bta.bookingForm');
+          btaForm.initUpcomingEventsTable();
+        }
+      });
+
+      // =================== Upcoming Events JS =======================
+      var bta = {
+        product_id: "<%= Product.all.collect(&:external_id).join(',') %>"
+      };
+
+      $('form[action="/cart/add"]').on('bta.upcomingEventsLoaded', function (event, form) {
+        if ($('#events tr').length == 0) {
+          $('#events').append("<tr><td colspan='3'><i>No events scheduled at this time. Please check back later.</i></td></tr>");
+        }
+
+        if ($('#events tr').length == 0 || $('#events input[type=radio]').not(':disabled').length == 0) {
+          // no scheduled events are available - consider disabling the add to cart button here - e.g. $('#product-add').hide();
+        }
+      }).on('submit', function () {
+        if ($('#events tr').length == 0 || $('#events input[type=radio]').not(':disabled').length == 0) {
+          alert('No classes available');
+          return false;
+        }
+      });
+    </script>
+<% end %>

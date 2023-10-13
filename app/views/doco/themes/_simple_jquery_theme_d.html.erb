@@ -1,0 +1,6 @@
+// Add to cart animation
+$(".add-to-cart").click(function(e){
+    var elem = $(this);
+
+    var btaForm = $('form[action="/cart/add"]').data('bta.bookingForm');
+    if (btaForm && !btaForm.isRequiredValid()) return;

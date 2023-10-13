@@ -1,0 +1,10 @@
+{% comment %}
+BookThatApp auto installed snippet. Changes made to this file will be lost if installed again.
+{% endcomment %}
+
+{% capture attribute %}booking-start{% endcapture %}
+<label for="{{ attribute }}">From:</label>
+<input id="{{ attribute }}" type="text" name="attributes[From]" value="{{ cart.attributes[From] }}" class="datepicker bta bta-dp-start" size="12" />
+{% capture attribute %}booking-finish{% endcapture %}
+<label for="{{ attribute }}"> - </label>
+<input id="{{ attribute }}" type="text" name="attributes[To]" value="{{ cart.attributes[To] }}" class="datepicker bta bta-dp-finish" size="12" />

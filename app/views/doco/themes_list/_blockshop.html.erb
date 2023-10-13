@@ -1,0 +1,11 @@
+<% content_for :panel_head do %>
+  Blockshop
+<% end %>
+
+<% content_for :panel_body do %>
+  <h5>Product Page</h5>
+  <p>This theme uses foundation.js so the select boxes have styling applied. BookThatApp
+    select boxes update dynamically so the following Javascript needs to be added.</p>
+  <%= render_source partial: 'doco/themes/blockshop_product_a', path: 'snippets/booking-form.liquid - before' %>
+  <%= render_source partial: 'doco/themes/blockshop_product_b', path: 'snippets/booking-form.liquid - after' %>
+<% end %>

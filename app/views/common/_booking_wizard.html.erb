@@ -1,0 +1,20 @@
+<div id="bta-wizard">
+    <a class="handle" href="/apps/bookthatapp/products">Booking</a>
+    <h3>Booking Search</h3>
+    <form action="#">
+      <input type="hidden" name="shop" value="<%= current_account.subdomain %>.myshopify.com"/>
+      <table>
+        <tr>
+          <td><label for="booking-start">Start</label></td>
+          <td><label for="booking-finish">End</label></td>
+        </tr>
+        <tr>
+          <td><input type="text" id="booking-start" name="booking-start" class="datepicker bta" autocomplete="off" size="10"/></td>
+          <td><input type="text" id="booking-finish" name="booking-finish" class="datepicker bta" autocomplete="off" size="10"/></td>
+        </tr>
+        <tr>
+          <td colspan="2"><input type="submit" id="booking-search" value="Show availability"/></td>
+        </tr>
+      </table>
+    </form>
+</div>

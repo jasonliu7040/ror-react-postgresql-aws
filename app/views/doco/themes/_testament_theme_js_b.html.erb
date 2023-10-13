@@ -1,0 +1,24 @@
+...
+function addToCart(e){
+    if (typeof e !== 'undefined') e.preventDefault();
+
+    var form      = $(this).parents('form'),
+        btaForm = form.data('bta.bookingForm');
+
+    if ((typeof(btaForm) != "undefined") && !btaForm.isValid()) {
+        e.stopImmediatePropagation(); // prevents BTA's default form submit handler which also checks for validity
+        return false;
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: '/cart/add.js',
+        async: false,
+        data: form.serialize(),
+        dataType: 'json',
+        error: addToCartFail,
+        success: addToCartSuccess,
+        cache: false
+    });
+}
+...

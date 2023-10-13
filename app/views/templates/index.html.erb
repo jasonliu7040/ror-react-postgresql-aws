@@ -1,0 +1,175 @@
+<% content_for :head do %>
+    <%= stylesheet_link_tag 'mono-blue' %>
+<% end %>
+<h1>Configuration</h1>
+<p>Set up BookThatApp.</p>
+
+<div class="content-box">
+  <div class="box-header clear">
+    <h2>Templates</h2>
+  </div>
+  <div class="box-body clear">
+    <div class="template-section clear">
+      <div class="template-summary">
+        <h4>Notifications</h4>
+        <p>These templates are used when sending notifications about bookings</p>
+      </div>
+      <div class="template-content">
+        <table class="styled">
+          <thead>
+          <tr>
+            <th>Category</th>
+            <th>Template</th>
+            <th>Description</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td rowspan="2">New Booking</td>
+            <td><%= link_to "Confirmation", edit_template_path(@tmpls["new booking confirmation"]) %></td>
+            <td>Email sent to customers when a new booking is made using the booking form.</td>
+          </tr>
+          <tr>
+            <td><%= link_to "Notification", edit_template_path(@tmpls["new booking notification"]) %></td>
+            <td>Email sent to the store owner when a new booking is made using the booking form.</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="template-section clear">
+      <div class="template-summary">
+        <h4>Reminders</h4>
+        <p>These templates are used when sending reminders</p>
+      </div>
+      <div class="template-content">
+        <table class="styled">
+          <thead>
+          <tr>
+            <th>Template</th>
+            <th>Channel</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <% @reminder_tmpls.each do |template|%>
+            <tr>
+              <td><%= link_to template.name, edit_template_path(template) %></td>
+              <td><%= TemplateChannel.label(template.channel) %></td>
+              <td class="table-actions">
+                <%= link_to content_tag(:span, '', :class => "ui-icon ui-icon-trash"), template_path(template), data: {confirm: 'Are you sure you want to delete this template?'}, :class => 'ajax-delete' %>
+              </td>
+            </tr>
+          <% end %>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="3">
+                <%= link_to "Add Reminder Template", new_reminder_templates_path, class: 'submit' %>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+
+    <div class="template-section clear">
+      <div class="template-summary">
+        <h4>Store</h4>
+        <p>Templates used within your store</p>
+      </div>
+      <div class="template-content">
+        <table class="styled">
+          <thead>
+          <tr>
+            <th>Template</th>
+            <th>Description</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td><%= link_to @tmpls["calendar"].name, edit_template_path(@tmpls["calendar"]) %></td>
+            <td>
+              <p>Display scheduled products (view in your store: <a href="<%= "http://#{current_account.subdomain}.myshopify.com/apps/bookthatapp/calendar" %>" target="_blank">/apps/bookthatapp/calendar</a>).
+              <p>To add a link to the calendar to your store's navigation please refer to our help desk article:
+                <a href="http://support.shopifyconcierge.com/entries/22060628-creating-a-menu-link-to-the-calendar">creating a menu link to the calendar</a></p>
+            </td>
+          </tr>
+          <tr>
+            <td><%= link_to @tmpls["new booking"].name, edit_template_path(@tmpls["new booking"]) %></td>
+            <td>
+              <p>Standalone booking form (view in your store: <a href="<%= "http://#{current_account.subdomain}.myshopify.com/apps/bookthatapp/booking/new" %>" target="_blank">/apps/bookthatapp/booking/new</a>).
+            </td>
+          </tr>
+          <tr>
+            <td><%= link_to @tmpls["customer"].name, edit_template_path(@tmpls["customer"]) %></td>
+            <td>
+              <p>This template is used when you access <strong>/apps/bookthat/customer/<em>customer_id</em></strong>.</p>
+              <p>When using this template please ensure your store has been set up to allow customer accounts, and
+                the theme allows your customers to log in. Refer to the Shopify article
+                <a href="http://wiki.shopify.com/Customer_Accounts#Modifying_theme.liquid">Modifying theme.liquid for
+                  Customer Accounts</a> for more information.
+              </p>
+              <p>Once you have set up customer account files you can use the following code to provide a link to the
+                customer's bookings:</p>
+<pre><code>{% if shop.customer_accounts_enabled %}
+  {% if customer %}
+    &lt;a href="/apps/bookthat/customer/{{ customer.id }}">View your bookings&lt;/a>
+  {% else %}
+    {{ "Login to see your bookings" | customer_login_link }}
+  {% endif %}
+{% endif %}</code></pre>
+              <% if @last_booking %>
+                  <p>
+                    View in your store: <a href="<%= "http://#{current_account.subdomain}.myshopify.com/apps/bookthatapp/customer/#{@last_booking.customer_id}" %>" target="_blank">/apps/bookthatapp/customer</a>
+                  </p>
+              <% end %>
+            </td>
+          </tr>
+          <tr>
+            <td><%= link_to @tmpls["search"].name, edit_template_path(@tmpls["search"]) %></td>
+            <td>Search form displayed in the booking tab.</td>
+          </tr>
+          <tr>
+            <td><%= link_to @tmpls["products"].name, edit_template_path(@tmpls["products"]) %></td>
+            <td>Product listing of search results from the booking search form.</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="template-section clear">
+      <div class="template-summary">
+        <h4>PDF</h4>
+        <p>These templates are used when creating PDF files</p>
+      </div>
+      <div class="template-content">
+        <table class="styled">
+          <thead>
+          <tr>
+            <th>Template</th>
+            <th>Description</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td><%= link_to @tmpls["ticket"].name, edit_template_path(@tmpls["ticket"]) %></td>
+            <td>Booking confirmation</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="notification note-info"><span class="icon"></span>
+      <p>The following variables are available in the templates</p>
+      <table class="styled">
+        <tr><td class="label">shop</td><td>name</td></tr>
+        <tr><td class="label">booking</td><td>name, contact_phone, contact_email, order_name, items, notes</td></tr>
+        <tr><td class="label">booking.item (via booking.items)</td><td>start, finish, product, variant, quantity, sku</td></tr>
+      </table>
+    </div>
+  </div>
+</div>

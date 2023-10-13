@@ -1,0 +1,13 @@
+<%= render partial: 'common/breadcrumbs',
+           locals: {
+               section: 'Configuration',
+               crumbs: [
+                   {title: 'Configuration', path: ''},
+                   {title: 'Edit'}
+               ]
+           } %>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <%= render partial: 'templates/v2/form', locals: { title: "New Template" } %>
+</div>
+

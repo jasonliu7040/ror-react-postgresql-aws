@@ -1,0 +1,13 @@
+<% content_for :panel_head do %>
+    Solo
+<% end %>
+<% content_for :panel_body do %>
+    <h5>Product Page</h5>
+    <p>The booking form input fields (datepicker and timepicker) on the product page
+      need additional CSS styling. The following CSS should be added to the end of the file:</p>
+    <%= render_source partial: 'doco/themes/solo_timber_scss_liquid', path: 'assets/timber.scss.liquid' %>
+
+    <h5>Cart Page</h5>
+    <p>The quantity filed on the cart page should be changed to the following:</p>
+    <%= render_source partial: 'doco/themes/solo_cart', path: 'templates/cart.liquid', line: 76 %>
+<% end %>

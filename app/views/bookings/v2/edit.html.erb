@@ -1,0 +1,22 @@
+<%= render partial: 'common/breadcrumbs',
+           locals: {
+               section: 'Booking',
+               crumbs: [
+                   {title: 'Bookings', path: admin_bookings_path},
+                   {title: 'Booking', path: admin_booking_path(@booking)},
+                   {title: 'Edit'}
+               ]
+           } %>
+<%=
+  react_component(
+    'EditBookingsContainer',
+    shopId: @shopId,
+    isTrialAccount: @isTrialAccount,
+    booking: BookingSerializer.new(@booking, root: false).as_json,
+    products: ActiveModel::ArraySerializer.new(
+        @products,
+        each_serializer: ShortProductSerializer,
+        scope: {show_default_times: true}),
+    reminderTemplates: @reminder_templates,
+  )
+%>

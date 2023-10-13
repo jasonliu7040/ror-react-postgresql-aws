@@ -1,0 +1,24 @@
+<table>
+  <tr>
+    <td class="title"><%= f.label :repeat, "Recurring?" %></td>
+    <td class=""></td>
+  </tr>
+  <tr class="one-off">
+    <td class="title"><%= f.label :start_time, "Date Available" %></td>
+    <td class=""><%= f.text_field :start_time, :class=>'datepicker' %></td>
+  </tr>
+  <tr class="repeating">
+    <td class="title"><%= form.label :start_date, "Starting" %></td>
+    <td class="">
+      <%= schedule_fields.text_field :start_date, :class=>'datepicker' %> <%= form.label :start_date, "Ending" %>
+      <%= schedule_fields.text_field :end_date, :class=>'datepicker' %>
+    </td>
+  </tr>
+  <tr class="repeating">
+    <td class="title"><%= form.label :interval, "Every" %></td>
+    <td class="">
+      <%= schedule_fields.text_field :interval %>
+      <%= schedule_fields.select :interval_unit, options_for_select([['Days', 'day'], ['Weeks', 'week']], 'day') %>
+    </td>
+  </tr>
+</table>

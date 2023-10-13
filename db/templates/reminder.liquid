@@ -1,0 +1,18 @@
+<p>Hi {{ booking.name }},</p>
+<p>This is a reminder from {{ shop.name }} about your upcoming booking on {{ booking.start | date: "%m/%d/%Y %I:%M %p" }}.</p>
+<p>You booked:</p>
+<ul>
+{% for item in booking.items %}
+<li>{{ item.quantity }} x {{ item.product.title }} - {{ item.variant.title }} (sku: {{ item.sku }})</li>
+{% endfor %}
+</ul>
+{% if booking.contacts.size > 0 %}
+<h3>Attendees</h3>
+<ul>
+{% for contact in booking.contacts %}
+<li>{{ contact.first_name }} {{ contact.last_name }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+<p>See you then!</p>
+<p>{{ shop.name }}</p>

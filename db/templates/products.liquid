@@ -1,0 +1,15 @@
+<h2>Available Products</h2>
+<ul>
+    {% for product in products %}
+    <li{% cycle '', '', ' class="end"' %}>
+        <div class="image">
+            <div class="align">
+                <div><a href="{{ product.url }}"><img src="{{ product.featured_image | product_img_url: 'medium' }}" alt="{{ product.title | escape }}" /></a></div>
+            </div>
+        </div>
+        <h3><a href="{{ product.url }}">{{ product.title | escape | truncate: 25 }}</a></h3>
+        <p>By: <em>{{ product.vendor | upcase }}</em><br />
+        {{ product.price_min | money }}</p>
+    </li>
+    {% endfor %}
+</ul>

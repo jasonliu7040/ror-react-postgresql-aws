@@ -1,0 +1,262 @@
+<%= form_for current_account, :url => {:action => "update"} do |form| %>
+    <%= form.hidden_field :id %>
+    <%= hidden_field_tag 'ga_client_id', '', :class => 'ga-client-id' %>
+
+    <div id="settings" class="box-body">
+      <div class="tabs hidden">
+        <ul>
+          <li><a href="#datepicker">Datepickers</a></li>
+          <li><a href="#messages">Messages</a></li>
+          <li><a href="#product">Product Page</a></li>
+          <li><a href="#orders">Order Processing</a></li>
+          <li><a href="#reminders">Reminders</a></li>
+          <li><a href="#system">System</a></li>
+        </ul>
+
+          <%= form.error_messages %>
+          <%= form.fields_for :settings, current_account.settings do |setting_fields| %>
+              <div id="datepicker" class="clear">
+                <table class="styled">
+                  <tbody>
+                  <tr>
+                    <td class="title"><%= form.label :theme, "Theme" %></td>
+                    <td class="full">
+                      <%= raw setting_fields.select :theme, options_for_select(themes_for_select, setting_fields.object.theme)
+                      %>
+                      <div style="float:right; padding:10px 10px 0 10px; background-color: #000;">
+                        <img id="theme-preview"/>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="title"><%= form.label :region, "Region" %></td>
+                    <td class="full">
+                      <%= raw setting_fields.select :region, options_for_select(regions_for_select, setting_fields.object.region) %>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="title"><%= form.label :df, "Date Format" %></td>
+                    <td class="full"><%= raw setting_fields.text_field :df %></td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div id="messages" class="clear">
+                <table class="styled">
+                  <tbody>
+                  <tr>
+                    <td class="title"><%= form.label :message_booked_out, "Booked Out" %></td>
+                    <td class="full"><%= raw setting_fields.text_field :message_booked_out %></td>
+                  </tr>
+                  <tr>
+                    <td class="title"><%= form.label :message_blacked_out, "Blacked Out" %></td>
+                    <td class="full"><%= raw setting_fields.text_field :message_blacked_out %></td>
+                  </tr>
+                  <tr>
+                    <td class="title"><%= form.label :message_unscheduled, "Not Scheduled" %></td>
+                    <td class="full"><%= raw setting_fields.text_field :message_unscheduled %></td>
+                  </tr>
+                  <tr>
+                    <td class="title"><%= form.label :message_unavailable, "Unavailable" %></td>
+                    <td class="full"><%= raw setting_fields.text_field :message_unavailable %></td>
+                  </tr>
+                  <tr>
+                    <td class="title"><%= form.label :message_closed, "Closed" %></td>
+                    <td class="full"><%= raw setting_fields.text_field :message_closed %></td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div id="product" class="clear">
+                <table class="styled">
+                  <tbody>
+                  <tr>
+                    <td class="title"><%= form.label :quantity_range, "Date range updates quantity?" %></td>
+                    <td class="full">
+                      <%= raw setting_fields.select :quantity_range, options_for_select([['No', 'no'], ['Yes', 'yes']], setting_fields.object.quantity_range) %>
+                      <%= image_tag("ico_info_16.png", :class => "help icon", data: {tooltip: "This setting works when a date range is being captured on the product page. When set to Yes the
+                      quantity on the product page will be set to the number of days selected by the customer using the From and To dates and only 1 booking is created.<br/>
+                      Use this for stores where the variant price reflects the daily charge."}) %>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div id="orders" class="clear">
+                <table class="styled">
+                  <tbody>
+                  <tr>
+                    <td class="title">
+                      <%= form.label :consolidate_bookings, "Consolidated Bookings" %>
+                    </td>
+                    <td class="full">
+                      <%= form.check_box :consolidate_bookings %>
+                      <%= image_tag("ico_info_16.png", :class => "help icon", data: {tooltip: "This setting determines how bookings are created when processing an incoming order with multiple products.<br/><br/>
+                  When checked a single booking is created with booking lines corresponding to each order line. If unchecked each order
+                  line creates a separate booking."}) %>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+
+            <div id="reminders" class="clear">
+              <% if current_account.templates.where(category: 'reminder').exists? %>
+                  <table class="styled">
+                    <tr>
+                      <td class="title">Send Reminders</td>
+                      <td class="full">
+                        <%= form.check_box :send_reminders %>
+                      </td>
+                    </tr>
+                    <tr id="reminder_configs" style="display:none">
+                      <td class="title">Reminder Schedule</td>
+                      <td class="full">
+                        <table class="styled without-cell-border">
+                          <thead>
+                          <tr>
+                            <th>When</th>
+                            <th>Template</th>
+                            <th></th>
+                          </tr>
+                          </thead>
+                          <tbody id="reminder_builder">
+                          <%= form.fields_for :reminder_configs do |reminder| %>
+                              <%= render 'reminder_config_fields', f: reminder %>
+                          <% end %>
+                          </tbody>
+                          <tfoot>
+                          <tr class="nested-form-actions">
+                            <td colspan="4">
+                              <%= link_to_add_association 'Add Reminder', form, :reminder_configs, class: 'submit', :data => {:association_insertion_node => '#reminder_builder', :association_insertion_method => 'append'} %>
+                            </td>
+                          </tr>
+                          </tfoot>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+              <% else %>
+                  <div class="notification note-info"><span class="icon"></span>
+                    <p>To set up a reminders please <%= link_to 'create a reminder template first', new_reminder_templates_path %>.</p>
+                  </div>
+              <% end %>
+            </div>
+
+            <div id="system" class="clear">
+                <table class="styled">
+                  <tbody>
+                  <tr>
+                    <td class="title">Timezone</td>
+                    <td class="full">
+                      <p><%= h current_account.timezone %></p>
+                      <%= submit_tag 'Resync Timezone', :class => 'submit', name: 'reset_timezone' %>
+                      <p>If you have changed the timezone in Shopify then click this button to update BookThatApp</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="title">Script/Webhooks</td>
+                    <td class="full">
+                      <%= submit_tag 'Reinstall Scripts/Webhooks', :class => 'submit', name: 'reset_system' %>
+                      <p>We may ask you to click this as part of troubleshooting a support ticket</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="full" colspan="2">
+                      <h4>Scripts</h4>
+                      <ul>
+                        <% @scripts.each do |script| -%>
+                            <li><%= script.event %>: <%= script.src %></li>
+                        <% end %>
+                      </ul>
+                      <h4>Webhooks</h4>
+                      <ul>
+                        <% @hooks.each do |hook| -%>
+                            <li><%= hook.topic %>: <%= hook.address %></li>
+                        <% end %>
+                      </ul>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="title">Product Synchronization</td>
+                    <td class="full">
+                      <%= submit_tag 'Synchronize Product', :class => 'submit', name: 'reset_products' %>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+          <% end %>
+      </div>
+    </div>
+
+    <div class="box-body">
+      <div class="tab-footer">
+        <div class="button-bar">
+          <%= form.submit 'Save Settings', :id => "save", :class => "submit" %>
+        </div>
+      </div>
+    </div>
+<% end %>
+
+<% content_for :footer do %>
+    <%= javascript_include_tag :cocoon %>
+    <script>
+
+      $('.remtime').each(function () {
+        var duration = $(this).find('.remtime-duration').val();
+        if (duration < 60) {
+          $(this).find('#remtime-input').val(duration);
+          $(this).find('#remtime-input-units').val('minutes');
+        } else if (duration < (60 * 24)) {
+          $(this).find('#remtime-input').val(duration / 60);
+          $(this).find('#remtime-input-units').val('hours');
+        } else {
+          $(this).find('#remtime-input').val(duration / 60 / 24);
+          $(this).find('#remtime-input-units').val('days');
+        }
+      });
+
+      $('form[action="/settings/update"]').submit(function () {
+        $('.remtime').each(function () {
+          var remTime = $(this).find('#remtime-input').val();
+          var units = $(this).find('#remtime-input-units option:selected').val();
+
+          if (units == "hours") {
+            remTime = remTime * 60;
+          }
+          if (units == "days") {
+            remTime = remTime * 60 * 24;
+          }
+          $(this).find('.remtime-duration').val(remTime);
+        });
+      });
+
+      <% if current_account.send_reminders %>
+      $('#reminder_configs').show();
+      <% end %>
+
+      $('#shop_send_reminders').click(function () {
+        if ($('#shop_send_reminders').is(':checked')) {
+          $('#reminder_configs').show();
+        } else {
+          $('#reminder_configs').hide();
+        }
+      });
+
+      function previewTheme(theme) {
+        $('#theme-preview').attr('src', '/images/themeroller/theme_90_' + theme.replace('-', '_') + '.png');
+      }
+
+      $('#shop_settings_theme').change(function () {
+        previewTheme($(this).val());
+      });
+
+      previewTheme($('#shop_settings_theme').val());
+
+      $('.tabs').tabs({cache: false}).show();
+    </script>
+<% end %>

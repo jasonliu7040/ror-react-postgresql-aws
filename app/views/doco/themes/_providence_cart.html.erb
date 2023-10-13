@@ -1,0 +1,11 @@
+{% if item.properties %}
+<span class="variant text-color-light">
+{% for p in item.properties %}
+{% unless p.last == blank %}
+    {{ p.first | replace: 'booking-start', 'Date' | replace: 'booking-time', 'Time' }}:
+    {% if p.last contains '/uploads/' %}<a class="lightbox" href="{{ p.last }}">{{ p.last | split: '/' | last }}</a>
+    {% else %}{{ p.last }}{% endif %}<br/>
+{% endunless %}
+{% endfor %}
+</span>
+{% endif %}

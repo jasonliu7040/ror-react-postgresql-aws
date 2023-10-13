@@ -1,0 +1,29 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: Blue Room
+  description: Blue Room
+  user_id:
+  resource_type: Room
+  shop_id: 1
+
+two:
+  name: Projector
+  description: Projection Equip
+  user_id:
+  resource_type: Equipment
+  shop_id: 2
+
+three:
+  name: UsedControllers Only
+  description: try to use in creates and stuff
+  user_id: 1
+  resource_type: Staff
+  shop_id: 1
+
+four:
+  shop_id: 1
+  name: Jay Bird
+  description: Barman
+  resource_type: Staff
+  user_id: 1

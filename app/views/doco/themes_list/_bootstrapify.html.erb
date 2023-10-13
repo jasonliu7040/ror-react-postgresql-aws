@@ -1,0 +1,9 @@
+<% content_for :panel_head do %>
+  Bootstrapify
+<% end %>
+
+<% content_for :panel_body do %>
+  <h5>Product Page</h5>
+  <p>The booking form should be included in a snippet called <em>product-add-to-cart-form.liquid</em>.</p>
+  <%= render_source partial: 'doco/themes/include_booking_form', path: 'snippets/product-add-to-cart-form.liquid', line: 38 %>
+<% end %>

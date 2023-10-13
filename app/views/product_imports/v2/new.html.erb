@@ -1,0 +1,19 @@
+<%= render partial: 'common/breadcrumbs',
+           locals: {
+               section: 'Products',
+               crumbs: [
+                   {title: 'Configuration', path: ''},
+                   {title: 'Product Import'}
+               ]
+           } %>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+          <%= form_for @import, :html => { :multipart => true, class:  'form-horizontal' }, :url => {:action => 'create'} do |form| %>
+            <%= render :partial => 'product_imports/v2/form', :locals => {:form => form} %>
+          <% end %>
+
+    </div>
+  </div>
+</div>

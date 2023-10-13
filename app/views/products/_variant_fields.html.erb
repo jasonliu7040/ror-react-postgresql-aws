@@ -1,0 +1,50 @@
+<tr class="variant-fields">
+  <td>
+    <%= f.hidden_field :external_id %>
+    <%= f.hidden_field :option1 %>
+    <%= f.hidden_field :option2 %>
+    <%= f.hidden_field :option3 %>
+    <%= f.hidden_field :sku %>
+    <%= f.hidden_field :settings_yaml %>
+    <%= f.text_field :title, :readonly => true %>
+  </td>
+
+  <% if !$flipper[:duration_v2].enabled?(current_account) %>
+  <td>
+    <div class="intra-day">
+      <%= f.check_box :all_day, :class => 'no-uniform all-day' %> <%= f.label :all_day, "All Day?" %><br/>
+      <%= f.number_field :duration, :size => 4, :min=> 1, :class => 'decimal', :value => number_with_precision(f.object.duration, :precision => 0), :required => 'required' %> <%= f.select :duration_units, options_for_select([['Minutes', '0'], ['Hours', '1'], ['Days', '2'], ['Weeks', '3']], f.object.duration_units) %>
+    </div>
+  </td>
+  <% end %>
+
+  <% if @legacy_variant_times %>
+  <% unless f.object.new_record? %>
+      <td class="hours-available">
+        <% unless f.object.schedule.blank? %>
+            <div class="variant-dow" style="display:none">
+              <input type="checkbox" value="0" name="variant_dow" id="<%= f.object.id %>_variant_dow_sun"/><label for="<%= f.object.id %>_variant_dow_sun">Sun</label>
+              <input type="checkbox" value="1" name="variant_dow" id="<%= f.object.id %>_variant_dow_mon"/><label for="<%= f.object.id %>_variant_dow_mon">Mon</label>
+              <input type="checkbox" value="2" name="variant_dow" id="<%= f.object.id %>_variant_dow_tue"/><label for="<%= f.object.id %>_variant_dow_tue">Tue</label>
+              <input type="checkbox" value="3" name="variant_dow" id="<%= f.object.id %>_variant_dow_wed"/><label for="<%= f.object.id %>_variant_dow_wed">Wed</label>
+              <input type="checkbox" value="4" name="variant_dow" id="<%= f.object.id %>_variant_dow_thu"/><label for="<%= f.object.id %>_variant_dow_thu">Thu</label>
+              <input type="checkbox" value="5" name="variant_dow" id="<%= f.object.id %>_variant_dow_fri"/><label for="<%= f.object.id %>_variant_dow_fri">Fri</label>
+              <input type="checkbox" value="6" name="variant_dow" id="<%= f.object.id %>_variant_dow_sat"/><label for="<%= f.object.id %>_variant_dow_sat">Sat</label>
+            </div>
+        <% end %>
+        <div class="time-cell profiled profile-appt profile-activity" style="display:none">
+          <%= f.label :start_time, "Start" %><%= f.time_select :start_time %><br/>
+          <%= f.label :finish_time, "Finish" %><%= f.time_select :finish_time %>
+        </div>
+      </td>
+  <% end %>
+  <% end %>
+
+  <td class="party-size-cell">
+    <%= f.number_field :party_size, :size => 4, :required => 'required', :min => 1, :class => 'profiled profile-class profile-activity' %>
+  </td>
+
+  <td>
+    <%= f.check_box :ignore %>
+  </td>
+</tr>

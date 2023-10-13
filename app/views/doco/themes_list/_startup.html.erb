@@ -1,0 +1,13 @@
+<% content_for :panel_head do %>
+    Startup
+<% end %>
+<% content_for :panel_body do %>
+    <h5>Product Page</h5>
+    <p>The Startup theme uses an Ajax add to cart. To ensure the date is captured on the product page you will
+      need to add an id attribute to the product form with value 'product-form', then change site.js (line 450) so
+      that it uses <code>return Shopify.addItemFromForm('product-form', function(cartItem) {</code>.</p>
+
+    <p>If you are updating the variant dynamically (e.g. selecting a variant depending on number of days in
+      a date range) use the following Javascript in booking-form.snippet:</p>
+    <%= render_source partial: 'doco/themes/startup_booking_form', path: 'snippets/booking-form.liquid' %>
+<% end %>

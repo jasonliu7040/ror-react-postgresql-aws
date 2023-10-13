@@ -1,0 +1,73 @@
+<div id="blackout-form">
+  <%= render 'common/error_messages', :object => form.object %>
+  <%= form.hidden_field :id %>
+  <%= hidden_field_tag 'ga_client_id', '', :class => 'ga-client-id' %>
+
+  <table class="styled">
+    <caption>Blackout Period</caption>
+    <tbody>
+    <tr>
+      <td class="title">
+        <%= form.label 'Product' %>
+        <em><small>Leave unselected to create a global blackout</small></em>
+      </td>
+      <td>
+        <%= collection_select(:blackout, :product_id, @products, :id, :product_title, {:prompt => 'Select product'}, {:class => 'product-picker'}) %>
+      </td>
+    </tr>
+    <tr>
+      <td class="title"><%= form.label 'Variant' %></td>
+      <td>
+        <%= collection_select(:blackout, :variant_id,
+                              @variants,
+                              :id, :title, {:prompt => 'Select Variant...'},
+                              {:class => 'product-picker-variant', :data_variant_id => form.object.variant_id }
+            ) %>
+      </td>
+    </tr>
+    <tr>
+      <td class="title"><%= form.label :start, 'Date/Time' %></td>
+      <td>
+        <%= check_box(:blackout, :all_day, {:class=> 'all_day_toggle'}, 1, 0) %><%= form.label :all_day, 'All Day' %>
+        <br/>
+        <%= form.text_field :start, :size => 15, :value => scheduled_at(form.object.start, form.object.all_day),
+                            :autocomplete => 'off',
+                            id: 'blackout_start', name: 'blackout[start]', :required => true %>
+         -
+        <%= form.text_field :finish, :size => 15, :value => scheduled_at(form.object.finish, form.object.all_day),
+                            :autocomplete => 'off',
+                            id: 'blackout_finish', name: 'blackout[finish]', :required => true %>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="tab-footer">
+    <div style="text-align:right">
+      <%= form.submit 'Save', :id => 'save', :class => 'submit' %>
+      <%= form.submit 'Delete', :id => 'delete', :class => 'submit', :name => 'delete', :confirm => 'Are you sure you want to delete this blackout period?', :disabled => form.object.new_record? ? true : false %>
+      <%= link_to 'Cancel', events_path %>
+    </div>
+  </div>
+</div>
+
+<% content_for :footer do %>
+  <%= javascript_include_tag '/javascripts/schedadly-event-form.js' %>
+
+  <script>
+    var elm = $('.all_day_toggle');
+
+    elm.data('start_element', $('#blackout_start'));
+    elm.data('finish_element', $('#blackout_finish'));
+    elm.data('start_time', new Date(<%= form.object.start.to_f * 1000 %>));
+    elm.data('finish_time', new Date(<%= form.object.finish.to_f * 1000 %>));
+
+    $('#blackout_product_id').productVariantPicker({
+      variantElement: $('#blackout_variant_id'),
+      productSelectedCallback: function() {
+        var variantSelect = $('#blackout_variant_id');
+        variantSelect.val(variantSelect.attr('data_variant_id'));
+      }
+    });
+  </script>
+<% end %>

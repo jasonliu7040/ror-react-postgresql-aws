@@ -1,0 +1,74 @@
+DEFAULTS: &DEFAULTS
+  shop_id: 1
+  body: "{% if shop.customer_accounts_enabled %}\r\n    {% if customer  %}\r\n        {% for booking in bookings %}\r\n            {{ booking.name }}<br/>\r\n        {% endfor %}\r\n    {% else %}\r\n        {{ \"Please login to see your bookings\" | customer_login_link }}\r\n    {% endif %}\r\n{% endif %}\r\n"
+  cc:
+
+one:
+  <<: *DEFAULTS
+  id: 1
+  name: customer
+  subject:
+  category:
+  channel:
+  shop_id: 1
+
+reminder_email_template_for_before_event:
+  <<: *DEFAULTS
+  id: 2
+  name: Email
+  subject: 'email before event'
+  category: 'reminder'
+  channel: 'email'
+  body: '<p>Hi {{ booking.name }},</p>
+         <p>This is a reminder from {{ shop.name }} about your upcoming booking on {{ reminder_trigger.booking_start | date: "%m/%d/%Y" }}.</p>
+         <p>You booked:</p>
+         <ul>
+         {% assign items = booking.items | matching_times: reminder_trigger %}{% for item in items %}<li><strong>{{ item.start | date:"%m/%d/%Y %I:%M %p" }}-{{ item.finish | date: "%m/%d/%Y %I:%M %p" }}</strong> {{ item.quantity }} x {{ item.product.title }} - {{ item.variant.title }} (sku: {{ item.sku }})</li>{% endfor %}
+         <ul>
+         {% if booking.contacts.size > 0 %}
+         <h3>Attendees</h3>
+         <ul>
+         {% for contact in booking.contacts %}
+         <li>{{ contact.first_name }} {{ contact.last_name }}</li>
+         {% endfor %}
+         </ul>
+         {% endif %}
+         <p>See you then!</p>
+         <p>{{ shop.name }}</p>
+         '
+
+reminder_sms_template_for_before_event:
+  <<: *DEFAULTS
+  id: 3
+  name: Sms
+  subject: 'sms before event'
+  category: 'reminder'
+  channel: 'sms'
+
+reminder_email_template_for_after_event:
+  id: 4
+  shop_id: 1
+  body: "template for 1 shop"
+  cc:
+  name: Email
+  subject: 'email after event'
+  category: 'reminder'
+  channel: 'email'
+
+reminder_sms_template_for_after_event:
+  <<: *DEFAULTS
+  id: 5
+  name: Sms
+  subject: 'sms after event'
+  category: 'reminder'
+  channel: 'sms'
+
+reminder_email_template_for_after_event_for_shop4:
+  id: 6
+  shop_id: 11
+  body: "template for 11 shop"
+  cc:
+  name: Email
+  subject: 'email after event'
+  category: 'reminder'
+  channel: 'email'

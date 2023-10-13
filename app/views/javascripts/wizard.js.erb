@@ -1,0 +1,44 @@
+var Loader = function () {}
+Loader.prototype = {
+    require: function (scripts, callback) {
+        this.loadCount      = 0;
+        this.totalRequired  = scripts.length;
+        this.callback       = callback;
+
+        for (var i = 0; i < scripts.length; i++) {
+            this.writeScript(scripts[i]);
+        }
+    },
+    loaded: function (evt) {
+        this.loadCount++;
+
+        if (this.loadCount == this.totalRequired && typeof this.callback == 'function') this.callback.call();
+    },
+    writeScript: function (src) {
+        var self = this;
+        var s = document.createElement('script');
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = src;
+        s.addEventListener('load', function (e) { self.loaded(e); }, false);
+        var head = document.getElementsByTagName('head')[0];
+        head.appendChild(s);
+    }
+}
+
+new Loader().require([
+    "/javascripts/jquery.tabSlideOut.v1.3.js"
+], function() {
+    $('#bta-wizard').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: 'images/contact_tab.gif', //path to the image for the tab //Optionally can be set using css
+//        imageHeight: '122px',                     //height of tab image           //Optionally can be set using css
+//        imageWidth: '40px',                       //width of tab image            //Optionally can be set using css
+//        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: false                      //options: true makes it stick(fixed position) on scroll
+    });
+});

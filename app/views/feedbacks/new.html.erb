@@ -1,0 +1,60 @@
+<div class="content-box">
+  <div class="box-header clear">
+    <h2>Feedback</h2>
+  </div>
+  <div class="box-body clear">
+    <%= form_for @feedback, url: feedback_path do |f| %>
+        <div class="notification note-info" >
+          <span class="icon"></span><p>Using the form below please let us know how we can help make BookThatApp a better
+          product. We thank you for taking the time to provide your feedback and appreciate your candid input.</p>
+        </div>
+
+        <%= render 'common/error_messages', :object => f.object %>
+        <table class="form-table styled">
+          <tbody>
+          <tr>
+            <td class="title">
+              <%= f.label :name %>
+            </td>
+            <td>
+              <%= f.text_field :name, required: true %>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="title">
+              <%= f.label :email %>
+            </td>
+            <td>
+              <%= f.email_field :email, required: true %>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="title">
+              <%= f.label :subject %>
+            </td>
+            <td>
+              <%= f.text_field :subject, required: true %>
+            </td>
+          </tr>
+          <tr>
+            <td class="title">
+              <%= f.label :content, 'Feedback' %>
+            </td>
+            <td>
+              <%= f.text_area :content, required: true %>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
+        <div class="tab-footer clear" style="display: block; margin-top: 20px;">
+          <div class="button-bar">
+            <%= f.submit "Submit Feedback" %>
+            <%= link_to "Close", events_path %>
+          </div>
+        </div>
+    <% end %>
+  </div>
+</div>

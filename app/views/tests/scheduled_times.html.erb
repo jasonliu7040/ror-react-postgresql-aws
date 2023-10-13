@@ -1,0 +1,82 @@
+<% content_for :head do -%>
+    <style>
+    label {width:160px; display:inline-block;}
+    </style>
+    <script type="text/javascript">
+        function availabilityCall() {
+            // request product info for testing purposes
+            var date = $('#add input.datepicker').datepicker('getDate');
+            if (date) {
+                bta.cache = {};
+                bta.productId = $('#product_id option:selected').attr('data-external-id');
+                bta.availability(date);
+            }
+        }
+    </script>
+<% end %>
+
+<div id="test">
+<h1>Scheduled Times Widget Test Page</h1>
+<button onclick="javascript:void(availabilityCall()); return false;">Ajax Availability</button>
+<hr/>
+<form id="add" action='/cart/add'>
+  <p>
+    <label for="product_id">Product:</label>
+    <select id="product_id" class="product-picker">
+      <% @products.each do |product| %>
+        <option value="<%= product.id %>" data-handle="<%= product.product_handle %>" data-external-id="<%= product.external_id %>"><%= product.product_title %></option>
+      <% end %>
+    </select>
+  </p>
+
+  <p>
+    <label for="variant_id">Variant:</label>
+    <select id="variant_id" class="product-picker-variants" name="id">
+    </select>
+  </p>
+
+  <div class="selector-wrapper">
+    <label>Date:</label>
+    <input id="booking-start" type="text" name="properties[booking-start]" class="datepicker bta" size="12" data-handle="almost-decadent-black" data-variant="27763442" data-bta-product-config="<%= product_metafield_config(27763442) %>" data-bta-variant-config="<%= variant_metafield_config(27763442) %>" disabled="disabled" data-time="" />
+    <!-- scheduled times widget -->
+    <div class="bta-scheduled-times-widget" data-label="Class Time:" data-prompt="Choose a date..." data-datepicker="booking-start">
+      <p class="loading">Loading class schedule...</p>
+      <div class="booked-out-message" style="display:none">Sorry, that class is full.</div>
+    </div>
+  </div>
+</form>
+</div>
+
+<% content_for :foot do -%>
+
+<script type="text/javascript">
+  var widget = $('#booking-start');
+  widget.attr('data-handle', $('#product_id option:selected').attr('data-handle'));
+  widget.attr('data-bta-product-config', $('#product_id option:selected').attr('data-config'));
+  $('#product_id').productVariantPicker({
+    variantElement: $('#variant_id'),
+    promptSelect: false,
+    productSelectedCallback: function (data) {
+      var selected = $('#product_id option:selected'),
+          config = [];
+
+      for (var i = 0; i < data.variants.length; i++) {
+        config.push(data.variants[i].external_id + ":" + data.variants[i].metafield_config);
+      }
+
+      widget.attr('data-handle', selected.attr('data-handle'));
+      widget.attr('data-bta-product-config', selected.attr('data-config'));
+      widget.attr('data-bta-variant-config', config.join(','));
+    }
+  });
+
+  var form = $('#add');
+  form.on('change', '.product-picker-variants', function() {
+    var btaForm = form.data('bta.bookingForm');
+    btaForm.updateSelectedVariant();
+//    var variantId = $('#variant_id option:selected').attr('data-external-id');
+//    widget.attr('data-variant', variantId);
+    bta.variantId = variantId;
+  });
+</script>
+<% end %>

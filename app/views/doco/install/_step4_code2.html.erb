@@ -1,0 +1,11 @@
+<ul>
+  {% for line in line_items %}
+    <li>
+      <img src="{{ line | img_url: 'thumb' }}" /> {{ line.quantity }} x {{ line.title }} for {{ line.price | money }} each
+      {% for p in line.properties %}
+        <br/>{{ p.first }}:
+        {{ p.last }}
+      {% endfor %}
+    </li>
+  {% endfor %}
+</ul>

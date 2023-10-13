@@ -1,0 +1,57 @@
+<% content_for :head do -%>
+  <%= stylesheet_link_tag 'mono-blue' %>
+<% end -%>
+
+<% content_for :footer do -%>
+<script>
+    $("form").submitWithAjax();
+</script>
+<% end -%>
+
+<h1>Developer Guide</h1>
+<p>Instructions on how to integrate with BookThatApp.</p>
+
+<div class="content-box">
+	<div class="box-header clear">
+	    <h2>Cart Page</h2>
+	</div>
+	<div class="box-body clear">
+	    <div class="side-bar clear">
+		    <div class="sidebar-column clear">
+                <p><strong>Recommended Reading:</strong> The Shopify wiki article <a href="http://docs.shopify.com/support/your-store/6-products/how-do-I-collect-additional-information-on-the-product-page-Like-for-a-monogram-engraving-or-customization#updating-cart-liquid" target="_blank">Line Item Properties</a>
+                describes how to capture line item properties. We use use this approach to capture dates and times on the product page.</p>
+              <%= render 'install' %>
+		    </div>
+		    <div class="main-column clear">
+		    	<h3>Introduction</h3>
+                <p>The cart page is where you display the date and time values captured on the product page, or you may
+              choose to capture the date and time for all the products in the cart.</p>
+              <h3>Per Product Date & Time</h3>
+		    	<p>Booking attributes gathered on the product page (<a href="/doco/product">instructions</a>) are captured as <a href="http://wiki.shopify.com/Line_Item_Properties" target="_blank">Line Item Properties</a> on
+                  the order. All recent themes support these, but you may need to update your cart.liquid template if you have
+                  an older one.</p>
+              <p>To replace the standard BookThatApp attributes with something more user friendly, we recommend using the
+              'replace' filter on the cart page.</p>
+              <p><strong><em>cart.liquid</em></strong> (template):</p>
+<pre><code>{% for p in item.properties %}
+{% unless p.last == blank %}
+    &lt;p>{{ p.first | replace: 'booking-start', 'Date' | replace: 'booking-time', 'Time' }}:
+    {% if p.last contains '/uploads/' %}&lt;a class="lightbox" href="{{ p.last }}">{{ p.last | split: '/' | last }}&lt;/a>
+    {% else %}{{ p.last }}{% endif %}
+    &lt;/p>
+{% endunless %}
+{% endfor %}</code></pre>
+              <h3>Date For All Cart Products</h3>
+              <p>You can alternatively capture a booking date for all the products in the cart. Please note that you do not
+              need to capture any information on the product page. Look for your cart form and paste the following code (in-between the ...'s) in <em>cart.liquid</em>:</p>
+              <p><strong><em>cart.liquid</em></strong> (template):</p>
+<pre><code>&lt;form action="/cart" method="post" id="cartform">
+  ...
+  &lt;label for="booking">Please enter the date of your event:&lt;/label>
+  &lt;input id="booking" type="text" name="attributes[booking]" value="{{ cart.attributes[booking] }}" size="12" class="datepicker bta bta-load-enable" autocomplete="off" disabled="disabled" />
+  ...
+&lt;/form></code></pre>
+			</div>
+	    </div>
+	</div>
+</div>

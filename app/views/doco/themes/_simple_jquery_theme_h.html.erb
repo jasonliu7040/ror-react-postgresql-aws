@@ -1,0 +1,13 @@
+<p>{{ item.product.description | strip_html | truncatewords: 20 }}</p>
+<p>
+  {% for p in item.properties %}
+  {% unless p.last == blank %}
+  {{ p.first }}:
+  {% if p.last contains '/uploads/' %}
+  <a class="lightbox" href="{{ p.last }}">{{ p.last | split: '/' | last }}</a>
+  {% else %}
+  {{ p.last }}
+  {% endif %}<br>
+  {% endunless %}
+  {% endfor %}
+</p>

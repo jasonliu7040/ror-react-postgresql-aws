@@ -1,0 +1,12 @@
+<div class="notification note-error" <% if object.errors.empty? %>style="display:none"<% end %>>
+  <span class="icon"></span>
+  <p>
+    <strong><span class="error-count"><%= pluralize(object.errors.count, "error") %></span>
+      prohibited this <%= object.class.to_s.underscore.humanize.downcase %> from being saved:</strong>
+  </p>
+  <ul>
+    <% object.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+    <% end %>
+  </ul>
+</div>

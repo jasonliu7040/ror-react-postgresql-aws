@@ -1,0 +1,277 @@
+gav:
+  id: 1
+  shop_id: 1
+  email: gavin@shopifyconcierge.com
+  start: <%= 1.day.from_now.utc.to_s(:db) %>
+  finish: <%= 2.day.from_now.utc.to_s(:db) %>
+  type: Booking
+  product_id: 1
+  variant_id: 1
+  external_variant_id: 1
+  external_product_id: 1
+  all_day: 0
+  order_id: 123132311
+  status: 2
+  booking_names_count: 1
+  notes: gav
+
+scheduled_daily_product_booking:
+  shop_id: 1
+  type: Booking
+  name: Gavin
+  email: gavin@shopifyconcierge.com
+  start: <%= 1.day.from_now.utc.to_s(:db) %>
+  finish: <%= 2.day.from_now.utc.to_s(:db) %>
+  status: 2
+  notes: scheduled_daily_product_booking
+
+tomorrow_for_scheduled_daily_product:
+  id: 2
+  shop_id: 1
+  type: Booking
+  email: gavin@shopifyconcierge.com
+  start: <%= 1.day.from_now.utc.to_s(:db) %>
+  finish: <%= 2.day.from_now.utc.to_s(:db) %>
+  status: 2
+  product_id: 7
+  order_id: 1
+  order_name: tomorrow_for_scheduled_daily_product
+  notes: tomorrow_for_scheduled_daily_product
+
+three_days_for_scheduled_daily_product:
+  shop_id: 1
+  type: Booking
+  start: <%= 8.day.from_now.midnight.utc.to_s(:db) %>
+  finish: <%= 9.day.from_now.midnight.utc.to_s(:db) %>
+  email: gavin@shopifyconcierge.com
+  status: 2
+  product_id: 7
+  order_id: 1
+  order_name: three_days_for_scheduled_daily_product
+
+tomorrow_for_one_off_date_product:
+  id: 4
+  shop_id: 1
+  email: gavin@shopifyconcierge.com
+  start: <%= 4.day.from_now.utc.to_s(:db) %>
+  finish: <%= 5.day.from_now.utc.to_s(:db) %>
+  type: Booking
+  product_id: 6
+  all_day: 1
+  status: 2
+  order_id: 1
+  order_name: tomorrow_for_one_off_date_product
+
+week_blackout_product:
+  id: 3
+  shop_id: 1
+  email: gavin@shopifyconcierge.com
+  start: <%= 1.day.from_now.utc.to_s(:db) %>
+  finish: <%= 2.day.from_now.utc.to_s(:db) %>
+  type: OldBlackout
+  product: blackout_product  # scheduled daily, capacity 1
+  all_day: 1
+  status: 2
+  order_id: 1
+  order_name: week_blackout_product
+
+random_blackout_product:
+  shop_id: 1
+  email: gavin@shopifyconcierge.com
+  start: <%= 66.day.from_now.utc.to_s(:db) %>
+  finish: <%= 68.day.from_now.utc.to_s(:db) %>
+  type: OldBlackout
+  product: blackout_product  # scheduled daily, capacity 1
+  all_day: 1
+  status: 2
+  order_id: 1
+  order_name: random_blackout_product
+
+shop_one_prod_one:
+  id: 5
+  type: "Booking"
+  shop_id: 1
+  start: <%= 5.day.from_now.utc.to_s(:db) %>
+  finish: <%= 6.day.from_now.utc.to_s(:db) %>
+  status: 2
+  name: "Testing User"
+  email: "testing_customer@nothere.com"
+  order_id: 1
+  order_name: shop_one_prod_one
+
+shop_one_prod_four:
+  id: 6
+  type: "Booking"
+  shop_id: 1
+  product_id: 4
+  start: <%= (DateTime.now + 6.days).utc.to_s(:db) %>
+  finish: <%= 7.day.from_now.utc.to_s(:db) %>
+  all_day: 1
+  status: 2
+  name: "Testing User"
+  email: "testing_customer@nothere.com"
+  external_product_id: 1
+  external_variant_id: 1
+  variant_id: 3
+  number_in_party: 1
+  order_id: 1
+  order_name: shop_one_prod_four
+
+
+shop_one_prod_seven:
+  type: "Booking"
+  shop_id: 1
+  product_id: 7
+  start: <%= (DateTime.now + 6.days).utc.to_s(:db) %>
+  finish: <%= 7.day.from_now.utc.to_s(:db) %>
+  all_day: 1
+  status: 2
+  name: "Testing User"
+  email: "testing_customer@nothere.com"
+  external_product_id: 1
+  external_variant_id: 1
+  variant_id: 3
+  number_in_party: 1
+  order_id: 1
+  order_name: shop_one_prod_seven
+
+an_hour_out:
+  id: 8
+  type: "Booking"
+  shop_id: 1
+  product_id: 4
+  start: <%= 3.day.from_now.utc.to_s(:db) %>
+  finish: <%= 4.day.from_now.utc.to_s(:db) %>
+  status: 2
+  name: "Testing Notifiers"
+  email: "testing_notifiers@nothere.com"
+  external_product_id: 1
+  external_variant_id: 1
+  variant_id: 3
+  number_in_party: 1
+  order_id: 1
+  order_name: "#1010"
+  notes: an_hour_out
+
+booking_all_four:
+  id: 11
+  type: "Booking"
+  shop_id: 1
+  product: has_all_four_types
+  start: <%= 13.day.from_now.utc.to_s(:db) %>
+  finish: <%= 14.day.from_now.utc.to_s(:db) %>
+  status: 2
+  name: "Testing Notifiers"
+  email: "testing_notifiers@nothere.com"
+  external_product_id: 1009
+  external_variant_id: 1009
+  variant_id: 11
+  number_in_party: 1
+  order_name: "#1011"
+  notes: booking_all_four
+
+new_incomplete_product_one:
+  shop_id: 1
+  email: incomplete@shopifyconcierge.com
+  start:
+  finish:
+  type: Booking
+  product_id: 1
+  variant_id: 1
+  external_variant_id: 1
+  external_product_id: 1
+  all_day: 0
+  order_id: 123412345
+  status: 5
+  notes: new_incomplete_product_one
+
+api_booking:
+  shop_id: 1
+  email: test@shopifyconcierge.com
+  start: <%= (Time.now + 1.week).beginning_of_day %>
+  finish: <%= (Time.now + 1.week).beginning_of_day + 1.hour %>
+  type: Booking
+  product_id: 5
+  variant_id: 5
+  external_variant_id: 666
+  external_product_id: 1003832167
+  all_day: 0
+  status: 2
+
+class_with_enrollments_booking:
+  id: 14
+  type: "Booking"
+  shop_id: 1
+  start: <%= (Time.now + 2.week).beginning_of_hour %>
+  finish: <%= (Time.now + 2.week).beginning_of_hour + 1.hour %>
+  status: 1
+  name: "class_with_enrollments_booking"
+  email: "class_with_enrollments_booking@nothere.com"
+  order_id: 123412345
+  order_name: 'class_with_enrollments_booking'
+
+with_different_times:
+  id: 15
+  shop_id: 1
+  email: gavin@shopifyconcierge.com
+  start: <%= 20.day.from_now.utc.to_s(:db) %>
+  finish: <%= 30.day.from_now.utc.to_s(:db) %>
+  type: Booking
+  product_id: 15
+  variant_id: 1
+  external_variant_id: 1
+  external_product_id: 1
+  all_day: 0
+  order_id: 1234567890
+  status: 2
+  booking_names_count: 1
+  notes: gav
+
+like_dif_times_for_another_shop:
+  id: 16
+  shop_id: 11
+  email: gavin@shopifyconcierge.com
+  start: <%= 20.day.from_now.utc.to_s(:db) %>
+  finish: <%= 30.day.from_now.utc.to_s(:db) %>
+  type: Booking
+  product_id: 15
+  variant_id: 1
+  external_variant_id: 1
+  external_product_id: 1
+  all_day: 0
+  order_id: 1234567890
+  status: 2
+  booking_names_count: 1
+  notes: gav
+
+ical_event:
+  id: 17
+  shop_id: 1
+  start: <%= 1.day.from_now.to_s(:db) %>
+  finish: <%= 2.day.from_now.to_s(:db) %>
+  type: Booking
+  product_id: 15
+  variant_id: 1
+  external_variant_id: 1
+  external_product_id: 1
+  all_day: 0
+  order_id: 1234567890
+  status: 2
+  notes: ima note
+  product_summary: awesome product
+
+ical_allday_event:
+  id: 18
+  shop_id: 1
+  start: <%= 1.day.from_now.midnight.to_s(:db) %>
+  finish: <%= 2.day.from_now.midnight.to_s(:db) %>
+  type: Booking
+  product_id: 15
+  variant_id: 1
+  external_variant_id: 1
+  external_product_id: 1
+  all_day: 1
+  order_id: 1234567890
+  status: 2
+  notes: ima note
+  product_summary: awesome product

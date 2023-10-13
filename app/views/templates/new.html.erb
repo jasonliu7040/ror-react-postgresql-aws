@@ -1,0 +1,13 @@
+<h1>Configuration</h1>
+<p>Set up BookThatApp.</p>
+
+<div class="content-box">
+  <div class="box-header clear">
+    <h2>New Template</h2>
+  </div>
+  <div class="box-body clear">
+    <%= form_for @template, :as => :template, method: 'post', url: templates_path, :html=> {:id => 'template_form'} do | form | %>
+      <%= render :partial => "form", :locals => {:form => form} %>
+    <% end %>
+  </div>
+</div>

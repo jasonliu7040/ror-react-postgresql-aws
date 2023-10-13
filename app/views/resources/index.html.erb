@@ -1,0 +1,36 @@
+<h1>Configuration</h1>
+<p>Set up BookThatApp.</p>
+
+<div class="content-box">
+  <div class="box-header clear">
+    <h2>Resources</h2>
+  </div>
+  <div class="box-body clear">
+    <p><%= link_to 'Add Resource', new_resource_path, class:'submit' %></p>
+    <table class="styled">
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Type</th>
+        <th class="table-actions"></th>
+      </tr>
+
+      <% @resources.each do |resource| %>
+          <tr>
+            <td><%= resource.name %></td>
+            <td><%= resource.description %></td>
+            <td><%= resource.resource_type %></td>
+            <td class="table-actions">
+              <%= link_to content_tag(:span, '', :class => "ui-icon ui-icon-trash"), resource, data: {confirm: 'Are you sure you want to delete this resource?'}, :class => 'ajax-delete' %>
+              <%= link_to content_tag(:span, "", :class => 'ui-icon ui-icon-pencil'), edit_resource_path(resource) %>
+            </td>
+          </tr>
+      <% end %>
+      <% if @resources.empty? %>
+          <tr>
+            <td colspan="4">No resources</td>
+          </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

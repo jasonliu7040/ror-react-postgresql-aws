@@ -1,0 +1,85 @@
+<h1>Billing</h1>
+
+<div class="content-box">
+  <div class="box-header clear">
+    <h2>Your subscription</h2>
+  </div>
+  <div class="box-body clear">
+    <div>
+      <p>You are currently on the <strong><%= current_account.charge_id == -1 ? 'trial' : current_account.charge_id == 0 ? 'free' : 'paid' %></strong> plan.</p>
+
+      <% if @plan_exceeded %>
+          <div class="notification note-info"><span class="icon"></span>
+            <p><strong>Trial Plan Limit Exceeded</strong>: You now have <%= @bookings_count %> bookings which exceeds the maximum number of
+              products (<%= Bookthatapp::Application.config.limited_plan_max_products %>) or bookings (<%= Bookthatapp::Application.config.limited_plan_max_bookings %>)
+              available under the trial plan. To continue using BookThatApp please upgrade to the paid plan.</p>
+          </div>
+          <%= form_for current_account, :url => {:action => "subscribe"}, :class => "fr" do |form| %>
+              <%= hidden_field_tag 'ga_client_id', '', :class => 'ga-client-id' %>
+              <p><%= form.submit 'Upgrade to a paid BookThatApp subscription', :class => "submit" %></p>
+          <% end %>
+      <% else %>
+          <% if @msg %>
+              <div class="notification note-error"><span class="icon"></span>
+                <p><strong>Please note</strong>: <%= h @msg %></p>
+              </div>
+          <% end %>
+
+          <% unless @charges.size == 0 %>
+              <table class="styled">
+                <caption>Charge History</caption>
+                <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Price</th>
+                  <th>Status</th>
+                  <!-- <th></th> -->
+                </tr>
+                </thead>
+                <tbody>
+                <% @charges.each do |charge| %>
+                    <% unless charge.status == 'pending' %>
+                        <tr>
+                          <% time = to_time(charge.created_at) %>
+                          <td><%= l time, :format => :short %> (<%= time_ago_in_words(time) %>  ago)</td>
+                          <td>$<%= charge.price %></td>
+                          <td><%= charge.status.capitalize %></td>
+                          <!--
+                  <td>
+                    <% if charge.status == 'pending' %>
+                        <%= button_to "Cancel", cancel_pending_charge_path(charge), :class => 'submit' %>
+                    <% end %>
+                  </td>
+                  -->
+                        </tr>
+                    <% end %>
+                <% end %>
+                </tbody>
+              </table>
+          <% end %>
+
+          <% if current_account.charge_id < 1 %>
+              <%= form_for current_account, url: subscribe_charges_path, class: 'fr' do |form| %>
+                  <%= hidden_field_tag 'ga_client_id', '', :class => 'ga-client-id' %>
+                  <p><%= form.submit 'Upgrade to a paid BookThatApp subscription', :class => 'submit' %></p>
+              <% end %>
+          <% end %>
+          <% if current_account.charge_id > 0 %>
+              <%
+                msg = "The free trial plan is limited to #{Bookthatapp::Application.config.limited_plan_max_products} products and #{Bookthatapp::Application.config.limited_plan_max_bookings} bookings."
+
+                if @delete_products_count > 0
+                  msg += " Cancelling your subscription will result in the deletion of #{@delete_products_count} products and their associated bookings."
+                end
+              %>
+
+              <%= form_for current_account, :url => {:action => 'cancel'}, :class => 'fr' do |form| %>
+                  <%= hidden_field_tag 'ga_client_id', '', :class => 'ga-client-id' %>
+                  <p><%= form.submit 'Cancel Subscription', :class => 'submit', :title => msg %>
+                  </p>
+              <% end %>
+          <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

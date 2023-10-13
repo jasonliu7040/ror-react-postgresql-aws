@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shop>
+  <address1>
+    185 Rideau Street
+  </address1>
+  <city>
+    Boston
+  </city>
+  <country>
+    AU
+  </country>
+  <created-at type="dateTime">
+    2009-11-03T02:08:24+11:00
+  </created-at>
+  <customer-email>gavinz@shopifyconcierge.com</customer-email>
+  <domain>newshop.myshopify.com</domain>
+  <email>christinez@shopifyconcierge.com</email>
+  <id type="integer">
+    379392
+  </id>
+  <latitude type="float">
+    45.428964
+  </latitude>
+  <longitude type="float">
+    -75.685313
+  </longitude>
+  <name>
+    Shopify Concierge Test Store
+  </name>
+  <phone>
+    555 555 5555
+  </phone>
+  <primary-location-id type="integer" nil="true"/>
+  <province nil="true"/>
+  <public type="boolean" nil="true"/>
+  <source nil="true"/>
+  <zip>
+    K1N 5X8
+  </zip>
+  <country-code>
+    AU
+  </country-code>
+  <country-name>
+    Australia
+  </country-name>
+  <currency>
+    USD
+  </currency>
+  <timezone>
+    (GMT+10:00) Canberra
+  </timezone>
+  <shop-owner>
+    Gavin Terrill
+  </shop-owner>
+  <money-format>
+    ${{amount}}
+  </money-format>
+  <money-with-currency-format>
+    ${{amount}} USD
+  </money-with-currency-format>
+  <province-code nil="true"/>
+  <taxes-included type="boolean">
+    false
+  </taxes-included>
+  <tax-shipping nil="true"/>
+  <county-taxes type="boolean">
+    false
+  </county-taxes>
+  <plan-display-name>
+    development
+  </plan-display-name>
+  <plan-name>
+    trial
+  </plan-name>
+  <myshopify-domain>newshop.myshopify.com</myshopify-domain>
+  <google-apps-domain nil="true"/>
+  <google-apps-login-enabled nil="true"/>
+  <money-in-emails-format>
+    ${{amount}}
+  </money-in-emails-format>
+  <money-with-currency-in-emails-format>
+    ${{amount}} USD
+  </money-with-currency-in-emails-format>
+  <eligible-for-payments type="boolean">
+    false
+  </eligible-for-payments>
+  <requires-extra-payments-agreement type="boolean">
+    false
+  </requires-extra-payments-agreement>
+  <password-enabled type="boolean">
+    false
+  </password-enabled>
+  <has-storefront type="boolean">
+    true
+  </has-storefront>
+
+</shop>

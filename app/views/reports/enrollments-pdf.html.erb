@@ -1,0 +1,37 @@
+<div class="content-box">
+  <div class="box-header clear">
+    <h2>Enrollments</h2>
+  </div>
+  <div class="box-body clear">
+    <div class="dataTables_wrapper">
+      <% if @enrollments.empty? %>
+          <div class="notification note-info">
+            <span class="icon"></span>
+            <p><strong>No enrollments:</strong> No enrollments found that match the filter criteria.</p>
+          </div>
+      <% else %>
+          <table class="styled">
+            <thead>
+            <tr>
+              <th width="1%">Booking</th>
+              <th>Customer</th>
+              <th>Email</th>
+              <th>Phone</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @enrollments.each do |enrollment| %>
+                <tr>
+                  <td><%= enrollment.booking_id %></td>
+                  <td><%= enrollment.name %></td>
+                  <td><%= enrollment.email %></td>
+                  <td><%= enrollment.phone %></td>
+                </tr>
+            <% end %>
+            </tbody>
+          </table>
+      <% end %>
+    </div>
+  </div>
+</div>
+

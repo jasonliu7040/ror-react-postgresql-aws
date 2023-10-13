@@ -1,0 +1,123 @@
+<% content_for :head do %>
+    <%= stylesheet_link_tag 'admin/google-code-prettify/prettify', media: 'screen' %>
+<% end %>
+
+<%= render partial: 'common/breadcrumbs',
+           locals: {
+               section: 'Developer Guide',
+               crumbs: [
+                 {title: 'Developer Guide', path: admin_doco_index_path},
+                 {title: 'Themes'}
+               ]
+           } %>
+
+<% themes = themes_list %>
+
+<div class="wrapper wrapper-content  animated fadeInRight">
+  <div class="row">
+
+    <div class="col-lg-3 col-lg-push-9">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Theme Index</h5>
+        </div>
+        <div class="ibox-content no-padding">
+          <ul class="list-group">
+            <% themes.each do |theme|%>
+              <% render partial: "doco/themes_list/#{theme[:partial]}" %>
+              <li class="list-group-item">
+                <a href="#<%= theme[:id ] %>_item" data-toggle="collapse" data-parent="#themes_panel" aria-expanded="false" aria-controls="<%= theme[:id ] %>_item">
+                  <%= content_for :panel_head %></a>
+              </li>
+              <% yield_content!(:panel_head) %>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-9 col-lg-pull-3">
+      <div class="ibox">
+        <div class="ibox-title">
+          <h5>Instructions</h5>
+        </div>
+
+        <div class="ibox-content">
+          <p>
+            Information on installation for specific themes is provided below.
+          </p>
+
+          <div class="alert alert-info">
+            <p>Each code example has the name of the asset and line number.</p>
+            <p>For example, the following translates to saying the change should be made at
+              line 38 in a snippet called product-add-to-cart-form: <em><strong>snippets/product-add-to-cart-form.liquid:38</strong></em>
+            </p>
+          </div>
+
+          <div class="alert alert-warning">
+            <p><strong>Note:</strong></p>
+            <ul class="unstyled">
+              <li><i class="fa fa-check"></i>&nbsp;Please remember to take a backup of your theme before making any changes.</li>
+              <li><i class="fa fa-check"></i>&nbsp;These instructions assume that <strong>no customizations have been made to the original
+                theme</strong>. If the theme has been modified the line numbers won't match the ones provided
+                here.</li>
+              <li><i class="fa fa-check"></i>&nbsp;Themes are constantly being updated. If there are discrepancies please let us know.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="ibox">
+        <div class="ibox-title">
+          <h5>Themes</h5>
+        </div>
+
+        <div class="ibox-content">
+          <div class="panel-body">
+            <div class="panel-group" id='themes_panel'>
+              <% themes.each do |theme| %>
+                  <% render partial: "doco/themes_list/#{theme[:partial]}" %>
+                  <div class="panel panel-default" id="<%= theme[:id ] %>">
+                    <div class="panel-heading">
+                      <h5 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#themes_panel" href="#<%= theme[:id ] %>_item">
+                          <%= content_for :panel_head %>
+                        </a>
+                      </h5>
+                    </div>
+                    <div id="<%= theme[:id ] %>_item" class="panel-collapse collapse">
+                      <div class="panel-body">
+                        <%= content_for :panel_body %>
+                      </div>
+                    </div>
+                  </div>
+                  <% yield_content!(:panel_head) %>
+                  <% yield_content!(:panel_body) %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<% content_for :javascript do %>
+    <%= javascript_include_tag 'admin/google-code-prettify/prettify' %>
+    <script>
+      $(function () {
+        window.prettyPrint && prettyPrint();
+      })
+
+
+      $("#themes_panel").on("shown.bs.collapse", function () {
+        var myEl = $(this).find('.collapse.in').prev('.panel-heading');
+
+        $('html, body').animate({
+          scrollTop: $(myEl).offset().top
+        }, 500);
+      });
+
+    </script>
+<% end %>

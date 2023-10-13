@@ -1,0 +1,31 @@
+<h3>Recent Bookings</h3>
+<table class="styled">
+  <thead>
+  <tr>
+    <th>Date</th>
+    <th>Booking</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @latest_bookings.each do |booking| %>
+      <tr>
+        <td class="nowrap">
+          <% if booking.order_name.present? %>
+              <span class="no-print ui-icon ui-icon-cart" %> ></span>
+          <% else %>
+              <span class="no-print ui-icon ui-icon-person" %> ></span>
+          <% end %>
+          <%= I18n.localize(booking.created_at.to_date, :format => :short) %>
+        </td>
+        <td>
+          <%= link_to edit_booking_path(booking) do %>
+              <%= "#{booking.product_title} for #{booking.name}" %>
+              <% if booking.start %> on
+                  <span class="nowrap"><%= I18n.localize(booking.start.to_date, :format => :short) %></span>
+              <% end %>
+          <% end %>
+        </td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>

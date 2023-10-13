@@ -1,0 +1,3 @@
+$('form[action="/cart/add"]').on('bta.datetimeChange', function(event, form) {
+  console.log( [form.getStartDate(), form.getFinishDate(), form.getDuration(), form.getAvailability()] );
+});

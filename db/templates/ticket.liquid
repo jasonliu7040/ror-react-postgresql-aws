@@ -1,0 +1,10 @@
+<h1>Booking Confirmation</h1>
+<table>
+<tr><td>Name</td><td>{{ booking.name }}</td></tr>
+<tr><td>Date</td><td>{{ booking.start | date: "%m/%d/%Y" }}</td></tr>
+</table>
+<h2>Details</h2>
+<table>
+{% for item in booking.items %}
+<tr><td>{{ item.quantity }} x </td><td>{{ item.product.title }} - {{ item.variant.title }}</td><td>(sku: {{ item.sku }})</td></tr>{% endfor %}
+</table>

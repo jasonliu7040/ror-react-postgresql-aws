@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<order>
+  <number type="integer">57</number>
+  <name>#1057</name>
+  <created-at type="datetime">2011-02-20T04:51:02-05:00</created-at>
+  <total-discounts type="decimal">0.0</total-discounts>
+  <token>f089f3cbdd6d1f6cd27b43f68e98cbb3</token>
+  <updated-at type="datetime">2011-02-20T04:51:17-05:00</updated-at>
+  <total-price type="decimal">20.1</total-price>
+  <landing-site>/</landing-site>
+  <taxes-included type="boolean">true</taxes-included>
+  <id type="integer">52425152</id>
+  <referring-site></referring-site>
+  <total-line-items-price type="decimal">0.1</total-line-items-price>
+  <subtotal-price type="decimal">0.1</subtotal-price>
+  <note nil="true"></note>
+  <gateway>bogus</gateway>
+  <fulfillment-status nil="true"></fulfillment-status>
+  <financial-status>authorized</financial-status>
+  <currency>GBP</currency>
+  <closed-at type="datetime" nil="true"></closed-at>
+  <buyer-accepts-marketing type="boolean">false</buyer-accepts-marketing>
+  <total-tax type="decimal">0.0</total-tax>
+  <total-weight type="integer">0</total-weight>
+  <email>gavin@shopifyconcierge.com</email>
+  <browser-ip>60.229.87.51</browser-ip>
+  <landing-site-ref type="yaml" nil="true"></landing-site-ref>
+  <order-number type="integer">1057</order-number>
+  <billing-address>
+    <company></company>
+    <city>Beverly Hills</city>
+    <address1>Bla Drive 123</address1>
+    <latitude type="decimal">34.095941</latitude>
+    <zip>90210</zip>
+    <address2></address2>
+    <country>United States</country>
+    <phone></phone>
+    <last-name>Blow</last-name>
+    <longitude type="decimal">-118.433396</longitude>
+    <province></province>
+    <first-name>Joe</first-name>
+    <name>Joe Blow</name>
+    <country-code>US</country-code>
+    <province-code type="yaml" nil="true"></province-code>
+  </billing-address>
+  <shipping-address>
+    <company></company>
+    <city>Beverly Hills</city>
+    <address1>Bla Drive 123</address1>
+    <latitude type="decimal">34.095941</latitude>
+    <zip>90210</zip>
+    <address2></address2>
+    <country>United States</country>
+    <phone></phone>
+    <last-name>Blow</last-name>
+    <longitude type="decimal">-118.433396</longitude>
+    <province></province>
+    <first-name>Joe</first-name>
+    <name>Joe Blow</name>
+    <country-code>US</country-code>
+    <province-code type="yaml" nil="true"></province-code>
+  </shipping-address>
+  <line-items type="array">
+    <line-item>
+      <price type="decimal">0.1</price>
+      <product-id type="integer">27763452</product-id>
+      <title>Test Booking Start and End</title>
+      <quantity type="integer">1</quantity>
+      <requires-shipping type="boolean">true</requires-shipping>
+      <id type="integer">87020042</id>
+      <grams type="integer">0</grams>
+      <sku></sku>
+      <fulfillment-status nil="true"></fulfillment-status>
+      <variant-title>Default / 8</variant-title>
+      <vendor>Shopify</vendor>
+      <fulfillment-service>manual</fulfillment-service>
+      <variant-id type="integer">65985862</variant-id>
+      <name>dassf - Default / 8</name>
+    </line-item>
+  </line-items>
+  <shipping-lines type="array">
+    <shipping-line>
+      <price type="decimal">20.0</price>
+      <code>International Shipping</code>
+      <title>International Shipping</title>
+    </shipping-line>
+  </shipping-lines>
+  <tax-lines type="array"/>
+  <payment-details>
+    <credit-card-number>XXXX-XXXX-XXXX-1</credit-card-number>
+    <credit-card-company>Bogus</credit-card-company>
+  </payment-details>
+  <note-attributes type="array">
+    <note-attribute>
+      <name>booking-65985862-start</name>
+      <value>11/12/2011</value>
+    </note-attribute>
+    <note-attribute>
+      <name>booking-65985862-end</name>
+      <value>11/15/2011</value>
+    </note-attribute>
+  </note-attributes>
+</order>

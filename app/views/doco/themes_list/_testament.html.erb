@@ -1,0 +1,40 @@
+<% content_for :panel_head do %>
+    Testament
+<% end %>
+
+<% content_for :panel_body do %>
+    <p>With Testament the booking form should be included in the <em>short-form</em> snippet. There are several
+      Javascript changes that need to be made for the quantity input field to account for min/max being updated based on capacity
+      and Ajax add to cart functionality. There are also CSS changes required in order to see the booking fields.</p>
+
+    <h5>Product Page</h5>
+    <p>In the <strong><em>short-form.liquid</em></strong> snippet include the booking form just
+      above where it says "product.available" which should be on or near line 39:</p>
+    <%= render_source partial: 'doco/themes/testament_product_a', path: 'assets/short-form.liquid', line:39 %>
+
+    <p>Replace that line of code with the following:</p>
+    <%= render_source partial: 'doco/themes/testament_product_b', path: 'assets/short-form.liquid', line:39 %>
+
+    <h5>Stylesheet</h5>
+    <p>Add the following CSS to the bottom of the stylesheet:</p>
+    <%= render_source partial: 'doco/themes/testament_stylesheet', path: 'assets/stylesheet.css.liquid' %>
+
+    <h5>Javascript</h5>
+    <p>In <strong><em>theme.js.liquid</em></strong> find the code for managing the quantity around
+      line 6. It should look like this:</p>
+    <%= render_source partial: 'doco/themes/testament_product_c', path: 'assets/theme.js.liquid' %>
+
+    <p>Replace that block of code with the following:</p>
+    <%= render_source partial: 'doco/themes/testament_product_d', path: 'assets/theme.js.liquid' %>
+
+    <h5>Ajax Cart</h5>
+    <p>If Ajax Add To Cart is configured in the theme settings then you need to modify the addToCart function.
+      This is in <strong><em>theme.js</em></strong> on or near line 209.</p>
+    <%= render_source partial: 'doco/themes/testament_theme_js_a', path: 'assets/theme.js.liquid', line:209 %>
+
+    <p>Replace the above code with the following:</p>
+    <%= render_source partial: 'doco/themes/testament_theme_js_b', path: 'assets/theme.js.liquid', line:209 %>
+
+    <h5>Quick View</h5>
+    <p>See the instructions for <a href="#parallax-quick-view">Parallax</a> if you are using the Quick View feature.</p>
+<% end %>

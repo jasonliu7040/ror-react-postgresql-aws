@@ -1,0 +1,18 @@
+<tr class="fields">
+  <%= f.hidden_field :id %>
+  <td>
+    <%= f.text_field :name, required: true%>
+  </td>
+  <td>
+    <%= f.text_field :start_date, :class=>'datetimepickers', required: true %>
+  </td>
+  <td>
+    <%= f.text_field :finish_date, :class=>'datetimepickers', required: true %>
+  </td>
+  <td>
+    <% unless f.object.new_record? %>
+      <%= link_to content_tag(:span, "", :class => 'ui-icon ui-icon-pencil'), edit_product_term_path(@product, f.object.id) %>
+    <% end %>
+    <%= f.link_to_remove content_tag(:span, '', :class => "ui-icon ui-icon-trash") %>
+  </td>
+</tr>

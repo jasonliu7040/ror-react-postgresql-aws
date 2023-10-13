@@ -1,0 +1,160 @@
+tomorrow:
+  id: 1
+  type: OneoffSchedule
+  schedule_id: 3
+  start: <%= 1.day.from_now.utc.to_s(:db) %>
+  duration: 3600
+
+1:
+  start: 2013-12-14 10:00
+  id: 6648
+  schedule_id: 3
+  type: OneoffSchedule
+
+0:
+  start: 2014-12-07 10:00
+  id: 6685
+  schedule_id: 3
+  type: OneoffSchedule
+
+3:
+  start: 2015-01-17 10:00
+  id: 6162
+  schedule_id: 3
+  type: OneoffSchedule
+
+2:
+  start: 2014-12-20 10:00
+  id: 6165
+  schedule_id: 3
+  type: OneoffSchedule
+
+5:
+  start: 2015-02-07 10:00
+  id: 6584
+  schedule_id: 3
+  type: OneoffSchedule
+
+4:
+  start: 2015-01-25 10:00
+  id: 6583
+  schedule_id: 3
+  type: OneoffSchedule
+
+7:
+  start: 2015-02-21 10:00
+  id: 6586
+  schedule_id: 3
+  type: OneoffSchedule
+
+6:
+  start: 2015-02-15 10:00
+  id: 6585
+  schedule_id: 3
+  type: OneoffSchedule
+
+9:
+  start: 2015-03-14 10:00
+  id: 6652
+  schedule_id: 3
+  type: OneoffSchedule
+
+8:
+  start: 2015-03-07 10:00
+  id: 6705
+  schedule_id: 3
+  type: OneoffSchedule
+
+10:
+  start: 2015-03-09 10:00
+  id: 6654
+  schedule_id: 3
+  type: OneoffSchedule
+
+11:
+  start: <%= Time.utc(2016, 01, 03, 11, 23) %>
+  id: 11
+  schedule_id: 1
+  type: OneoffSchedule
+
+12:
+  start: <%= Time.utc(2016, 01, 04, 11, 23) %>
+  id: 12
+  schedule_id: 1
+  type: OneoffSchedule
+
+recurring_13:
+  start:
+  id: 13
+  schedule_id: 1
+  type: RecurringSchedule
+  schedule_yaml: ":start_date: 2016-01-17 13:00:00 Z\r\n:duration: 3600\r\n:rrules:\r\n- :validations:\r\n    :hour_of_day:\r\n    - 9\r\n    :minute_of_hour:\r\n    - 0\r\n  :rule_type: IceCube::HourlyRule\r\n  :interval: 1\r\n  :until: 2016-01-20 17:00:00 Z\r\n:exrules: []"
+
+14:
+  start:
+  id: 14
+  schedule_id: 2
+  type: RecurringSchedule
+  schedule_yaml: |
+      :start_date: 2013-02-09 08:00:00 Z
+      :duration: 3600
+      :rrules:
+      - :validations:
+          :day:
+          - 3
+        :rule_type: IceCube::DailyRule
+        :interval: 1
+      - :validations:
+          :day:
+          - 5
+          :hour_of_day:
+          - 12
+          :minute_of_hour:
+          - 15
+        :rule_type: IceCube::DailyRule
+        :interval: 1
+      :exrules: []
+
+15:
+  start:
+  id: 15
+  schedule_id: 3
+  type: RecurringSchedule
+  schedule_yaml: |
+    :start_date: 2013-08-19 00:00:00 Z
+    :duration: 3600
+    :rrules:
+    - :rule_type: IceCube::DailyRule
+      :interval: 1
+    :exrules: []
+
+16:
+  start:
+  id: 16
+  schedule_id: 4
+  type: RecurringSchedule
+  schedule_yaml: |
+    :start_date: 2013-08-19 00:00:00 Z
+    :duration: 3600
+    :rrules:
+    - :rule_type: IceCube::DailyRule
+      :interval: 1
+    :exrules: []
+
+17:
+  start:
+  id: 17
+  schedule_id: 5
+  type: RecurringSchedule
+  schedule_yaml: |
+    :start_date: 2016-04-19 19:00:00 Z
+    :rrules: []
+    :exrules: []
+
+18:
+  start:
+  id: 18
+  schedule_id: 6
+  type: RecurringSchedule
+  schedule_yaml:
+

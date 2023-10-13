@@ -1,0 +1,6 @@
+cart_items_html += '<div class="item_title">' + item.title;
+  for (var prop in item.properties) {
+  cart_items_html += '<br>' + prop + ': ' + item.properties[prop];
+  }
+  cart_items_html += '</div><strong class="price">' + Shopify.formatMoney(item.price, $cart.data('money-format')) + '</strong>' +
+'</a></li>';

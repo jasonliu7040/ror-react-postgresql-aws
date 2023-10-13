@@ -1,0 +1,39 @@
+<%= form_for(@resource) do |f| %>
+    <%= render 'common/error_messages', :object => f.object %>
+    <table class="form-table styled">
+      <tbody>
+      <tr>
+        <td class="title">
+          <%= f.label :name %>
+        </td>
+        <td>
+          <%= f.text_field :name, required: true %>
+        </td>
+      </tr>
+      <tr>
+        <td class="title">
+          <%= f.label :description %>
+        </td>
+        <td>
+          <%= f.text_field :description %>
+        </td>
+      </tr>
+      <tr>
+        <td class="title">
+          <%= f.label :resource_type, 'Type' %>
+        </td>
+        <td>
+          <%= f.select :resource_type, @resource_types, {prompt: "Select Type of Resource"} %>
+        </td>
+      </tr>
+
+      </tbody>
+    </table>
+
+    <div class="tab-footer clear" style="display: block; margin-top: 20px;">
+      <div class="button-bar">
+        <%= f.submit "Save" %>
+        <%= link_to "Close", resources_path %>
+      </div>
+    </div>
+<% end %>

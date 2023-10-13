@@ -1,0 +1,9 @@
+<tr>
+  <td><%= resource.name %></td>
+  <td><%= resource.description %></td>
+  <td><%= resource.resource_type %></td>
+  <td>
+    <%= link_to content_tag(:i, '', :class => "fa fa-pencil"), edit_admin_resource_path(resource) %>
+    <%= link_to content_tag(:i, '', :class => "fa fa-remove"), resource, :data => {:confirm => 'Are you sure?'}, :class => 'ajax-delete' %>
+  </td>
+</tr>

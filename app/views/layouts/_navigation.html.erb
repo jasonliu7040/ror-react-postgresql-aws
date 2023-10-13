@@ -1,0 +1,104 @@
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul class="nav metismenu" id="side-menu">
+            <li class="nav-header">
+                <span>
+                    <a href="/" title="Home"><%= image_tag("bta_logo.png", alt: "BookThatApp Logo", style: "width: 100%;") %>
+                      <span class="text">Ecommerce Booking Engine</span>
+                    </a>
+                </span>
+                <div class="dropdown profile-element">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <span class="clear">
+                            <span class="block m-t-xs">
+                                <strong class="font-bold"><%= current_account.subdomain.truncate(27) %></strong>
+                            </span>
+                          <span class="text-muted text-xs block">My Account <b class="caret"></b></span>
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                        <li><%= link_to 'Subscription', admin_charges_path %></li>
+                        <li><%= link_to 'Purchase Installation Service', admin_charges_installation_path %></li>
+                        <li class="divider"></li>
+                        <li>
+                          <%= button_to('Log out', logout_path, :method => :delete, style: 'padding: 3px 20px; border: none; background: none;') %>
+                        </li>
+                    </ul>
+                </div>
+                <div class="logo-element">
+                    IN+
+                </div>
+            </li>
+
+            <li  class="menu-items">
+              <a href="#"><i class="fa fa-list"></i> <span class="nav-label">Bookings</span><span class="fa arrow"></span></a>
+              <ul class="nav nav-second-level collapse">
+                <%= render partial: 'layouts/navigation_link', locals: { path: admin_events_path, name: 'Calendar' } %>
+                <%= render partial: 'layouts/navigation_link', locals: { path: admin_runsheet_path, name: 'Run Sheet' } %>
+                <%= render partial: 'layouts/navigation_link', locals: { path: admin_enrollments_path, name: 'Enrollments' } %>
+              </ul>
+            </li>
+
+            <li  class="menu-items">
+              <a href="#"><i class="fa fa-list-ol"></i> <span class="nav-label">Install Instructions</span><span class="fa arrow"></span></a>
+              <ul class="nav nav-second-level collapse">
+                <%= render partial: 'layouts/navigation_link', locals: { path: install_admin_doco_index_path, name: 'Install Steps' } %>
+              </ul>
+            </li>
+
+
+            <li  class="menu-items">
+              <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">Configuration</span><span class="fa arrow"></span></a>
+              <ul class="nav nav-second-level collapse">
+                <%= render partial: 'layouts/navigation_link', locals: { path: admin_products_path, name: 'Products' } %>
+                <%= render partial: 'layouts/navigation_link', locals: { path: hours_admin_settings_path, name: 'Opening Hours' } %>
+                <%= render partial: 'layouts/navigation_link', locals: { path: admin_resources_path, name: 'Resources' } %>
+                <%= render partial: 'layouts/navigation_link', locals: { path: admin_locations_path, name: 'Locations' } %>
+                <%= render partial: 'layouts/navigation_link', locals: { path: admin_templates_path, name: 'Templates' } %>
+                <%= render partial: 'layouts/navigation_link', locals: { path: admin_settings_path, name: 'Site Settings' } %>
+                <%= render partial: 'layouts/navigation_link', locals: { path: admin_reports_path, name: 'Runsheet reports' } %>
+              </ul>
+            </li>
+
+            <li class="menu-items">
+              <a href="//support.shopifyconcierge.com/forums/332501-BookThatApp-App"><i class="fa fa-question"></i> <span class="nav-label">Help</span><span class="fa arrow"></span></a>
+              <ul class="nav nav-second-level collapse">
+                <li><a href="/GettingStarted.pdf" target="_blank">Getting Started Guide</a></li>
+                <li><a href="//support.shopifyconcierge.com/entries/22559113-frequently-asked-questions-about-book-that-app-bta" target="_blank">FAQ</a></li>
+                <li><a href="//support.shopifyconcierge.com/forums/332501-BookThatApp-App" target="_blank">Forum</a></li>
+              </ul>
+            </li>
+
+            <li class="menu-items">
+                <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">Developer Guide</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse">
+                  <%= render partial: 'layouts/navigation_link', locals: { path: product_admin_doco_index_path, name: 'Product Page' } %>
+                  <%= render partial: 'layouts/navigation_link', locals: { path: cart_admin_doco_index_path, name: 'Cart Page' } %>
+                  <%= render partial: 'layouts/navigation_link', locals: { path: email_admin_doco_index_path, name: 'Email Notifications' } %>
+                  <%= render partial: 'layouts/navigation_link', locals: { path: compatibility_admin_doco_index_path, name: 'Compatibility' } %>
+                  <%= render partial: 'layouts/navigation_link', locals: { path: css_admin_doco_index_path, name: 'CSS' } %>
+                  <%= render partial: 'layouts/navigation_link', locals: { path: themes_admin_doco_index_path, name: 'Themes' } %>
+                  <li><a href="http://support.shopifyconcierge.com/entries/30048788-Installation-Troubleshooting-Tips" target="_blank">Troubleshooting Tips</a></li>
+                </ul>
+            </li>
+            <li class="landing_link">
+
+            </li>
+        </ul>
+
+    </div>
+</nav>
+
+<% content_for :javascript do %>
+  <script>
+    $(document).ready(function() {
+      $('.dropdown-toggle').dropdown();
+      $('.menu-items').each(function(index, item){
+        if ($(item).find('li.active').length > 0) {
+          $(item).addClass('active');
+          $(item).find('ul').collapse();
+        }
+      });
+    })
+  </script>
+<% end %>

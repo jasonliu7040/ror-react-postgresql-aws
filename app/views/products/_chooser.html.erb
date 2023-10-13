@@ -1,0 +1,59 @@
+<div class="product-chooser-search">
+  <h3>Import Shopify Products</h3>
+  <input type="text" id="q" placeholder="Search product title"/>
+  <%= link_to "Bulk Import", new_product_import_path, :class => 'fr', :style => 'margin-top: 3px;' %>
+</div>
+
+<div id="product_chooser" class="product-chooser loading">
+</div>
+
+<% content_for :footer do -%>
+<script type="text/javascript">
+    var cache = {}, result;
+
+    function cachedProducts(request, response) {
+      var term = request.term;
+      if (term in cache) {
+        response(cache[term]);
+        return;
+      }
+
+      result = $.getJSON('/chooser/search', {term: term}, function(data, status, xhr) {
+        cache[term] = $.map(data.chooser, function (product) {
+          return {
+            id: product.id,
+            label: product.title,
+            value: product.title,
+            product: product
+          };
+        });
+
+        if (xhr === result) {
+          response(cache[term]);
+        }
+      });
+    }
+
+    $("#q").autocomplete({
+        minLength:2, delay:300,
+        source: cachedProducts,
+        select: function(event, ui) {
+            if (ui.item) {
+              document.body.style.cursor = "wait";
+              $("#q").val('');
+              document.location.href = "/products/new?external_id=" + ui.item.id;
+            }
+        },
+        response: function( event, ui ) {
+          $('.ui-autocomplete-loading').removeClass('ui-autocomplete-loading');
+        }
+    });
+
+    $("#product_chooser").on("click", ".pagination a", function() {
+        $('#product_chooser').empty().addClass('loading').load($(this).attr("href"), function() {
+            $(this).removeClass('loading');
+        });
+        return false;
+    });
+</script>
+<% end %>

@@ -1,0 +1,6 @@
+{"sEcho": <%=h @sEcho %>, "iTotalRecords": <%= @iTotalRecords %>, "iTotalDisplayRecords": <%= @iTotalDisplayRecords %>,
+  "aaData" : [
+    <% @products.each do |product| %>
+      ["<%=h product.id %>", "<%=h product.title %>", "<%=h product.product_type %>", "<%=h product.vendor %>", "", <%= "]," unless product == @products.last %><% end %>]
+  ]
+}

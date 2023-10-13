@@ -1,0 +1,41 @@
+<% content_for :head do %>
+    <style>
+        .map-wrapper
+        {
+            float:left;
+            margin: 0 10px 0 10px;
+        }
+
+        #map {
+            border: 1px solid #DDD;
+            width:300px;
+            height: 300px;
+            margin: 10px 0 10px 0;
+            -webkit-box-shadow: #AAA 0px 0px 15px;
+        }
+
+        #legend {
+            font-size: 12px;
+            font-style: italic;
+        }
+    </style>
+<% end %>
+
+<h1>Configuration</h1>
+<p>Set up BookThatApp.</p>
+
+<div class="content-box">
+	<div class="box-header clear">
+        <h2>Settings</h2>
+	</div>
+	<div class="box-body clear">
+      <%= render :partial => "settings" %>
+	</div>
+</div>
+
+<% content_for :footer do %>
+    <script type="text/javascript">
+        <%= render :partial => 'common/async_bta' %>
+    </script>
+<% end %>
+

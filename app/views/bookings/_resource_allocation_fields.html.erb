@@ -1,0 +1,6 @@
+<%= f.select :resource_id, [],
+             {:prompt => 'Select resource...',
+              :multiple => false},
+             {:class => 'resource-picker',
+              :data_resource_id => f.object.resource_id,
+              :style => 'display:none'} %>

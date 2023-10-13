@@ -1,0 +1,8 @@
+<% content_for :panel_head do %>
+    Threadify
+<% end %>
+
+<% content_for :panel_body do %>
+    <p>This theme has two different places where the booking form should be included.</p>
+    <%= render_source partial: 'doco/themes/threadify_product', path: 'templates/product.liquid' %>
+<% end %>

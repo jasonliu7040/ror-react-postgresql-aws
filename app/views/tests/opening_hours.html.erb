@@ -1,0 +1,82 @@
+<% content_for :head do %>
+  <style>
+    label {width:60px; display:inline-block;}
+  </style>
+<% end %>
+
+<div id="test">
+<h1>Opening Hours Test Page</h1>
+<% if @products.empty? %>
+<p>No Appointment product profiles have been set up yet. <%= link_to 'Set some up.', products_path %></p>
+<% else %>
+<form id="add" action='/cart/add'>
+  <p>
+    <label for="product_id">Product:</label>
+    <select id="product_id" class="product-picker">
+      <% @products.each do |product| %>
+        <option value="<%= product.id %>"
+                data-handle="<%= product.product_handle %>"
+                data-external-id="<%= product.external_id %>"
+                data-config="<%= product.metafield_config %>">
+          <%= product.product_title %>
+        </option>
+      <% end %>
+    </select>
+  </p>
+
+  <p>
+    <label for="variant_id">Variant:</label>
+    <select id="variant_id" class="product-picker-variants">
+    </select>
+  </p>
+  <hr/>
+  <p>
+    <label for="booking-start">Date:</label>
+    <input type="text" id="booking-start" name="properties[booking-start]"
+           class="datepicker bta" size="12" disabled="disabled"
+           data-maxdate="+5y"
+           data-time=""
+    />
+  </p>
+
+  <p>
+    <label for="booking-time">Time:</label>
+    <select id="bta-time" name="properties[booking-time]" class="bta-opening-hours bta-load-enable" data-datepicker="booking-start" data-prompt="Choose a date" data-bta-display-range="true">
+      <option class="loading">Loading...</option>
+    </select>
+  </p>
+</form>
+<% end %>
+</div>
+
+<% content_for :foot do %>
+<script type="text/javascript">
+    var bta = {
+        product_id: "<%= Product.where(:profile=>'appt').all.collect(&:external_id).join(',') %>"
+    };
+
+    var widget = $('#booking-start');
+    widget.attr('data-handle', $('#product_id option:selected').attr('data-handle'));
+    widget.attr('data-bta-product-config', $('#product_id option:selected').attr('data-config'));
+    $('#product_id').productVariantPicker({
+      variantElement: $('#variant_id'),
+      promptSelect: false,
+      productSelectedCallback: function (data) {
+        var selected = $('#product_id option:selected'),
+            config = [];
+
+        for (var i = 0; i < data.variants.length; i++) {
+          config.push(data.variants[i].external_id + ":" + data.variants[i].metafield_config);
+        }
+
+        widget.attr('data-handle', selected.attr('data-handle'));
+        widget.attr('data-bta-product-config', selected.attr('data-config'));
+        widget.attr('data-bta-variant-config', config.join(','));
+
+        var variantId = $('#variant_id option:selected').attr('data-external-id');
+        widget.attr('data-variant', variantId);
+        bta.variantId = variantId;
+      }
+    });
+</script>
+<% end %>

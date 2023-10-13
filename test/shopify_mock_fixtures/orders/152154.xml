@@ -1,0 +1,166 @@
+<!-- order for testing multiple products with different dates -->
+<order>
+  <source-name>web</source-name>
+  <buyer-accepts-marketing type="boolean">false</buyer-accepts-marketing>
+  <closed-at type="datetime" nil="true"/>
+  <currency>USD</currency>
+  <email>gavin@shopifyconcierge.com</email>
+  <financial-status>authorized</financial-status>
+  <fulfillment-status nil="true"/>
+  <gateway>bogus</gateway>
+  <id type="integer">152154</id>
+  <name>#1009</name>
+  <note nil="true"/>
+  <number type="integer">9</number>
+  <subtotal-price type="decimal">435.0</subtotal-price>
+  <taxes-included type="boolean">false</taxes-included>
+  <total-discounts type="decimal">0.0</total-discounts>
+  <total-line-items-price type="decimal">435.0</total-line-items-price>
+  <total-price type="decimal">460.0</total-price>
+  <total-price-usd type="decimal">460.0</total-price-usd>
+  <total-tax type="decimal">0.0</total-tax>
+  <total-weight type="integer">0</total-weight>
+  <updated-at type="datetime">2012-12-20T04:46:24-05:00</updated-at>
+  <created-at type="datetime">2012-12-20T04:46:24-05:00</created-at>
+  <token>12ae86a599c1bf4cbe61c887518719bf</token>
+  <landing-site>/</landing-site>
+  <referring-site/>
+  <cancelled-at type="datetime" nil="true"/>
+  <cancel-reason nil="true"/>
+  <cart-token>3b50b3ebf92d4df8acee2b1b313b15bc</cart-token>
+  <browser-ip>121.223.42.244</browser-ip>
+  <landing-site-ref nil="true"/>
+  <order-number type="integer">1010</order-number>
+  <discount-codes type="array"/>
+  <note-attributes type="array"/>
+  <processing-method>direct</processing-method>
+  <line-items type="array">
+    <line-item>
+      <id type="integer">252066420</id>
+      <requires-shipping type="boolean">true</requires-shipping>
+      <fulfillment-service>manual</fulfillment-service>
+      <grams type="integer">0</grams>
+      <price type="decimal">435.0</price>
+      <quantity type="integer">1</quantity>
+      <sku>KAUAICH</sku>
+      <title>Poipu Bay Golf Tee Times</title>
+      <product-id type="integer">27763452</product-id>
+      <variant-id type="integer">65985862</variant-id>
+      <vendor>Poipu Bay Golf Course</vendor>
+      <variant-title>Kauai Golf Challenge</variant-title>
+      <fulfillment-status nil="true"/>
+      <name>Poipu Bay Golf Tee Times - Kauai Golf Challenge</name>
+      <variant-inventory-management/>
+      <properties type="array">
+        <property>
+          <name>booking-start</name>
+          <value>01/03/2016</value>
+        </property>
+        <property>
+          <name>booking-finish</name>
+          <value>07/03/2016</value>
+        </property>
+      </properties>
+    </line-item>
+    <line-item>
+      <id type="integer">252066421</id>
+      <requires-shipping type="boolean">true</requires-shipping>
+      <fulfillment-service>manual</fulfillment-service>
+      <grams type="integer">0</grams>
+      <price type="decimal">435.0</price>
+      <quantity type="integer">1</quantity>
+      <sku>KAUAICH</sku>
+      <title>Princeville Prince Golf Tee Times</title>
+      <product-id type="integer">27763452</product-id>
+      <variant-id type="integer">65985862</variant-id>
+      <vendor>Poipu Bay Golf Course</vendor>
+      <variant-title>Princeville Golf Challenge</variant-title>
+      <fulfillment-status nil="true"/>
+      <name>Princeville Prince Golf Tee Times - Princeville Golf Challenge</name>
+      <variant-inventory-management/>
+      <properties type="array">
+        <property>
+          <name>booking-start</name>
+          <value>05/03/2016</value>
+        </property>
+        <property>
+          <name>booking-finish</name>
+          <value>09/03/2016</value>
+        </property>
+      </properties>
+    </line-item>
+  </line-items>
+  <shipping-lines type="array">
+    <shipping-line>
+      <title>International Shipping</title>
+      <code>International Shipping</code>
+      <price type="decimal">25.0</price>
+      <source>shopify</source>
+    </shipping-line>
+  </shipping-lines>
+  <tax-lines type="array"/>
+  <payment-details>
+    <credit-card-bin>1</credit-card-bin>
+    <avs-result-code nil="true"/>
+    <cvv-result-code nil="true"/>
+    <credit-card-number>XXXX-XXXX-XXXX-1</credit-card-number>
+    <credit-card-company>Bogus</credit-card-company>
+  </payment-details>
+  <billing-address>
+    <first-name>Gavin</first-name>
+    <last-name>Terrill</last-name>
+    <address1>10/3 Werambie St.</address1>
+    <address2/>
+    <city>Woolwich</city>
+    <company/>
+    <country>United States</country>
+    <phone/>
+    <province>California</province>
+    <zip>90210</zip>
+    <latitude type="decimal">34.1031</latitude>
+    <longitude type="decimal">-118.416</longitude>
+    <name>Gavin Terrill</name>
+    <country-code>US</country-code>
+    <province-code>CA</province-code>
+  </billing-address>
+  <shipping-address>
+    <first-name>Gavin</first-name>
+    <last-name>Terrill</last-name>
+    <address1>10/3 Werambie St.</address1>
+    <address2/>
+    <city>Woolwich</city>
+    <company/>
+    <country>United States</country>
+    <phone/>
+    <province>California</province>
+    <zip>90210</zip>
+    <latitude type="decimal">34.1031</latitude>
+    <longitude type="decimal">-118.416</longitude>
+    <name>Gavin Terrill</name>
+    <country-code>US</country-code>
+    <province-code>CA</province-code>
+  </shipping-address>
+  <fulfillments type="array"/>
+  <client-details>
+    <browser-ip>121.223.42.244</browser-ip>
+    <accept-language>en-US,en;q=0.8</accept-language>
+    <user-agent>Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.97 Safari/537.11</user-agent>
+    <session-hash>fd4b595ea32fffe9c343f5b678e76698b12bbdbb570e5c510163d2f0d6f27ab5</session-hash>
+  </client-details>
+  <customer>
+    <id type="integer">108072842</id>
+    <email>gavin@shopifyconcierge.com</email>
+    <accepts-marketing type="boolean">false</accepts-marketing>
+    <first-name>Gavin</first-name>
+    <last-name>Terrill</last-name>
+    <orders-count type="integer">0</orders-count>
+    <total-spent type="decimal">0.0</total-spent>
+    <note nil="true"/>
+    <created-at type="datetime">2012-12-19T07:20:30-05:00</created-at>
+    <updated-at type="datetime">2012-12-20T04:46:26-05:00</updated-at>
+    <state>disabled</state>
+    <last-order-id type="integer" nil="true"/>
+    <tags/>
+    <last-order-name nil="true"/>
+  </customer>
+</order>

@@ -1,0 +1,22 @@
+<div id="test">
+  <h1>Date Range Test Page</h1>
+
+  <form id="add" action='/cart/add'>
+    <%= render 'product_picker' %>
+
+    <div class="booking-form">
+      <div class="selector-wrapper">
+        <label for="booking-start">From:</label>
+        <input id="booking-start" type="text" name="properties[From]" size="12" class="datepicker bta required bta-load-enable bta-dp-start bta-highlight-duration" data-bta-highlight-duration="true" data-handle="" data-variant="" data-bta-product-config="" data-bta-variant-config="" data-bta-range-partner-id="#booking-finish" data-bta-range-days-max="0" data-bta-range-days-min="0" disabled="disabled" />
+      </div>
+    </div>
+  </form>
+</div>
+
+<% content_for :foot do %>
+    <script type="text/javascript">
+        var bta = {
+            product_id: "<%= @products.collect(&:external_id).join(',') %>"
+        };
+    </script>
+<% end %>

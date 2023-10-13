@@ -1,0 +1,28 @@
+<% content_for :panel_head do %>
+    Seasons
+<% end %>
+<% content_for :panel_body do %>
+    <p>This theme requires a fair bit of customization to work with BookThatApp. The main issue is that is uses a
+      select element (dropdown) replacement that needs to be disabled in order for BTA to work properly when different
+      variants are selected.</p>
+
+    <h5>Theme</h5>
+    <p>Include the jQuery UI CSS in theme.liquid so that it displays the datepicker properly.</p>
+    <%= render_source partial: 'doco/themes/seasons_theme', path: 'layout/theme.liquid', line: 66 %>
+
+    <h5>Product Page</h5>
+    <p>The include for the booking-form normally done on the product page needs to go in a snippet called
+      'add-to-cart-code'.</p>
+    <%= render_source partial: 'doco/themes/seasons_add_to_cart_code', path: 'snippets/add-to-cart-code', line: 25 %>
+
+    <h5>Custom Select Element</h5>
+    <p>Disable the custom select element code because it prevents BTA from detecting the current variant.</p>
+    <%= render_source partial: 'doco/themes/seasons_init_js', path: 'assets/init.js.liquid', line: 504 %>
+
+    <h5>CSS</h5>
+    <p>We recommend you add the following to <em>styles.css.liquid</em> so that the form layout looks better.</p>
+    <%= render_source partial: 'doco/themes/seasons_style_css', path: 'assets/styles.css.liquid' %>
+
+    <p>The styling for select elements needs to be commented out.</p>
+    <%= render_source partial: 'doco/themes/seasons_style_css_b', path: 'assets/styles.css.liquid', line: 920 %>
+<% end %>

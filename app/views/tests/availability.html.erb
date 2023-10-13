@@ -1,0 +1,58 @@
+<div id="test">
+  <h1>Availability Test Page</h1>
+
+    <p>
+      <select id="product_id" class="product-picker">
+        <% @products.each do |product| %>
+            <option value="<%= product.id %>" data-handle="<%= product.product_handle %>"><%= product.product_title %></option>
+        <% end %>
+      </select>
+    </p>
+
+    <p>
+      <select id="variant_id" class="product-picker-variants" name="id">
+      </select>
+    </p>
+
+    <hr/>
+
+  <form action='/cart/add'>
+    <div class="booking-form">
+    <p>
+      <input type="text" id="booking-start" class="bta datepicker" size="12" autocomplete="off" data-handle="almost-decadent-black" data-variant="233592814" data-duration="360" />
+    </p>
+    </div>
+  </form>
+</div>
+
+<% content_for :foot do -%>
+    <script type="text/javascript">
+      var bta = {
+        product_id: "<%= Product.all.collect(&:external_id).join(',') %>"
+      };
+
+      var widget = $('#booking-start');
+      widget.attr('data-handle', $('#product_id option:selected').attr('data-handle'));
+      widget.attr('data-bta-product-config', $('#product_id option:selected').attr('data-config'));
+      $('#product_id').productVariantPicker({
+        variantElement: $('#variant_id'),
+        promptSelect: false,
+        productSelectedCallback: function (data) {
+          var selected = $('#product_id option:selected'),
+              config = [];
+
+          for (var i = 0; i < data.variants.length; i++) {
+            config.push(data.variants[i].external_id + ":" + data.variants[i].metafield_config);
+          }
+
+          widget.attr('data-handle', selected.attr('data-handle'));
+          widget.attr('data-bta-product-config', selected.attr('data-config'));
+          widget.attr('data-bta-variant-config', config.join(','));
+
+          var variantId = $('#variant_id option:selected').attr('data-external-id');
+          widget.attr('data-variant', variantId);
+          bta.variantId = variantId;
+        }
+      });
+    </script>
+<% end %>

@@ -1,0 +1,4 @@
+body {background: white;}
+a {background: transparent; text-decoration: none;}
+.sidebar, .header, .no-print {display: none;}
+.main {width: auto; border: 0; margin: 0 5%; padding: 0; float: none !important; font-size: 12pt; color: black; background: transparent;}

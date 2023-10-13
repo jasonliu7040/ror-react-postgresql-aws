@@ -1,0 +1,14 @@
+{% if product.metafields.bookthatapp.config %}
+  {% unless bta_configured %}
+    <div class="booking-form">
+    ... booking fields will go here ...
+    </div>
+
+    <script>
+    var bta = {
+      productId: {{ product.id }}
+    }
+    </script>
+    {% assign bta_configured = true %}
+  {% endunless %}
+{% endif %}

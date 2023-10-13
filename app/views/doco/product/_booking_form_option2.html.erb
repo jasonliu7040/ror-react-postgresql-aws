@@ -1,0 +1,24 @@
+<div class="selector-wrapper">
+  {% capture attribute %}booking-start{% endcapture %}
+  <label for="{{ attribute }}">From:</label>
+  <input id="{{ attribute }}"
+         type="text"
+         name="properties[{{ attribute }}]"
+         class="datepicker bta required bta-load-enable"
+         size="12" data-handle="{{ product.handle }}"
+         data-variant="{{ product.variants.first.id}}"
+         data-bta-product-config="{{ product.metafields.bookthatapp.config }}"
+         data-bta-variant-config="{% for variant in product.variants %}{{ variant.id }}:{{ variant.metafields.bookthatapp.config }}{% unless forloop.last %},{% endunless %}{% endfor %}"
+         disabled="disabled" />
+</div>
+
+<div class="selector-wrapper">
+  {% capture attribute %}booking-finish{% endcapture %}
+  <label for="{{ attribute }}">To:</label>
+  <input id="{{ attribute }}"
+         type="text"
+         name="properties[{{ attribute }}]"
+         class="datepicker bta required bta-load-enable"
+         size="12" data-handle="{{ product.handle }}"
+         data-variant="{{ product.variants.first.id}}" />
+</div>

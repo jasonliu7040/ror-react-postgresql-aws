@@ -1,0 +1,121 @@
+<div class="content-box">
+  <div class="box-header clear">
+    <h2>Purchase Installation</h2>
+  </div>
+  <div class="box-body clear">
+    <div class="half fl">
+      <p>For a one time installation fee of <strong>$US <%= sprintf('%.2f', Bookthatapp::Application.config.install_price) %></strong> we
+        can install BookThatApp into your current theme for you. Installation includes:</p>
+      <ul>
+        <li>adding one of the supported date and/or time picker widgets to your product page</li>
+        <li>updating the cart page to show selected dates</li>
+        <li>modifying the customer and order notification email templates</li>
+      </ul>
+      <div class="notification note-attention"><span class="icon"></span>
+        <p>Purchasing an installation applies to 1 theme only. If you change your theme BookThatApp will need to be reinstalled.</p>
+      </div>
+
+      <% if only_admin %>
+          <% if current_account.stripe_customer_id.nil?  %>
+          <p>
+            <%= form_for current_account, :url => {:action => "stripe_install"} do |form| %>
+                <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                        data-key="<%= Bookthatapp::Application.config.stripe_publish_key %>"
+                        data-amount="<%= (Bookthatapp::Application.config.install_price * 100).to_i %>"
+                        data-name="BookThatApp"
+                        data-description="BookThatApp Installation ($<%= sprintf('%.2f', Bookthatapp::Application.config.install_price) %>)"
+                        data-image="/128x128.png">
+                </script>
+            <% end %>
+          </p>
+          <% else %>
+          <p>
+            <%= form_for current_account, :url => {:action => "stripe_delete_customer"} do |form| %>
+                <%= form.submit "Remove Card (ending in #{@customer_card.cards.first.values[2] })", :class => "submit fr" %>
+            <% end %>
+
+            <%= form_for current_account, :url => {:action => "stripe_repeat_install"} do |form| %>
+                <%= form.submit 'Purchase Another Installation', :class => "submit" %>
+            <% end %>
+          </p>
+          <% end %>
+      <% end %>
+
+      <p>
+      <%= form_for current_account, :url => {:action => "approve_install"}, :class => "fr" do |form| %>
+          <%= form.submit 'Purchase BookThatApp Installation', :class => "submit" %>
+      <% end %>
+      </p>
+      <p>
+        The purchase charge will be automatically appear in your next Shopify invoice.
+      </p>
+
+      <% unless only_admin %>
+      <p>We will contact you after your installation request and confirm how BookThatApp will work with your products.</p>
+      <div class="notification note-info"><span class="icon"></span>
+        <p>Please invite <strong>support@shopifyconcierge.com</strong> to your store after you have completed purchase.</p>
+      </div>
+      <% end %>
+    </div>
+
+    <div class="half fr">
+      <% if only_admin %>
+          <% if @stripe_charges.count == 0 %>
+              <div class="notification note-info"><span class="icon"></span>
+                <p>Your purchase history will appear here after you have made a payment.</p>
+              </div>
+          <% else %>
+              <table class="styled">
+                <caption>Charge History</caption>
+                <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Card</th>
+                  <th>Price</th>
+                  <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% @stripe_charges.each do |charge| %>
+                    <tr>
+                      <% time = DateTime.strptime(charge.created.to_s, '%s') %>
+                      <td><%= l time, :format => :short %><br>(<%= time_ago_in_words(time) %>  ago)</td>
+                      <td><%= charge.card.brand %> **** **** **** <%= charge.card.last4 %> <%= charge.card.exp_month %>/<%= charge.card.exp_year %></td>
+                      <td>
+                        <% if charge.refunded %><strike><% end %>$<%= sprintf('%.2f', (charge.amount / 100).round(2)) %><% if charge.refunded %></strike><% end %>
+                      </td>
+                      <td><%= charge.description %></td>
+                    </tr>
+                <% end %>
+                </tbody>
+              </table>
+          <% end %>
+      <% end %>
+
+      <% unless @charges.blank? %>
+      <table class="styled">
+        <caption>Charge History</caption>
+        <thead>
+        <tr>
+          <th>Date</th>
+          <th>Price</th>
+          <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @charges.each do |charge| %>
+            <% unless charge.status == 'pending' %>
+            <tr>
+                  <% time = to_time(charge.created_at) %>
+              <td><%= l time, :format => :short %> (<%= time_ago_in_words(time) %>  ago)</td>
+              <td>$<%= charge.price %></td>
+              <td><%= charge.status.capitalize %></td>
+            </tr>
+            <% end %>
+        <% end %>
+        </tbody>
+      </table>
+      <% end %>
+    </div>
+  </div>
+</div>

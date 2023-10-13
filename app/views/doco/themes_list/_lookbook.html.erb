@@ -1,0 +1,19 @@
+<% content_for :panel_head do %>
+  Lookbook
+<% end %>
+<% content_for :panel_body do %>
+  <h5>Product Page</h5>
+  <%= render_source partial: 'doco/themes/include_booking_form', path: 'templates/product.liquid', line: 74 %>
+
+  <h5>Cart Page</h5>
+  <%= render_source partial: 'doco/themes/lookbook_cart_a', path: 'templates/cart.liquid', line: 68 %>
+
+  <p>Update the cart template so quantity can't be changed, and add a remove button. Replace the <em>form__qty</em> div
+    element with the following.</p>
+  <%= render_source partial: 'doco/themes/lookbook_cart_b', path: 'templates/cart.liquid', line: 83 %>
+
+  <h5>Sitewide</h5>
+  <p>Changes to the theme's CSS need to be made for the new remove button and for the calendar to scroll properly. Add
+    the following to the bottom of the file.</p>
+  <%= render_source partial: 'doco/themes/lookbook_style', path: 'assets/style.scss.liquid', line: 4935 %>
+<% end %>

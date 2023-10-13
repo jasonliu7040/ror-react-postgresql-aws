@@ -1,0 +1,14 @@
+<% content_for :panel_head do %>
+    Vantage
+<% end %>
+
+<% content_for :panel_body do %>
+    <h5>CSS</h5>
+    <p>After following the standard install add the following CSS to the bottom of the stylesheet.</p>
+    <%= render_source partial: 'doco/themes/vantage_stylesheet', path: 'assets/stylesheet.css.liquid' %>
+
+    <h5>Product Page</h5>
+    <p>To prevent the quantity increment buttons going over capacity modify theme.js.</p>
+    <%= render_source partial: 'doco/themes/vantage_theme_js_a', path: 'assets/theme.js.liquid', line: '16 - before' %>
+    <%= render_source partial: 'doco/themes/vantage_theme_js_b', path: 'assets/theme.js.liquid', line: '16 - after' %>
+<% end %>

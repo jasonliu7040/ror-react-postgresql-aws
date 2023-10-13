@@ -1,0 +1,102 @@
+<% content_for :head do -%>
+  <%= stylesheet_link_tag 'sunburst' %>
+<% end -%>
+
+<h1>Configuration</h1>
+<p>Set up BookThatApp.</p>
+
+<div class="content-box">
+	<div class="box-header clear">
+        <ul id="custom-tabs" class="tabs custom clear">
+        <% @tmpls.each do |tmpl| %>
+            <li><a href="#template-<%= tmpl %>"><%= tmpl.capitalize %></a></li>
+          <% end %>
+        </ul>
+        <h2>Email Templates</h2>
+	</div>
+	<div class="box-body clear">
+      <% @tmpls.each do |tmpl| %>
+      <div id="template-<%= tmpl %>">
+            <%= form_for current_account.template(tmpl), :url => { :action => "update" }, :html => { :class => 'editor-form' }, :remote => true do | form | %>
+              <%= form.hidden_field :id %>
+              <%= hidden_field_tag 'ga_client_id', '', :class => 'ga-client-id' %>
+              <%= form.hidden_field :body, :value => current_account.template(tmpl).body %>
+          <% end %>
+      </div>
+      <% end %>
+      <div class="editor-wrap">
+        <pre id="template-editor" class="editor"></pre>
+      </div>
+
+      <button id="save" class="submit" disabled="disabled">Save</button>
+      <a href="/proxy/email/<%= @last_booking.id %>?shop=<%= current_account.subdomain %>" class="modal-link">Preview</a>
+	</div>
+</div>
+
+<% content_for :footer do -%>
+<%= javascript_include_tag '/javascripts/ace/ace', '/javascripts/ace/theme-textmate', '/javascripts/ace/mode-html', :cache => "cache/ace" %>
+
+<script type="text/javascript">
+    var EditSession = require('ace/edit_session').EditSession;
+    var UndoManager = require("ace/undomanager").UndoManager;
+    var Mode = require("ace/mode/html").Mode;
+
+    var editor = null, sessions = [];
+
+    function tabSwitch(id, list, set, s) {
+        var index = jQuery.inArray(id, list);
+
+        switch (id) {
+            case "#template-booking":
+//                console.log('tab switch');
+                break;
+        }
+
+        if (editor) {
+            editor.setSession(sessions[index].session);
+            editor.resize();
+            editor.focus();
+        }
+
+        return true;
+    }
+
+    function createSessions() {
+        $('form.editor-form input[name="liquid_template[body]"]').each(function() {
+            var form = $(this).parent();
+            var session = new EditSession($(this).val());
+            session.setUndoManager(new UndoManager());
+            session.setMode(new Mode());
+            session.on('change', function() {
+                form.data('dirty', true);
+                $('#save').removeAttr('disabled');
+            });
+
+            sessions.push({
+                'session': session
+            });
+        })
+    }
+
+    $(window).load(function() {
+        createSessions();
+        editor = ace.edit("template-editor");
+        editor.setTheme("ace/theme/textmate");
+        editor.setSession(sessions[0].session);
+    });
+
+    $("#custom-tabs").idTabs(tabSwitch);
+
+    $('#save').click(function() {
+        $('form.editor-form').each(function(ndx, f) {
+            var form = $(f), dirty = form.data('dirty');
+            if (dirty) {
+                $('input[name="liquid_template[body]"]', form).val(editor.getSession().getValue());
+                form.data('dirty', false);
+                $('#save').attr('disabled', 'disabled');
+                form.submit();
+            }
+        })
+    });
+</script>
+<% end -%>

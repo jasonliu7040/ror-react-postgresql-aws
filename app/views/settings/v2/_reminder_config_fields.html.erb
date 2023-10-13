@@ -1,0 +1,19 @@
+<tr class="nested-fields">
+  <td class="col-xs-7 form-inline" >
+    <%= f.hidden_field :id %>
+    <span class="remtime">
+      <input id="remtime-input" type="number" value="0" min="0" max="59" class="form-control" style="width: 70px;" />
+      <select id="remtime-input-units" class="form-control">
+        <option value="minutes" selected="selected">Minutes</option>
+        <option value="hours">Hours</option>
+        <option value="days">Days</option>
+      </select>
+      <%= f.hidden_field :duration, class: 'remtime-duration' %>
+    </span>
+    <%= f.select :trigger_type, options_for_select(reminder_triggers_for_select, :selected => f.object.trigger_type), {}, class: "form-control" %>
+  </td>
+  <td class="col-xs-4">
+    <%= f.select :liquid_template_id, options_for_select(reminder_templates_for_select, :selected => f.object.liquid_template_id), {}, class: "form-control" %>
+  </td>
+  <td class="col-xs-1"><%= link_to_remove_association content_tag(:i, '', :class => "fa fa-remove"), f %></td>
+</tr>

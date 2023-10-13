@@ -1,0 +1,138 @@
+<div class="content-box">
+  <div class="box-header clear">
+    <h2>Run Sheet</h2>
+  </div>
+  <div class="box-body clear">
+    <div class="clear">
+      <%= render "runsheet_filter" %>
+
+      <div class="dataTables_wrapper">
+        <% if @bookings.empty? %>
+            <div class="notification note-info">
+              <span class="icon"></span>
+              <p><strong>No bookings:</strong> No bookings found matching the filter criteria.</p>
+            </div>
+        <% else %>
+            <table class="styled">
+              <thead>
+              <tr>
+                <th width="1%"><input type="checkbox" name="all_bookings" id="send_reminders_to_all"/></th>
+                <th width="1%">Booking</th>
+                <th width="1%">Order</th>
+                <th width="1%">Date/Time</th>
+                <th class="nowrap">Customer</th>
+                <th>Products</th>
+                <th width="1%">#</th>
+                <th>Notes</th>
+              </tr>
+              </thead>
+              <tbody>
+              <% @bookings.each do |item| %>
+                  <% booking = item.booking %>
+                  <tr>
+                    <td><%= check_box_tag "booking_ids[]", booking.id, false, class: 'bookings_ids' %></td>
+                    <td>
+                      <span class="nowrap">
+                        <% if booking.is_a?(Booking) %>
+                            <span class="no-print ui-icon <%= "#{booking.status == 2 ? 'ui-icon-calendar' : 'ui-icon-clock'}"%>" %> ></span>
+                            <%= link_to booking.id, edit_booking_path(booking), title: booking.status == 2 ? 'Confirmed' : 'Reserved' %>
+                        <% end %>
+                      </span>
+                    </td>
+                    <td>
+                      <% if booking.order_id.present? %>
+                          <a href='<%= "https://#{current_shop.url}/admin/orders/#{booking.order_id}" %>' target='_blank'>
+                            <span class="nowrap"><%= booking.order_name.nil? ? "View Order" : booking.order_name %></span>
+                          </a>
+                      <% end %>
+                    </td>
+                    <td>
+                      <% if item.variant.all_day? %>
+                          <span class="nowrap"><%= I18n.localize(item.start.to_date, :format => :short) %></span>
+                          <% if item.start.to_date < item.finish.to_date %>
+                              &nbsp;-&nbsp;<br/>
+                              <span class="nowrap"><%= I18n.localize(item.finish.to_date, :format => :short) %></span>
+                          <% end %>
+                      <% else %>
+                          <span class="nowrap"><%= I18n.localize(item.start, :format => :short) %>&nbsp;-&nbsp;</span><br/>
+                          <span class="nowrap"><%= I18n.localize(item.finish, :format => :short) %></span>
+                      <% end %>
+                    </td>
+                    <td>
+                      <span class="nowrap">
+                        <span class="no-print ui-icon ui-icon-mail-closed"></span>
+                        <%= mail_to booking.email, booking.name, :subject => booking.product_summary %>
+                      </span>
+                      <% unless booking.phone.blank? %>
+                      <br/>
+                      <span class="nowrap">
+                        <span class="no-print ui-icon ui-icon-contact"></span>
+                        <a href="tel:<%= booking.phone %>"><%= booking.phone %></a>
+                      </span>
+                      <% end %>
+                    </td>
+                    <td>
+                      <%= "#{item.product.product_title}/#{item.variant.title}" %>
+                    </td>
+                    <td><%= item.quantity %></td>
+                    <td><%= booking.notes %></td>
+                  </tr>
+              <% end %>
+              </tbody>
+              <tfoot>
+              <!--
+                <tr>
+                  <td colspan="7" style="text-align: right;">Page total:</td>
+                  <td><%= @total %></td>
+                  <td></td>
+                </tr>
+                -->
+              <tr>
+                <td colspan="6" style="text-align: right;">Total:</td>
+                <td><%= @total %></td>
+                <td></td>
+              </tr>
+              </tfoot>
+            </table>
+            <div class="tab-footer clear no-print">
+              <div class="fr">
+                <%= paginate @bookings %>
+              </div>
+              <div class="fl" style="width:100%">
+                <a href="#" onClick="window.print(); return false;" class="fl-space submit">Print Page</a>
+                <%= link_to "PDF", runsheet_path(request.parameters.merge({:format => "pdf"})), :class => 'fl-space submit' %>
+                <!-- <%= link_to "CSV", runsheet_path(request.parameters.merge({:format => "csv"})), :class => 'fl-space submit' %> -->
+                <%= link_to "Excel", runsheet_path(request.parameters.merge({:format => "xls"})), :class => 'fl-space submit' %>
+                <%= render "common/reminder_widget" %>
+              </div>
+            </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% content_for :footer do %>
+    <script>
+        $('#start').datepicker('setDate', new Date('<%= @the_data.start %>'));
+        $('#finish').datepicker('setDate', new Date('<%= @the_data.finish %>'));
+
+        $(document).ready(function () {
+            $('#date_type').val('<%= @the_data.date_type %>');
+        });
+
+        window.btaa.reminderBookingIds = function() {
+          return $('.bookings_ids:checked').map(function () {
+            return this.value;
+          }).get();
+        };
+
+        $('#send_reminders_to_all').click(function() {
+          if (this.checked) {
+            $('.bookings_ids').prop('checked', true);
+          } else {
+            $('.bookings_ids').prop('checked', false);
+          }
+        });
+    </script>
+<% end %>

@@ -1,0 +1,41 @@
+Next Gen Widgets
+----------------
+- Date + Time Picker
+-- Need to allow for time picker prompt, not just default to first time slot
+-- When choosing a date, iterate each slot and count the bookings. If all slots full date is not available.
+
+Front End Testing
+-----------------
+- Scenario "Make sure selected date is available":
+    Given product A is available Mon-Fri and product B is available Sat-Sun and remember dates is turned on
+    When I go to product A's product page and select Mon then go to product B's product page
+    Then the date and time fields on product B should have been reset.
+
+- Scenario "Sets quantity to capacity minus max of existing bookings quantity for discrete bookings":
+    Given someone is trying to book product A which a capcity of 5 for a range of 10 days and there are 2 discrete bookings of quantity 1 within that range
+    When I go to product A and select a date range that overlaps the 2 bookings
+    Then the quantity field max should be set to 4.
+
+- Scenario "Sets quantity to capacity minus cummalative max of existing bookings quantity for overlapping bookings":
+    Given someone is trying to book product A which a capcity of 5 for a range of 10 days and there are 2 overlapping bookings of quantity 1 within that range
+    When I go to product A and select a date range that overlaps the 2 bookings
+    Then the quantity field max should be set to 3.
+
+*** Add index to option_durations on product_id, deleted_at ***
+
+Test scenarios required after finding problems in Rails 4
+----------------------------------------------------------
+- mail hook endpoint missing
+- blackout (limit:8)
+- products#index when a deleted product exists (was returning deleted products)
+- allowed attributes missing:
+-- booking.name
+-- product.variants.*
+- theme snippets were not named properly ('-' instead of '_') so partials weren't working
+- webhook signature verification failed (request parms now uppercase)
+- product_imports_controller strong parameters
+
+bta-order-status.js.erb
+-----------------------
+- waiting on new API so that the bta product can be retrieved
+- format/parse date according to shop settings
